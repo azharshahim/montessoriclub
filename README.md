@@ -12,13 +12,13 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 
 | | |
 |---|---|
-| **Démo jouable (HTTPS, mobile & desktop)** | [`https://astronomy-pretty-health-prayer.trycloudflare.com`](https://astronomy-pretty-health-prayer.trycloudflare.com) |
-| **Dépôt GitHub** | [`github.com/azharshahim/montessoriclub`](https://github.com/azharshahim/montessoriclub) |
-| URL Pages permanente | [`azharshahim.github.io/montessoriclub`](https://azharshahim.github.io/montessoriclub/) |
+| **Démo jouable (HTTPS, mobile & desktop)** | **[azharshahim.github.io/montessoriclub](https://azharshahim.github.io/montessoriclub/)** |
+| **Dépôt GitHub** | [github.com/azharshahim/montessoriclub](https://github.com/azharshahim/montessoriclub) |
+| **Intégration continue** | [Actions — déploiement Web](https://github.com/azharshahim/montessoriclub/actions/workflows/deploy-web.yml) |
 
-> La démo est servie par un tunnel Cloudflare temporaire (aucun compte requis).
-> Pour une URL permanente, le workflow `.github/workflows/deploy-web.yml` publie
-> automatiquement sur GitHub Pages à chaque push sur `main`.
+> Le site est publié sur **GitHub Pages** par le workflow `.github/workflows/deploy-web.yml` :
+> à chaque `git push` sur `main`, l'application est typée, compilée et redéployée automatiquement
+> (≈ 3 minutes). Aucun serveur à maintenir.
 
 ---
 
