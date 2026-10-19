@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "Montessori Club",
+    "slug": "montessoriclub",
+    "scheme": "montessoriclub",
+    "version": "1.0.0",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "orientation": "default",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.montessoriclub.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "UIRequiresFullScreen": false,
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.montessoriclub.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#FFF9F0"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "name": "Montessori Club",
+      "shortName": "Montessori Club",
+      "lang": "fr",
+      "themeColor": "#EE6C5B",
+      "backgroundColor": "#FFF9F0",
+      "display": "standalone",
+      "orientation": "any",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-localization",
+      "expo-audio",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#FFF9F0",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 180
+        }
+      ]
+    ]
+  }
+}
