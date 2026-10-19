@@ -8,6 +8,20 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 
 ---
 
+## 🔗 Liens
+
+| | |
+|---|---|
+| **Démo jouable (HTTPS, mobile & desktop)** | [`https://astronomy-pretty-health-prayer.trycloudflare.com`](https://astronomy-pretty-health-prayer.trycloudflare.com) |
+| **Dépôt GitHub** | à créer — voir [`docs/GITHUB.md`](docs/GITHUB.md) |
+| URL Pages permanente (après push) | `https://<compte>.github.io/montessoriclub/` |
+
+> La démo est servie par un tunnel Cloudflare temporaire (aucun compte requis).
+> Pour une URL permanente, le workflow `.github/workflows/deploy-web.yml` publie
+> automatiquement sur GitHub Pages à chaque push sur `main`.
+
+---
+
 ## 1. Ce qui est livré dans cette version
 
 | Domaine | Statut |
