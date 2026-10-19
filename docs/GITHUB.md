@@ -10,7 +10,7 @@ Il ne manque qu'une authentification GitHub pour créer le dépôt distant et po
 ```bash
 cd montessoriclub
 export GITHUB_TOKEN=ghp_votre_token     # ne jamais committer ce token
-./scripts/push-to-github.sh <votre-compte>
+./scripts/push-to-github.sh azharshahim
 ```
 
 Le script :
@@ -32,14 +32,19 @@ Le script :
 
 ## Option B — dépôt créé à la main
 
-1. GitHub → **New repository** → nom `montessoriclub` → **Public** → *sans* README ni .gitignore.
-2. Puis :
+1. Ouvrir **[github.com/new](https://github.com/new?name=montessoriclub&visibility=public)**
+   → nom `montessoriclub` → **Public** → *sans* README ni .gitignore → **Create repository**.
+2. Puis, dans le dossier du projet :
 
 ```bash
 cd montessoriclub
-git remote add origin https://github.com/<votre-compte>/montessoriclub.git
+git remote add origin https://github.com/azharshahim/montessoriclub.git
 git push -u origin main
 ```
+
+> GitHub demande un mot de passe ? Utilisez un **token** comme mot de passe
+> (le mot de passe du compte ne fonctionne plus depuis 2021).
+> Ou lancez `gh auth login` si GitHub CLI est installé.
 
 ---
 
@@ -51,7 +56,7 @@ vérifie les types, exporte le build Web et le publie.
 1. Dépôt → **Settings** → **Pages**
 2. **Source** : `GitHub Actions`
 3. Aller dans l'onglet **Actions**, attendre la fin du job « Déploiement Web ».
-4. URL finale : **https://&lt;votre-compte&gt;.github.io/montessoriclub/**
+4. URL finale : **https://azharshahim.github.io/montessoriclub/**
 
 À chaque `git push` sur `main`, le site est reconstruit et republié automatiquement.
 `app.config.js` adapte le chemin de base (`/montessoriclub`) pour que les assets
