@@ -66,6 +66,8 @@ function AppContent() {
     document.documentElement.lang = language;
     document.body.style.backgroundColor = palette.cream;
     document.body.style.margin = '0';
+    // La navigation ne doit pas écraser le nom de l'application dans l'onglet.
+    document.title = 'Montessori Club';
   }, [dir, language]);
 
   useEffect(() => {

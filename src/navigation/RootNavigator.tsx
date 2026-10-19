@@ -35,7 +35,7 @@ export function RootNavigator() {
   const selectedId = useProfiles((s) => s.selectedId);
 
   return (
-    <NavigationContainer theme={navigationTheme}>
+    <NavigationContainer theme={navigationTheme} documentTitle={{ enabled: false }}>
       <Stack.Navigator
         initialRouteName={selectedId ? 'Home' : 'Onboarding'}
         screenOptions={{
