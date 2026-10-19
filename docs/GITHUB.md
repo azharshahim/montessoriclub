@@ -1,77 +1,66 @@
-# Publier sur GitHub
+# Publication GitHub — état : ✅ TERMINÉ
 
-Le dépôt local est **prêt et committé** (branche `main`, 80 fichiers, historique propre).
-Il ne manque qu'une authentification GitHub pour créer le dépôt distant et pousser.
+Le projet a été poussé et déployé.
+
+| | |
+|---|---|
+| **Dépôt** | https://github.com/azharshahim/montessoriclub |
+| **Démo HTTPS** | https://azharshahim.github.io/montessoriclub/ |
+| **CI/CD** | https://github.com/azharshahim/montessoriclub/actions/workflows/deploy-web.yml |
+| **Branche** | `main` — 5 commits, 84 fichiers |
+| **Pages** | source `GitHub Actions`, HTTPS forcé |
 
 ---
 
-## Option A — en une commande (recommandé)
+## Déploiement continu
+
+`.github/workflows/deploy-web.yml` s'exécute à chaque `git push` sur `main` :
+
+1. `npm ci`
+2. `npx tsc --noEmit` — échec du déploiement si une erreur de type est introduite
+3. `npx expo export --platform web` avec `EXPO_BASE_URL=/montessoriclub`
+4. copie `index.html → 404.html` (routage SPA) et `.nojekyll`
+5. publication sur GitHub Pages (≈ 3 min)
+
+Pour mettre à jour le site en ligne :
 
 ```bash
-cd montessoriclub
-export GITHUB_TOKEN=ghp_votre_token     # ne jamais committer ce token
-./scripts/push-to-github.sh azharshahim
+git add -A
+git commit -m "feat: ..."
+git push
 ```
 
-Le script :
-1. vérifie si `montessoriclub` existe déjà sur le compte ;
-2. le crée en **public** si nécessaire (API GitHub) ;
-3. configure `origin` et pousse `main`.
-
-### Créer le token (2 minutes)
-
-1. GitHub → **Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens**
-2. **Generate new token**
-   - *Repository access* : **All repositories** (nécessaire pour créer un dépôt)
-   - *Permissions* → *Repository permissions* → **Administration : Read and write**
-   - *Permissions* → *Repository permissions* → **Contents : Read and write**
-3. Copier le token (affiché une seule fois), l'utiliser dans la commande ci-dessus,
-   puis **le révoquer** une fois le push terminé.
+Aucune commande de déploiement supplémentaire : tout est automatique.
 
 ---
 
-## Option B — dépôt créé à la main
+## Si vous devez refaire la configuration sur un nouveau dépôt
 
-1. Ouvrir **[github.com/new](https://github.com/new?name=montessoriclub&visibility=public)**
-   → nom `montessoriclub` → **Public** → *sans* README ni .gitignore → **Create repository**.
-2. Puis, dans le dossier du projet :
+1. Créer le dépôt : [github.com/new](https://github.com/new?name=montessoriclub&visibility=public)
+   — **Public**, sans README ni .gitignore.
+2. Pousser :
 
 ```bash
-cd montessoriclub
-git remote add origin https://github.com/azharshahim/montessoriclub.git
+git remote add origin https://github.com/<compte>/montessoriclub.git
 git push -u origin main
 ```
 
-> GitHub demande un mot de passe ? Utilisez un **token** comme mot de passe
-> (le mot de passe du compte ne fonctionne plus depuis 2021).
-> Ou lancez `gh auth login` si GitHub CLI est installé.
+3. Activer Pages : **Settings → Pages → Source : GitHub Actions**
+   (ou via l'API : `POST /repos/{owner}/{repo}/pages` avec `{"build_type":"workflow"}`).
+4. Suivre le premier run dans l'onglet **Actions**.
+
+> Push manuel : GitHub n'accepte plus le mot de passe du compte. Utiliser un
+> **Personal Access Token** (fine-grained : *Contents Read/write* + *Administration Read/write*)
+> comme mot de passe, ou `gh auth login`.
 
 ---
 
-## Activer la démo permanente (GitHub Pages)
+## Recommandations de sécurité
 
-Le workflow `.github/workflows/deploy-web.yml` est déjà en place : il installe,
-vérifie les types, exporte le build Web et le publie.
-
-1. Dépôt → **Settings** → **Pages**
-2. **Source** : `GitHub Actions`
-3. Aller dans l'onglet **Actions**, attendre la fin du job « Déploiement Web ».
-4. URL finale : **https://azharshahim.github.io/montessoriclub/**
-
-À chaque `git push` sur `main`, le site est reconstruit et republié automatiquement.
-`app.config.js` adapte le chemin de base (`/montessoriclub`) pour que les assets
-soient correctement servis depuis un sous-dossier.
-
----
-
-## Vérifier le dépôt local
-
-```bash
-cd montessoriclub
-git log --oneline          # 1 commit : v1.0
-git ls-files | wc -l       # 80 fichiers suivis
-git status                 # propre
-```
-
-`.gitignore` exclut déjà `node_modules/`, `dist/`, `.expo/`, les clés de signature
-(`*.jks`, `*.p8`, `*.p12`) et les fichiers `.env*.local`.
+- Le **Personal Access Token** utilisé pour ce déploiement a été supprimé du sandbox
+  juste après le push. S'il a circulé par un autre canal (chat, e-mail…),
+  **révoquez-le** : GitHub → Settings → Developer settings → Personal access tokens.
+- Pour les prochaines publications, préférez `gh auth login` (stockage sécurisé par le
+  système) ou un token fine-grained restreint à ce seul dépôt.
+- `.gitignore` exclut déjà `node_modules/`, `dist/`, `.expo/`, les clés de signature
+  (`*.jks`, `*.p8`, `*.p12`) et les fichiers `.env*.local`.
