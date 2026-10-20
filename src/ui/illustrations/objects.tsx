@@ -1,4 +1,5 @@
 import React, { useId } from 'react';
+import { Image } from 'react-native';
 import Svg, {
   Circle,
   Defs,
@@ -12,6 +13,7 @@ import Svg, {
 } from 'react-native-svg';
 
 import type { ObjectColor } from '../../theme/palette';
+import { OBJECT_PHOTOS } from './photoRegistry';
 
 /**
  * Illustrations d'objets « semi-réalistes douces ».
@@ -533,8 +535,23 @@ const ART: Record<ObjectId, React.ComponentType<ArtProps>> = {
   bear: Bear,
 };
 
+/**
+ * Affiche l'image réaliste de l'objet si elle a été déposée dans
+ * assets/photos/objects/ (voir `npm run photos`), sinon l'illustration vectorielle.
+ */
 export function ObjectIllustration({ id, size = 96 }: { id: ObjectId; size?: number }) {
   const uid = useUid('o');
+  const photo = OBJECT_PHOTOS[id];
+  if (photo) {
+    return (
+      <Image
+        source={photo}
+        style={{ width: size, height: size }}
+        resizeMode="contain"
+        accessible={false}
+      />
+    );
+  }
   const Art = ART[id];
   return <Art size={size} uid={uid} />;
 }

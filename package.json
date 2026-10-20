@@ -13,7 +13,8 @@
     "build:web": "expo export --platform web --output-dir dist",
     "build:android": "eas build --platform android --profile production",
     "build:ios": "eas build --platform ios --profile production",
-    "sounds": "python3 tools/generate_sounds.py"
+    "sounds": "python3 tools/generate_sounds.py",
+    "photos": "node tools/build_photo_registry.mjs"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",

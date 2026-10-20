@@ -268,3 +268,43 @@ assets/
 - Contraste texte/fond ≥ 4,5:1 ; éléments graphiques ≥ 3:1.
 - Ne jamais coder une information **uniquement** par la couleur (WCAG 1.4.1) :
   les corbeilles portent leur nom écrit + motif, les formes ont une silhouette distincte.
+
+---
+
+## 7. Brancher les images réalistes des objets (v1.2)
+
+Les 16 objets du jeu (pommes, ours, poisson…) sont dessinés en SVG. Pour passer à un rendu
+**réaliste 3D douce**, il suffit de déposer des images : aucune modification du code.
+
+1. Générer chaque image (Midjourney, Ideogram, Firefly…) avec le prompt de base ci-dessous.
+2. Exporter en **WebP 512×512, fond transparent, moins de 150 Ko**, nommée exactement comme dans le tableau.
+3. Les déposer dans `assets/photos/objects/`.
+4. Lancer `npm run photos` : le registre `src/ui/illustrations/photoRegistry.ts` est régénéré.
+5. Un objet sans image garde son illustration vectorielle (repli automatique).
+
+**Prompt de base** (remplacer `<SUJET>`) :
+```
+Photorealistic soft 3D render of <SUJET>, child-friendly, vivid but harmonious colors, gentle studio
+lighting, soft contact shadow, subtle glossy highlights, centered, isolated on a transparent
+background, no text, no hands, no clutter, square 1:1, high detail
+```
+**Negative prompt** : `text, watermark, logo, hands, people, dark, gloomy, scary, cluttered background`
+
+| Fichier | `<SUJET>` |
+|---|---|
+| `apple.webp` | a shiny red apple with a small green leaf |
+| `balloon.webp` | a red party balloon with a thin string |
+| `fish.webp` | a friendly blue tropical fish |
+| `cup.webp` | a blue ceramic cup |
+| `banana.webp` | a ripe yellow banana |
+| `star.webp` | a golden star-shaped toy |
+| `leaf.webp` | a fresh green leaf |
+| `ball.webp` | a green rubber ball |
+| `carrot.webp` | an orange carrot with green top |
+| `orange.webp` | a whole orange fruit |
+| `grapes.webp` | a bunch of purple grapes |
+| `flower.webp` | a purple flower with a short stem |
+| `butterfly.webp` | a pink butterfly with open wings |
+| `icecream.webp` | a pink strawberry ice cream cone |
+| `cookie.webp` | a chocolate chip cookie |
+| `bear.webp` | a cute brown teddy bear sitting |
