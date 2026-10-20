@@ -1,8 +1,13 @@
 import type { AgeBandId, GameModule } from './types';
 import { ColorsGame } from './colors/ColorsGame';
+import { DressingGame } from './dressing/DressingGame';
+import { MemoryGame } from './memory/MemoryGame';
 import { NumbersGame } from './numbers/NumbersGame';
+import { PouringGame } from './pouring/PouringGame';
+import { PuzzleGame } from './puzzle/PuzzleGame';
 import { SensoryGame } from './sensory/SensoryGame';
 import { ShapesGame } from './shapes/ShapesGame';
+import { SortingGame } from './sorting/SortingGame';
 import { TracingGame } from './tracing/TracingGame';
 
 /**
@@ -65,6 +70,61 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 5,
     rounds: 3,
     Component: TracingGame,
+  },
+  {
+    id: 'sorting',
+    titleKey: 'activity.sorting.title',
+    instructionKey: 'activity.sorting.instruction',
+    emoji: '🧺',
+    accent: '#4FBF8B',
+    ageBands: ['3-5'],
+    maxLevel: 5,
+    rounds: 3,
+    Component: SortingGame,
+  },
+  {
+    id: 'memory',
+    titleKey: 'activity.memory.title',
+    instructionKey: 'activity.memory.instruction',
+    emoji: '🃏',
+    accent: '#6C6FDB',
+    ageBands: ['3-5', '6-8'],
+    maxLevel: 5,
+    rounds: 2,
+    Component: MemoryGame,
+  },
+  {
+    id: 'puzzle',
+    titleKey: 'activity.puzzle.title',
+    instructionKey: 'activity.puzzle.instruction',
+    emoji: '🧩',
+    accent: '#F59A4B',
+    ageBands: ['3-5', '6-8'],
+    maxLevel: 5,
+    rounds: 2,
+    Component: PuzzleGame,
+  },
+  {
+    id: 'pouring',
+    titleKey: 'activity.pouring.title',
+    instructionKey: 'activity.pouring.instruction',
+    emoji: '💧',
+    accent: '#4E8FE0',
+    ageBands: ['3-5'],
+    maxLevel: 5,
+    rounds: 3,
+    Component: PouringGame,
+  },
+  {
+    id: 'dressing',
+    titleKey: 'activity.dressing.title',
+    instructionKey: 'activity.dressing.instruction',
+    emoji: '👕',
+    accent: '#EE8FB1',
+    ageBands: ['3-5'],
+    maxLevel: 1,
+    rounds: 3,
+    Component: DressingGame,
   },
 ];
 

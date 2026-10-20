@@ -66,6 +66,9 @@ function AppContent() {
     document.documentElement.lang = language;
     document.body.style.backgroundColor = palette.cream;
     document.body.style.margin = '0';
+    // Les gestes de glisser-déposer ne doivent pas sélectionner le texte.
+    document.body.style.userSelect = 'none';
+    document.body.style.webkitUserSelect = 'none';
     // La navigation ne doit pas écraser le nom de l'application dans l'onglet.
     document.title = 'Montessori Club';
   }, [dir, language]);

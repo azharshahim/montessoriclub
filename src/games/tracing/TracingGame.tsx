@@ -79,6 +79,28 @@ export function TracingGame({ level, onFinish, onQuit }: GameProps) {
   const passedRef = useRef(0);
   const strokeRef = useRef<{ x: number; y: number }[]>([]);
   const layoutRef = useRef<{ x: number; y: number; width: number; height: number } | null>(null);
+  const absRef = useRef<{ x: number; y: number } | null>(null);
+
+  /**
+   * Position absolue du doigt, toutes plateformes confondues.
+   * - iOS/Android : gestureState.moveX/moveY (absolus) sont fournis.
+   * - Web : moveX/moveY sont fournis, mais dx/dy peuvent se réinitialiser
+   *   d'un événement à l'autre : on ne s'appuie jamais uniquement sur eux.
+   */
+  const readAbsolute = useCallback(
+    (event: { nativeEvent: { pageX?: number; pageY?: number } }, gesture: { moveX: number; moveY: number; x0: number; y0: number; dx: number; dy: number }) => {
+      const candidates: [number, number][] = [
+        [gesture.moveX, gesture.moveY],
+        [gesture.x0, gesture.y0],
+        [event.nativeEvent.pageX ?? 0, event.nativeEvent.pageY ?? 0],
+        [gesture.x0 + gesture.dx, gesture.y0 + gesture.dy],
+      ];
+      const found = candidates.find(([x, y]) => x > 0 && y > 0);
+      if (found) absRef.current = { x: found[0], y: found[1] };
+      return absRef.current;
+    },
+    []
+  );
   const completedRef = useRef(false);
   const containerRef = useRef<React.ComponentRef<typeof View> | null>(null);
   const pulse = useRef(new Animated.Value(1)).current;
@@ -165,19 +187,23 @@ export function TracingGame({ level, onFinish, onQuit }: GameProps) {
       PanResponder.create({
         onStartShouldSetPanResponder: () => true,
         onMoveShouldSetPanResponder: () => true,
-        onPanResponderGrant: (event) => {
+        onPanResponderGrant: (event, gesture) => {
           measure();
+          const abs = readAbsolute(event, gesture);
           const layout = layoutRef.current;
-          if (!layout) return;
-          const px = ((event.nativeEvent.locationX ?? 0) / layout.width) * 100;
-          const py = ((event.nativeEvent.locationY ?? 0) / layout.height) * 100;
+          if (!layout || !abs) return;
+          const px = ((abs.x - layout.x) / layout.width) * 100;
+          const py = ((abs.y - layout.y) / layout.height) * 100;
+          if (px < -8 || py < -8 || px > 108 || py > 108) return;
           registerPoint(px, py);
         },
         onPanResponderMove: (event, gesture) => {
           const layout = layoutRef.current;
           if (!layout) return;
-          const px = ((gesture.moveX - layout.x) / layout.width) * 100;
-          const py = ((gesture.moveY - layout.y) / layout.height) * 100;
+          const abs = readAbsolute(event, gesture);
+          if (!abs) return;
+          const px = ((abs.x - layout.x) / layout.width) * 100;
+          const py = ((abs.y - layout.y) / layout.height) * 100;
           if (px < -8 || py < -8 || px > 108 || py > 108) return;
           registerPoint(px, py);
         },
@@ -191,7 +217,7 @@ export function TracingGame({ level, onFinish, onQuit }: GameProps) {
           setStroke([]);
         },
       }),
-    [measure, registerPoint]
+    [measure, readAbsolute, registerPoint]
   );
 
   const strokePath =
