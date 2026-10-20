@@ -1,11 +1,15 @@
 import type { AgeBandId, GameModule } from './types';
+import { AnimalsGame } from './animals/AnimalsGame';
 import { ColorsGame } from './colors/ColorsGame';
+import { ColorTouchGame } from './colortouch/ColorTouchGame';
 import { DressingGame } from './dressing/DressingGame';
 import { MemoryGame } from './memory/MemoryGame';
+import { MusicGame } from './music/MusicGame';
 import { NumbersGame } from './numbers/NumbersGame';
 import { PouringGame } from './pouring/PouringGame';
 import { PuzzleGame } from './puzzle/PuzzleGame';
 import { SensoryGame } from './sensory/SensoryGame';
+import { ShapeFitGame } from './shapefit/ShapeFitGame';
 import { ShapesGame } from './shapes/ShapesGame';
 import { SortingGame } from './sorting/SortingGame';
 import { TracingGame } from './tracing/TracingGame';
@@ -26,6 +30,50 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 1,
     rounds: 10,
     Component: SensoryGame,
+  },
+  {
+    id: 'animals',
+    titleKey: 'activity.animals.title',
+    instructionKey: 'activity.animals.instruction',
+    emoji: '🐶',
+    accent: '#F59A4B',
+    ageBands: ['0-2'],
+    maxLevel: 1,
+    rounds: 8,
+    Component: AnimalsGame,
+  },
+  {
+    id: 'colortouch',
+    titleKey: 'activity.colortouch.title',
+    instructionKey: 'activity.colortouch.instruction',
+    emoji: '🔴',
+    accent: '#EE6C5B',
+    ageBands: ['0-2'],
+    maxLevel: 1,
+    rounds: 8,
+    Component: ColorTouchGame,
+  },
+  {
+    id: 'shapefit',
+    titleKey: 'activity.shapefit.title',
+    instructionKey: 'activity.shapefit.instruction',
+    emoji: '🟠',
+    accent: '#4E8FE0',
+    ageBands: ['0-2'],
+    maxLevel: 1,
+    rounds: 4,
+    Component: ShapeFitGame,
+  },
+  {
+    id: 'music',
+    titleKey: 'activity.music.title',
+    instructionKey: 'activity.music.instruction',
+    emoji: '🎵',
+    accent: '#9C7BE0',
+    ageBands: ['0-2'],
+    maxLevel: 1,
+    rounds: 12,
+    Component: MusicGame,
   },
   {
     id: 'colors',

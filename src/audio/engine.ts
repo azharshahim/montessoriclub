@@ -18,6 +18,11 @@ export const SFX = {
   star: require('../../assets/sounds/star.wav'),
   levelup: require('../../assets/sounds/levelup.wav'),
   celebrate: require('../../assets/sounds/celebrate.wav'),
+  note1: require('../../assets/sounds/note1.wav'),
+  note2: require('../../assets/sounds/note2.wav'),
+  note3: require('../../assets/sounds/note3.wav'),
+  note4: require('../../assets/sounds/note4.wav'),
+  note5: require('../../assets/sounds/note5.wav'),
 } as const;
 
 export type SfxName = keyof typeof SFX;

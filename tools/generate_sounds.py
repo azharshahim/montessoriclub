@@ -166,6 +166,10 @@ def main() -> None:
         ),
     )
 
+    # Xylophone (0-2 ans) : gamme pentatonique do–ré–mi–sol–la, toujours harmonieuse.
+    for index, freq in enumerate((523.25, 587.33, 659.25, 783.99, 880.00), start=1):
+        write_wav(f"note{index}", normalize(tone(freq, 0.75, harmonics=(1.0, 0.3, 0.1)), 0.55))
+
     print("Terminé.")
 
 
