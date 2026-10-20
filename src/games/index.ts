@@ -32,6 +32,7 @@ import { EquivalentsGame } from './equivalents/EquivalentsGame';
 import { AnglesGame } from './angles/AnglesGame';
 import { TensesGame } from './tenses/TensesGame';
 import { SolidsGame } from './solids/SolidsGame';
+import { WorldMapGame } from './worldmap/WorldMapGame';
 
 /**
  * Catalogue des activités livrées.
@@ -407,6 +408,17 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 5,
     rounds: 5,
     Component: SolidsGame,
+  },
+  {
+    id: 'worldmap',
+    titleKey: 'activity.worldmap.title',
+    instructionKey: 'activity.worldmap.instruction',
+    emoji: '🌍',
+    accent: '#3FB1B5',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: WorldMapGame,
   },
 ];
 
