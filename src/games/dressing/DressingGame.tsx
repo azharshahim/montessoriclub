@@ -1,5 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, PanResponder, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import {
+  Animated,
+  PanResponder,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import Svg, { Circle, Defs, G, LinearGradient, Path, Rect, Stop } from 'react-native-svg';
 
 import { playSfx } from '../../audio/engine';
@@ -9,7 +17,7 @@ import { useI18n, type TranslationKey } from '../../i18n';
 import type { GameProps } from '../types';
 import { useGameSession } from '../useGameSession';
 import { useTheme } from '../../theme';
-import { GameLayout } from '../../ui/GameLayout';
+import { GameLayout, useBoardArea } from '../../ui/GameLayout';
 import { ProgressBar } from '../../ui/ProgressBar';
 import { RewardOverlay } from '../../ui/RewardOverlay';
 
@@ -43,10 +51,15 @@ export function DressingGame({ level, onFinish, onMistake, onQuit }: GameProps) 
   const { t } = useI18n();
   const { colors, shadow, text } = useTheme();
   const { width, height } = useWindowDimensions();
+  const area = useBoardArea();
   const session = useGameSession({ rounds: 3, onFinish });
 
   const task = TASKS[(session.round - 1) % TASKS.length];
-  const stageSize = Math.min(width - 80, height * 0.48, 330);
+  // Taille du plateau d'habillage : la plus grande qui tienne dans la zone
+  // mesurée (et non une fraction fixe de la hauteur de l'écran).
+  const areaWidth = (area?.width ?? width) - 16;
+  const areaHeight = area?.height ?? height * 0.48;
+  const stageSize = Math.max(150, Math.min(areaWidth - 8, areaHeight * 0.86, 330));
 
   return (
     <>

@@ -16,7 +16,7 @@ import { useI18n } from '../../i18n';
 import type { GameProps } from '../types';
 import { useGameSession } from '../useGameSession';
 import { useTheme } from '../../theme';
-import { GameLayout } from '../../ui/GameLayout';
+import { GameLayout, useBoardArea } from '../../ui/GameLayout';
 import { RewardOverlay } from '../../ui/RewardOverlay';
 import { OBJECTS, ObjectIllustration, type ObjectId } from '../../ui/illustrations/objects';
 
@@ -45,6 +45,7 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
   const { t } = useI18n();
   const { colors, radius, shadow, text } = useTheme();
   const { width, height } = useWindowDimensions();
+  const area = useBoardArea();
   const session = useGameSession({ rounds: 2, onFinish });
 
   const grid = GRID_BY_LEVEL[Math.min(Math.max(level, 1), 5) - 1];
@@ -59,7 +60,18 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
 
   // Le plateau et la réserve doivent tenir ensemble à l'écran,
   // même sur un téléphone en portrait (430 × 932).
-  const boardSize = Math.max(160, Math.min(width - 64, height * 0.34, 330));
+  // Dimensionnement sur la place réellement disponible sous la mascotte.
+  // En paysage, plateau et réserve sont côte à côte pour gagner la hauteur.
+  // -40 : marges latérales du contenu d'écran (20 px de chaque côté).
+  const availWidth = (area?.width ?? width) - 40;
+  const availHeight = (area?.height ?? height * 0.45) - 8;
+  const wide = availWidth > availHeight * 1.35;
+  // La réserve garde une part garantie : sinon, sur petit écran, les pièces
+  // devenaient minuscules et impossibles à attraper au doigt.
+  const trayReserve = Math.max(76, Math.min(150, availHeight * 0.3));
+  const boardSize = wide
+    ? Math.max(132, Math.min(availHeight - 34, availWidth * 0.55, 330))
+    : Math.max(120, Math.min(availWidth - 8, availHeight - trayReserve - 26, 330));
   const pieceW = boardSize / grid.cols;
   const pieceH = boardSize / grid.rows;
 
@@ -156,8 +168,21 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
 
   const slots = useMemo(() => Array.from({ length: total }, (_, index) => index), [total]);
 
-  // Les pièces de la réserve sont réduites pour tenir sur une seule rangée.
-  const trayScale = Math.min(1, Math.max(0.45, (width - 72) / (total * (pieceW + 6))));
+  // Réserve : on choisit le nombre de rangées qui offre les plus grosses
+  // pièces possibles, en gardant une marge pour que la rangée ne déborde pas.
+  const trayMaxWidth = wide ? availWidth - boardSize - 24 : availWidth;
+  const trayAvailHeight = wide ? availHeight - 12 : trayReserve;
+  const trayGap = 6;
+  let trayScale = 0;
+  for (let rows = 1; rows <= 4; rows += 1) {
+    const cols = Math.ceil(total / rows);
+    const widthPerPiece = (trayMaxWidth - (cols - 1) * trayGap - 10) / cols;
+    const heightPerPiece = (trayAvailHeight - (rows - 1) * trayGap - 6) / rows;
+    const candidate = Math.min(1, widthPerPiece / (pieceW + 4), heightPerPiece / (pieceH + 4));
+    if (candidate > trayScale) trayScale = candidate;
+    if (candidate >= 0.55) break;
+  }
+  trayScale = Math.max(0.3, trayScale);
 
   return (
     <>
@@ -172,7 +197,13 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
         stars={session.starsEarned}
         fireKey={session.fireKey}
       >
-        <View style={[styles.area, { flex: undefined }]}>
+        <View
+          style={[
+            styles.area,
+            { flex: undefined, flexDirection: wide ? 'row' : 'column', gap: wide ? 14 : 6 },
+          ]}
+        >
+          <View style={{ alignItems: 'center', gap: 4 }}>
           {/* Plateau : illustration découpée en cases */}
           <View
             style={[
@@ -222,9 +253,10 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
           <Text style={[text.caption, { color: colors.inkFaint }]}>
             {t('game.puzzleProgress', { done: placedCount, total })}
           </Text>
+          </View>
 
           {/* Réserve de pièces */}
-          <View style={[styles.tray, { maxWidth: width - 40, gap: 6 }]}>
+          <View style={[styles.tray, { maxWidth: trayMaxWidth, gap: trayGap }]}>
             {tray.map((piece) => (
               <DraggablePuzzlePiece
                 key={piece.id}

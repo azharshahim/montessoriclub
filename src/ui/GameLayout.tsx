@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
 import type { MascotMood } from './Mascot';
@@ -8,6 +8,21 @@ import { Screen } from './Screen';
 import { StarBurst } from './StarBurst';
 import { Icon } from './Icon';
 import { useTheme } from '../theme';
+
+/** Dimensions réelles de la zone de jeu (hors en-tête et mascotte). */
+export type BoardArea = { width: number; height: number };
+
+const BoardAreaContext = React.createContext<BoardArea | null>(null);
+
+/**
+ * Taille disponible pour le plateau.
+ * Les modules s'en servent pour dimensionner leurs pièces : sur un petit
+ * téléphone ou en paysage, le plateau doit tenir dans la place restante et
+ * non dans une fraction arbitraire de la hauteur de l'écran.
+ */
+export function useBoardArea(): BoardArea | null {
+  return React.useContext(BoardAreaContext);
+}
 
 interface GameLayoutProps {
   title: string;
@@ -61,6 +76,17 @@ export function GameLayout({
   const { height } = useWindowDimensions();
   const compact = height < 540;
   const { colors } = useTheme();
+  const [area, setArea] = useState<BoardArea | null>(null);
+
+  const handleBoardLayout = (event: { nativeEvent: { layout: BoardArea } }) => {
+    const { width, height: boardHeight } = event.nativeEvent.layout;
+    if (width < 1 || boardHeight < 1) return;
+    setArea((previous) =>
+      previous && Math.abs(previous.width - width) < 1 && Math.abs(previous.height - boardHeight) < 1
+        ? previous
+        : { width, height: boardHeight }
+    );
+  };
 
   return (
     <Screen
@@ -88,7 +114,9 @@ export function GameLayout({
         />
       </View>
 
-      <View style={styles.board}>{children}</View>
+      <View style={styles.board} onLayout={handleBoardLayout}>
+        <BoardAreaContext.Provider value={area}>{children}</BoardAreaContext.Provider>
+      </View>
       <StarBurst fireKey={fireKey} />
     </Screen>
   );

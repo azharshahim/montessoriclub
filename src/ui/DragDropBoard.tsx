@@ -12,6 +12,7 @@ import {
 
 import { useI18n } from '../i18n';
 import { useTheme } from '../theme';
+import { useBoardArea } from './GameLayout';
 
 export interface BoardItem {
   id: string;
@@ -54,7 +55,15 @@ type DropOutcome = { binId: string; correct: boolean; center: { x: number; y: nu
 export function DragDropBoard({ items, bins, onDrop, disabled, maxItemSize = 116 }: DragDropBoardProps) {
   const { colors, radius, shadow, text } = useTheme();
   const { t } = useI18n();
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const area = useBoardArea();
+  // Hauteur réellement disponible sous la mascotte : en paysage sur téléphone
+  // elle est très inférieure à la hauteur de l'écran.
+  const availHeight = area?.height ?? height * 0.6;
+  const compact = availHeight < 330;
+  // Sur un téléphone étroit, trois bacs de 116 px ne tiennent pas sur une
+  // rangée : on les resserre pour éviter qu'ils passent sous l'écran.
+  const narrow = (area?.width ?? width) < 400;
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const binRects = useRef<Record<string, Rect>>({});
@@ -62,8 +71,12 @@ export function DragDropBoard({ items, bins, onDrop, disabled, maxItemSize = 116
 
   const columns = Math.min(Math.max(items.length, 1), 4);
   const itemSize = Math.max(
-    58,
-    Math.min(maxItemSize, Math.floor((Math.min(width, 1080) - 56 - (columns - 1) * 12) / columns))
+    compact ? 46 : 58,
+    Math.min(
+      maxItemSize,
+      Math.floor((Math.min(width, 1080) - 56 - (columns - 1) * 12) / columns),
+      Math.round(availHeight * (compact ? 0.3 : 0.34))
+    )
   );
 
   const measureBins = useCallback(() => {
@@ -117,7 +130,7 @@ export function DragDropBoard({ items, bins, onDrop, disabled, maxItemSize = 116
   };
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, compact && { gap: 6, paddingBottom: 2 }]}>
       {/* Zone des objets à déplacer */}
       <View style={[styles.itemsZone, { minHeight: itemSize + 16 }]}>
         {items.map((item) => (
@@ -165,15 +178,16 @@ export function DragDropBoard({ items, bins, onDrop, disabled, maxItemSize = 116
                   opacity: disabled ? 0.6 : 1,
                   transform: [{ scale: isTarget ? 1.02 : 1 }],
                 },
+                narrow && { minWidth: 92, flexBasis: 96, padding: 6 },
               ]}
             >
-              <View style={[styles.binContent, { minHeight: 64 }]}>
+              <View style={[styles.binContent, { minHeight: compact ? 46 : 64 }]}>
                 {bin.placed.length === 0 ? (
-                  bin.renderEmpty(60)
+                  bin.renderEmpty(compact ? 46 : 60)
                 ) : (
                   bin.placed.map((placed) => (
                     <View key={placed.id} style={styles.placed}>
-                      {placed.render(46)}
+                      {placed.render(compact ? 36 : 46)}
                     </View>
                   ))
                 )}
@@ -354,10 +368,12 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   binsRow: {
+    flexGrow: 1,
+    flexShrink: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'stretch',
     gap: 12,
     paddingBottom: 4,
   },
@@ -372,6 +388,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   binContent: {
+    flexGrow: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',

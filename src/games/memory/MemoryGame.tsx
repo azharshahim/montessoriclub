@@ -9,7 +9,7 @@ import { useI18n } from '../../i18n';
 import type { GameProps } from '../types';
 import { useGameSession } from '../useGameSession';
 import { useTheme } from '../../theme';
-import { GameLayout } from '../../ui/GameLayout';
+import { GameLayout, useBoardArea } from '../../ui/GameLayout';
 import { RewardOverlay } from '../../ui/RewardOverlay';
 import { OBJECTS, OBJECT_IDS, ObjectIllustration, type ObjectId } from '../../ui/illustrations/objects';
 
@@ -32,6 +32,7 @@ export function MemoryGame({ level, onFinish, onMistake, onQuit }: GameProps) {
   const { t } = useI18n();
   const { colors, radius, shadow, text } = useTheme();
   const { width, height } = useWindowDimensions();
+  const area = useBoardArea();
   const session = useGameSession({ rounds: 2, onFinish });
 
   const pairCount = PAIRS_BY_LEVEL[Math.min(Math.max(level, 1), 5) - 1];
@@ -108,11 +109,16 @@ export function MemoryGame({ level, onFinish, onMistake, onQuit }: GameProps) {
   );
 
   const columns = cards.length <= 6 ? 3 : 4;
-  const boardWidth = Math.min(width - 56, 640);
+  const boardWidth = Math.min((area?.width ?? width) - 24, 640);
+  const boardHeight = area?.height ?? height * 0.5;
   const rows = Math.ceil(cards.length / columns);
   const cardSize = Math.max(
-    54,
-    Math.min((boardWidth - (columns - 1) * 10) / columns, (height * 0.5 - (rows - 1) * 10) / rows, 118)
+    46,
+    Math.min(
+      (boardWidth - (columns - 1) * 10) / columns,
+      (boardHeight - (rows - 1) * 10 - 28) / rows,
+      118
+    )
   );
 
   return (

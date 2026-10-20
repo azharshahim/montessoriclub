@@ -9,7 +9,7 @@ import { useI18n } from '../../i18n';
 import type { GameProps } from '../types';
 import { useGameSession } from '../useGameSession';
 import { useTheme } from '../../theme';
-import { GameLayout } from '../../ui/GameLayout';
+import { GameLayout, useBoardArea } from '../../ui/GameLayout';
 import { RewardOverlay } from '../../ui/RewardOverlay';
 
 /**
@@ -37,6 +37,7 @@ export function PouringGame({ level, onFinish, onMistake, onQuit }: GameProps) {
   const { t, language } = useI18n();
   const { colors, radius, shadow, text } = useTheme();
   const { width, height } = useWindowDimensions();
+  const area = useBoardArea();
   const session = useGameSession({ rounds: 3, onFinish });
 
   const target = TARGET_BY_LEVEL[Math.min(Math.max(level, 1), 5) - 1];
@@ -52,7 +53,10 @@ export function PouringGame({ level, onFinish, onMistake, onQuit }: GameProps) {
   const tilt = useRef(new Animated.Value(0)).current;
   const splash = useRef(new Animated.Value(0)).current;
 
-  const jarHeight = Math.max(180, Math.min(height * 0.4, 300));
+  // La hauteur du bocal se cale sur la zone de jeu mesurée : en paysage sur
+  // téléphone, 40 % de la hauteur de l'écran dépassait sous le bord.
+  const boardHeight = area?.height ?? height * 0.55;
+  const jarHeight = Math.max(120, Math.min(boardHeight * 0.62, height * 0.4, 300));
   const jarWidth = jarHeight * 0.52;
   const pitcherSize = jarHeight * 0.72;
 
