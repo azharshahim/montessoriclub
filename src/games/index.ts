@@ -30,6 +30,8 @@ import { CodeGame } from './code/CodeGame';
 import { LivingGame } from './living/LivingGame';
 import { EquivalentsGame } from './equivalents/EquivalentsGame';
 import { AnglesGame } from './angles/AnglesGame';
+import { TensesGame } from './tenses/TensesGame';
+import { SolidsGame } from './solids/SolidsGame';
 
 /**
  * Catalogue des activités livrées.
@@ -383,6 +385,28 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 5,
     rounds: 5,
     Component: AnglesGame,
+  },
+  {
+    id: 'tenses',
+    titleKey: 'activity.tenses.title',
+    instructionKey: 'activity.tenses.instruction',
+    emoji: '⏳',
+    accent: '#9C7BE0',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: TensesGame,
+  },
+  {
+    id: 'solids',
+    titleKey: 'activity.solids.title',
+    instructionKey: 'activity.solids.instruction',
+    emoji: '🧊',
+    accent: '#3FB1B5',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: SolidsGame,
   },
 ];
 

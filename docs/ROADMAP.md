@@ -68,7 +68,7 @@ clavier numérique enfant, gestion des réponses écrites.
 
 > **Déjà livré dans la v1.2 (premier jet, choix multiples)** : fractions, géométrie (côtés, noms, périmètre, aire),
 > système solaire, le monde (continents et capitales, texte seulement), grammaire (nature des mots),
-> conjugaison (présent). **Reste à faire** : carte du monde interactive,
+> conjugaison (présent). **Reste à faire** : carte du monde interactive.
 > angles et solides, temps du passé et du futur, équivalences de fractions.
 > Limite : la conjugaison et la grammaire en arabe sont plus courtes qu'en français (5 verbes, 6 phrases).
 
