@@ -16,6 +16,8 @@ import { TracingGame } from './tracing/TracingGame';
 import { AdditionGame } from './addition/AdditionGame';
 import { SubtractionGame } from './subtraction/SubtractionGame';
 import { TimesGame } from './times/TimesGame';
+import { SyllablesGame } from './reading/SyllablesGame';
+import { ReadingGame } from './reading/ReadingGame';
 
 /**
  * Catalogue des activités livrées.
@@ -215,6 +217,28 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 5,
     rounds: 5,
     Component: TimesGame,
+  },
+  {
+    id: 'syllables',
+    titleKey: 'activity.syllables.title',
+    instructionKey: 'activity.syllables.instruction',
+    emoji: '🔤',
+    accent: '#6C6FDB',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: SyllablesGame,
+  },
+  {
+    id: 'reading',
+    titleKey: 'activity.reading.title',
+    instructionKey: 'activity.reading.instruction',
+    emoji: '📖',
+    accent: '#3FB1B5',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: ReadingGame,
   },
 ];
 
