@@ -276,6 +276,12 @@ assets/
 Les 16 objets du jeu (pommes, ours, poisson…) sont dessinés en SVG. Pour passer à un rendu
 **réaliste 3D douce**, il suffit de déposer des images : aucune modification du code.
 
+**Depuis un téléphone, sans rien installer** : envoyer les images sur GitHub
+(dépôt → `assets` → `photos` → `objects` → **Add file → Upload files**). Le déploiement
+exécute `npm run photos` tout seul et publie la démo avec les nouvelles images.
+Formats acceptés : `.webp`, `.png`, `.jpg`. Le nom doit être exactement celui du tableau
+(ex. `apple.png`) ; préférer un fond transparent (WebP ou PNG).
+
 1. Générer chaque image (Midjourney, Ideogram, Firefly…) avec le prompt de base ci-dessous.
 2. Exporter en **WebP 512×512, fond transparent, moins de 150 Ko**, nommée exactement comme dans le tableau.
 3. Les déposer dans `assets/photos/objects/`.
