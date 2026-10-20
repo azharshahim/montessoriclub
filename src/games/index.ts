@@ -26,6 +26,7 @@ import { SolarGame } from './solar/SolarGame';
 import { WorldGame } from './world/WorldGame';
 import { GrammarGame } from './grammar/GrammarGame';
 import { ConjugationGame } from './conjugation/ConjugationGame';
+import { CodeGame } from './code/CodeGame';
 
 /**
  * Catalogue des activités livrées.
@@ -335,6 +336,17 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 5,
     rounds: 5,
     Component: ConjugationGame,
+  },
+  {
+    id: 'code',
+    titleKey: 'activity.code.title',
+    instructionKey: 'activity.code.instruction',
+    emoji: '🤖',
+    accent: '#4E8FE0',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: CodeGame,
   },
 ];
 
