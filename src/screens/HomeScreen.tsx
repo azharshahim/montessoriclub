@@ -102,7 +102,9 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
         <View style={[styles.grid, { gap: spacing.md }]}>
           {games.map((game) => {
             const progress = profile.progress[game.id];
-            const level = progress?.level ?? 1;
+            // Niveau réellement proposé : la progression ne peut pas être
+            // inférieure au plancher de la tranche d'âge (ex. puzzles en 6-8).
+            const level = Math.max(progress?.level ?? 1, game.minLevelByAge?.[profile.ageBand] ?? 1);
             return (
               <Pressable
                 key={game.id}

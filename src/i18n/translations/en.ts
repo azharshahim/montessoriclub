@@ -171,7 +171,7 @@ export const en: Record<keyof typeof fr, string> = {
   'mascot.welcomeParents': 'Hello! This space is for adults.',
 
   'home.emptyBandTitle': '9-12 activities are coming soon',
-  'home.emptyBandText': 'The bigger modules (fractions, grammar, world maps, block coding) are in preparation. Meanwhile, shapes and numbers remain available from a 6-8 profile.',
+  'home.emptyBandText': 'The bigger modules (fractions, grammar, world maps, block coding) are in preparation. In the meantime, a 6-8 profile offers puzzles and pairs at an appropriate level.',
   'home.comingSoon': 'New activities are coming soon!',
   'home.restTitle': 'Time to rest',
   'home.restText': 'Great job today! Let’s continue tomorrow.',

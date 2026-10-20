@@ -29,7 +29,11 @@ export function GameScreen({ route, navigation }: ScreenProps<'Game'>) {
   const [runId, setRunId] = useState(0);
   const [summary, setSummary] = useState<Summary | null>(null);
 
-  const level = profile && game ? profile.progress[game.id]?.level ?? 1 : 1;
+  // Niveau de départ : progression enregistrée, jamais en dessous du plancher
+  // défini pour la tranche d'âge (ex. 6-8 ans sur les puzzles).
+  const rawLevel = profile && game ? profile.progress[game.id]?.level ?? 1 : 1;
+  const minLevel = profile && game ? game.minLevelByAge?.[profile.ageBand] ?? 1 : 1;
+  const level = Math.min(game?.maxLevel ?? 1, Math.max(rawLevel, minLevel));
 
   const handleFinish = useCallback(
     (result: RoundResult) => {
@@ -42,11 +46,12 @@ export function GameScreen({ route, navigation }: ScreenProps<'Game'>) {
         mistakes: result.mistakes,
         successes: result.rounds,
         maxLevel: game.maxLevel,
+        minLevel,
       });
       setSummary({ stars, mistakes: result.mistakes, rounds: result.rounds });
       playSfx('celebrate');
     },
-    [game, profile, recordSession]
+    [game, minLevel, profile, recordSession]
   );
 
   if (!game || !profile) return null;

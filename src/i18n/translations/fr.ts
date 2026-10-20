@@ -185,7 +185,7 @@ export const fr = {
   'mascot.welcomeParents': 'Bonjour ! Cet espace est réservé aux adultes.',
 
   'home.emptyBandTitle': 'Les activités 9-12 ans arrivent bientôt',
-  'home.emptyBandText': 'Les grands modules (fractions, grammaire, cartes du monde, code par blocs) sont en préparation. En attendant, les formes et les chiffres restent accessibles depuis un profil 6-8 ans.',
+  'home.emptyBandText': 'Les grands modules (fractions, grammaire, cartes du monde, code par blocs) sont en préparation. En attendant, un profil 6-8 ans propose les puzzles et les paires, avec une difficulté adaptée.',
   'home.comingSoon': 'De nouvelles activités arrivent bientôt !',
   'home.restTitle': 'C’est l’heure de se reposer',
   'home.restText': 'Bravo pour aujourd’hui ! On continue demain avec plaisir.',

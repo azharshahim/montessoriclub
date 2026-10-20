@@ -44,7 +44,8 @@ export const GAME_MODULES: GameModule[] = [
     instructionKey: 'activity.shapes.instruction',
     emoji: '🔷',
     accent: '#4E8FE0',
-    ageBands: ['3-5', '6-8'],
+    // 6-8 ans : le contenu reste des formes simples, trop facile pour la tranche.
+    ageBands: ['3-5'],
     maxLevel: 5,
     rounds: 4,
     Component: ShapesGame,
@@ -55,7 +56,8 @@ export const GAME_MODULES: GameModule[] = [
     instructionKey: 'activity.numbers.instruction',
     emoji: '🔢',
     accent: '#F59A4B',
-    ageBands: ['3-5', '6-8'],
+    // 6-8 ans : dénombrer jusqu'à 10 est acquis, en attendant les additions.
+    ageBands: ['3-5'],
     maxLevel: 5,
     rounds: 5,
     Component: NumbersGame,
@@ -89,6 +91,8 @@ export const GAME_MODULES: GameModule[] = [
     emoji: '🃏',
     accent: '#6C6FDB',
     ageBands: ['3-5', '6-8'],
+    // Les plus grands démarrent directement sur 8 cartes, pas sur 3.
+    minLevelByAge: { '6-8': 4 },
     maxLevel: 5,
     rounds: 2,
     Component: MemoryGame,
@@ -100,6 +104,8 @@ export const GAME_MODULES: GameModule[] = [
     emoji: '🧩',
     accent: '#F59A4B',
     ageBands: ['3-5', '6-8'],
+    // 6-8 ans : grilles 3x3 et 4x3 minimum (les grilles 2x2 sont trop simples).
+    minLevelByAge: { '6-8': 4 },
     maxLevel: 5,
     rounds: 2,
     Component: PuzzleGame,

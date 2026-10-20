@@ -83,6 +83,8 @@ interface ProfilesState {
     mistakes: number;
     successes: number;
     maxLevel: number;
+    /** Niveau plancher de la tranche d'âge (par défaut 1). */
+    minLevel?: number;
     /** false = session interrompue : étoiles créditées, niveau inchangé. */
     adaptLevel?: boolean;
   }) => void;
@@ -129,16 +131,16 @@ export const useProfiles = create<ProfilesState>()(
 
       select: (id) => set({ selectedId: id }),
 
-      recordSession: ({ profileId, gameId, stars, mistakes, successes, maxLevel, adaptLevel = true }) =>
+      recordSession: ({ profileId, gameId, stars, mistakes, successes, maxLevel, minLevel = 1, adaptLevel = true }) =>
         set((state) => ({
           profiles: state.profiles.map((profile) => {
             if (profile.id !== profileId) return profile;
             const current = profile.progress[gameId] ?? emptyProgress();
             // Difficulté adaptative Montessori : réussite sans faute -> niveau +1,
             // trop d'erreurs -> on redescend d'un niveau sans jamais punir.
-            let nextLevel = current.level;
-            if (adaptLevel && mistakes === 0 && successes > 0) nextLevel = Math.min(maxLevel, current.level + 1);
-            else if (adaptLevel && mistakes >= Math.max(3, successes)) nextLevel = Math.max(1, current.level - 1);
+            let nextLevel = Math.max(minLevel, current.level);
+            if (adaptLevel && mistakes === 0 && successes > 0) nextLevel = Math.min(maxLevel, nextLevel + 1);
+            else if (adaptLevel && mistakes >= Math.max(3, successes)) nextLevel = Math.max(minLevel, nextLevel - 1);
 
             const updated: ActivityProgress = {
               level: nextLevel,

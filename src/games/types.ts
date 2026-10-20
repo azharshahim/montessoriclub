@@ -31,6 +31,12 @@ export interface GameModule {
   emoji: string;
   accent: string;
   ageBands: AgeBandId[];
+  /**
+   * Niveau minimal proposé selon la tranche d'âge.
+   * Permet d'utiliser une activité qui couvre deux tranches sans imposer aux
+   * plus grands les premiers niveaux, trop faciles pour eux.
+   */
+  minLevelByAge?: Partial<Record<AgeBandId, number>>;
   maxLevel: number;
   /** Nombre de défis par session. */
   rounds: number;
