@@ -13,6 +13,9 @@ import { ShapeFitGame } from './shapefit/ShapeFitGame';
 import { ShapesGame } from './shapes/ShapesGame';
 import { SortingGame } from './sorting/SortingGame';
 import { TracingGame } from './tracing/TracingGame';
+import { AdditionGame } from './addition/AdditionGame';
+import { SubtractionGame } from './subtraction/SubtractionGame';
+import { TimesGame } from './times/TimesGame';
 
 /**
  * Catalogue des activités livrées.
@@ -179,6 +182,39 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 1,
     rounds: 3,
     Component: DressingGame,
+  },
+  {
+    id: 'addition',
+    titleKey: 'activity.addition.title',
+    instructionKey: 'activity.addition.instruction',
+    emoji: '➕',
+    accent: '#E8554A',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: AdditionGame,
+  },
+  {
+    id: 'subtraction',
+    titleKey: 'activity.subtraction.title',
+    instructionKey: 'activity.subtraction.instruction',
+    emoji: '➖',
+    accent: '#4FBF8B',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: SubtractionGame,
+  },
+  {
+    id: 'times',
+    titleKey: 'activity.times.title',
+    instructionKey: 'activity.times.instruction',
+    emoji: '✖️',
+    accent: '#F59A4B',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: TimesGame,
   },
 ];
 

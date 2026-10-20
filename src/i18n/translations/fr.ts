@@ -283,6 +283,15 @@ export const fr = {
   'a11y.touchItem': 'Toucher : {name}',
   'a11y.noteBar': 'Note {n}',
   'game.wellPlayed': 'Quel beau jeu !',
+  'activity.addition.title': 'Les additions',
+  'activity.addition.instruction': 'Compte les perles et trouve le total.',
+  'activity.subtraction.title': 'Les soustractions',
+  'activity.subtraction.instruction': 'Des perles sont retirées : combien en reste-t-il ?',
+  'activity.times.title': 'Les multiplications',
+  'activity.times.instruction': 'Compte les rangées de points : combien en tout ?',
+  'math.addQuestion': 'Combien font {a} + {b} ?',
+  'math.subQuestion': 'Combien font {a} − {b} ?',
+  'math.timesQuestion': 'Combien font {a} × {b} ?',
 
   // Langues
   'language.fr': 'Français',
