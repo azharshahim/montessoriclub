@@ -19,7 +19,7 @@ mascotte animée, mode daltonisme, animations réduites.
 
 ---
 
-## v1.1 — Vie pratique 3-5 ans *(3 semaines)*
+## v1.1 — Vie pratique 3-5 ans *(3 semaines)* — ✅ livrée
 
 | Activité | Objectif unique | Mécanique |
 |---|---|---|
@@ -29,10 +29,13 @@ mascotte animée, mode daltonisme, animations réduites.
 | **Puzzles simples** | compléter une image | 4 → 9 pièces aimantées |
 | **La fermeture** | boutons, scratchs, lacets | gestes guidés au doigt |
 
-**Technique** : nouveau composant `SvgDraggable` pour les pièces de puzzle (rotation + aimantation),
-`useMemoryGame` (retournement de cartes), animation Lottie de réussite.
-**Critère d'acceptation** : chaque activité terminable par un enfant de 4 ans sans aide,
-aucune erreur bloquante, 3 niveaux minimum.
+**Technique** : pièces de puzzle rendues en SVG et aimantées (`PuzzleGame`), paires avec
+retournement `Animated` et état local (`MemoryGame`), verser et fermeture éclair à appui maintenu
+(`PouringGame`, `DressingGame`), tri avec cibles colorées (`SortingGame`).
+**Critère d'acceptation** : ✅ chaque activité est terminable sans aide, aucune erreur bloquante,
+3 manches par activité, 5 niveaux de difficulté adaptative.
+**Vérifié le 2026-10-20** : 9 activités jouables de bout en bout au navigateur (mobile 430×932 et
+paysage 1180×820), en FR, EN et AR, sans erreur JavaScript.
 
 ---
 

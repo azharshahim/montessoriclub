@@ -157,6 +157,19 @@ Détail complet et flux de données : **`docs/ARCHITECTURE.md`**.
 **Boucle de jeu** : 3 à 5 manches, mascotte qui énonce la consigne, auto-correction immédiate,
 récompense en étoiles, bilan toujours positif.
 
+### Vie pratique — gestes du quotidien
+| Activité | Objectif unique | Progression |
+|---|---|---|
+| **Trier** | classer selon un seul critère | couleur → taille → famille (fruits, animaux) |
+| **Les paires** | apparier deux images identiques | 3 → 4 → 6 → 8 cartes, deux manches |
+| **Puzzles** | replacer chaque pièce à sa place | 2×2 → 3×2 → 3×3 → 4×3, fantômes de guidage |
+| **Verser** | transvaser sans renverser | appui maintenu, zone cible qui se resserre |
+| **Les fermetures** | réussir un geste de motricité fine | bouton → fermeture éclair → lacet |
+
+Chaque activité se joue **sans chronomètre** : l'enfant peut recommencer autant de fois qu'il le
+souhaite, un débordement ou un geste manqué n'enlève aucun point et ne bloque jamais la suite.
+Les gestes acceptent aussi un simple toucher répété (accessibilité moteur et lecteurs d'écran).
+
 ---
 
 ## 6. Principes Montessori implémentés
