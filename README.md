@@ -38,6 +38,7 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 | Sons de qualité (générés, hors ligne) + icônes vectorielles | ✅ |
 | Documentation assets, publication, feuille de route | ✅ |
 | Modules 6-8 ans et 9-12 ans | 🗺️ planifiés (voir `docs/ROADMAP.md`) |
+| Tranche 6-8 : paires et puzzles à partir du niveau 4, en attendant la lecture et les additions | ✅ |
 
 La tranche 3-5 ans est **entièrement jouable de bout en bout** : depuis la création du profil
 jusqu'à la collection de récompenses, sans réseau.
