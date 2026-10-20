@@ -18,6 +18,8 @@ import { SubtractionGame } from './subtraction/SubtractionGame';
 import { TimesGame } from './times/TimesGame';
 import { SyllablesGame } from './reading/SyllablesGame';
 import { ReadingGame } from './reading/ReadingGame';
+import { ClockGame } from './clock/ClockGame';
+import { MoneyGame } from './money/MoneyGame';
 
 /**
  * Catalogue des activités livrées.
@@ -239,6 +241,28 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 5,
     rounds: 5,
     Component: ReadingGame,
+  },
+  {
+    id: 'clock',
+    titleKey: 'activity.clock.title',
+    instructionKey: 'activity.clock.instruction',
+    emoji: '🕒',
+    accent: '#4E8FE0',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: ClockGame,
+  },
+  {
+    id: 'money',
+    titleKey: 'activity.money.title',
+    instructionKey: 'activity.money.instruction',
+    emoji: '💶',
+    accent: '#4FBF8B',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: MoneyGame,
   },
 ];
 
