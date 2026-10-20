@@ -8,11 +8,18 @@ import {
   View,
   useWindowDimensions,
   type LayoutRectangle,
+  type ViewStyle,
 } from 'react-native';
 
 import { useI18n } from '../i18n';
 import { useTheme } from '../theme';
 import { useBoardArea } from './GameLayout';
+
+/**
+ * Empêche le navigateur mobile de faire défiler la page pendant un glisser.
+ * Propriété acceptée par react-native-web mais absente des types RN.
+ */
+const NO_SCROLL_STYLE = { touchAction: 'none' } as unknown as ViewStyle;
 
 export interface BoardItem {
   id: string;
@@ -61,9 +68,6 @@ export function DragDropBoard({ items, bins, onDrop, disabled, maxItemSize = 116
   // elle est très inférieure à la hauteur de l'écran.
   const availHeight = area?.height ?? height * 0.6;
   const compact = availHeight < 330;
-  // Sur un téléphone étroit, trois bacs de 116 px ne tiennent pas sur une
-  // rangée : on les resserre pour éviter qu'ils passent sous l'écran.
-  const narrow = (area?.width ?? width) < 400;
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const binRects = useRef<Record<string, Rect>>({});
@@ -178,7 +182,6 @@ export function DragDropBoard({ items, bins, onDrop, disabled, maxItemSize = 116
                   opacity: disabled ? 0.6 : 1,
                   transform: [{ scale: isTarget ? 1.02 : 1 }],
                 },
-                narrow && { minWidth: 92, flexBasis: 96, padding: 6 },
               ]}
             >
               <View style={[styles.binContent, { minHeight: compact ? 46 : 64 }]}>
@@ -323,6 +326,7 @@ function DraggableItem({
       style={[
         styles.item,
         shadow.lifted,
+        NO_SCROLL_STYLE,
         {
           width: size,
           height: size,

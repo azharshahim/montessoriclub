@@ -64,7 +64,7 @@ export function MascotGuide({ message, mood = 'idle', size = 108, hideBubble }: 
         accessibilityLabel={t('nav.listenAgain')}
         hitSlop={12}
       >
-        <Icon name={speaking ? 'sparkles' : 'sound'} size={20} color={colors.teal} />
+        <Icon name={speaking ? 'sparkles' : 'sound'} size={22} color={colors.teal} />
       </Pressable>
     </View>
   ) : null;
@@ -110,9 +110,10 @@ const styles = StyleSheet.create({
     maxWidth: 420,
   },
   replay: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    // 40 px visuels + hitSlop 12 = zone tactile de 64 px (recommandation 44 px mini).
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },

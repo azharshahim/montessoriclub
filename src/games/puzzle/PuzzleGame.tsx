@@ -7,6 +7,7 @@ import {
   View,
   useWindowDimensions,
   type LayoutRectangle,
+  type ViewStyle,
 } from 'react-native';
 
 import { playSfx } from '../../audio/engine';
@@ -38,6 +39,9 @@ const GRID_BY_LEVEL: Grid[] = [
   { cols: 3, rows: 3 },
   { cols: 4, rows: 3 }, // 12 pièces
 ];
+
+/** Empêche le défilement de la page pendant un glisser (react-native-web). */
+const NO_SCROLL_STYLE = { touchAction: 'none' } as unknown as ViewStyle;
 
 const PUZZLE_OBJECTS: ObjectId[] = ['bear', 'butterfly', 'fish', 'icecream', 'apple', 'balloon', 'flower', 'cookie'];
 
@@ -377,6 +381,7 @@ function DraggablePuzzlePiece({
       accessibilityLabel={`pièce ${piece.index + 1}`}
       style={[
         shadowStyle,
+        NO_SCROLL_STYLE,
         {
           width: pieceW,
           height: pieceH,

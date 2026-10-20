@@ -7,6 +7,7 @@ import {
   Text,
   View,
   useWindowDimensions,
+  type ViewStyle,
 } from 'react-native';
 import Svg, { Circle, Defs, G, LinearGradient, Path, Rect, Stop } from 'react-native-svg';
 
@@ -130,6 +131,9 @@ function succeed(session: ReturnType<typeof useGameSession>) {
   session.winRound();
 }
 
+/** Empêche le défilement de la page pendant un geste (react-native-web). */
+const NO_SCROLL_STYLE = { touchAction: 'none' } as unknown as ViewStyle;
+
 /* ------------------------------------------------------------------ */
 /* 1. Bouton dans la boutonnière                                       */
 /* ------------------------------------------------------------------ */
@@ -208,7 +212,9 @@ function ButtonTask({
     [onMiss, onSuccess, pan, size]
   );
 
-  const buttonSize = size * 0.2;
+  // Jamais moins de 44 px : en paysage sur téléphone, 20 % du plateau
+  // donnaient un bouton de 30 px, impossible à saisir au doigt.
+  const buttonSize = Math.max(44, Math.min(size * 0.22, 74));
 
   return (
     <View ref={stageRef} style={[styles.stage, { width: size, height: size * 0.72 }]}>
@@ -234,6 +240,7 @@ function ButtonTask({
         style={[
           shadowStyle,
           styles.button,
+          NO_SCROLL_STYLE,
           {
             width: buttonSize,
             height: buttonSize,
