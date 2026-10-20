@@ -257,7 +257,7 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
               />
               <ToggleRow
                 icon="sparkles"
-                label="Haptique"
+                label={t('parents.haptics')}
                 value={settings.haptics}
                 onChange={(v) => settings.set('haptics', v)}
               />

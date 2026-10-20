@@ -140,6 +140,7 @@ function Bubble({
   reducedMotion: boolean;
   onPop: () => void;
 }) {
+  const { t } = useI18n();
   const progress = useRef(new Animated.Value(0)).current;
   const wiggle = useRef(new Animated.Value(0)).current;
 
@@ -191,7 +192,7 @@ function Bubble({
       <Pressable
         onPress={onPop}
         accessibilityRole="button"
-        accessibilityLabel="bulle"
+        accessibilityLabel={t('a11y.bubble')}
         hitSlop={12}
         style={({ pressed }) => ({ transform: [{ scale: pressed ? 0.92 : 1 }] })}
       >

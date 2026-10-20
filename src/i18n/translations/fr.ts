@@ -161,6 +161,7 @@ export const fr = {
   'parents.subtitles': 'Sous-titres de la mascotte',
   'parents.colorBlind': 'Mode daltonisme (motifs et contrastes)',
   'parents.reducedMotion': 'Réduire les animations',
+  'parents.haptics': 'Retour haptique (vibrations)',
   'parents.dailyLimit': 'Limite quotidienne',
   'parents.unlimited': 'Illimitée',
   'parents.reset': 'Réinitialiser la progression',
@@ -254,6 +255,11 @@ export const fr = {
   'a11y.parentLock': 'Ouvrir l’espace parents, protégé par une question',
   'a11y.selected': '{name} sélectionné',
   'a11y.profile': 'Profil de {name}, {age}',
+  'a11y.button': 'bouton',
+  'a11y.zipperPull': 'curseur de fermeture',
+  'a11y.zipperHint': 'Maintiens appuyé pour remonter le curseur.',
+  'a11y.bubble': 'bulle',
+  'a11y.hiddenCard': 'carte cachée',
 
   // Langues
   'language.fr': 'Français',

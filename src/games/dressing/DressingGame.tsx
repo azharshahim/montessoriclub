@@ -132,6 +132,7 @@ function ButtonTask({
   onMiss: () => void;
   shadowStyle: object;
 }) {
+  const { t } = useI18n();
   const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const startRect = useRef<{ x: number; y: number; width: number; height: number } | null>(null);
   const viewRef = useRef<React.ComponentRef<typeof View> | null>(null);
@@ -216,7 +217,7 @@ function ButtonTask({
         {...responder.panHandlers}
         accessible
         accessibilityRole="button"
-        accessibilityLabel="bouton"
+        accessibilityLabel={t('a11y.button')}
         style={[
           shadowStyle,
           styles.button,
@@ -266,6 +267,7 @@ function ZipperTask({
   onMiss: () => void;
   shadowStyle: object;
 }) {
+  const { t } = useI18n();
   const [progress, setProgress] = useState(0);
   const progressRef = useRef(0);
   const doneRef = useRef(false);
@@ -367,8 +369,8 @@ function ZipperTask({
         onPressIn={startPulling}
         onPressOut={releasePull}
         accessibilityRole="button"
-        accessibilityLabel="curseur de fermeture"
-        accessibilityHint="Maintiens appuyé pour remonter le curseur"
+        accessibilityLabel={t('a11y.zipperPull')}
+        accessibilityHint={t('a11y.zipperHint')}
         hitSlop={14}
         style={[
           shadowStyle,

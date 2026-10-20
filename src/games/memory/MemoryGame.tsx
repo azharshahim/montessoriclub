@@ -180,6 +180,7 @@ function MemoryCard({
   shadowStyle: object;
   backColor: string;
 }) {
+  const { t } = useI18n();
   const progress = useRef(new Animated.Value(faceUp ? 1 : 0)).current;
   const [showFace, setShowFace] = useState(faceUp);
 
@@ -204,7 +205,9 @@ function MemoryCard({
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={showFace ? OBJECTS[card.objectId].labelKey : 'carte cachée'}
+      accessibilityLabel={
+        showFace ? t(OBJECTS[card.objectId].labelKey as never) : t('a11y.hiddenCard')
+      }
       accessibilityState={{ selected: showFace }}
       style={{ width: size, height: size }}
     >
