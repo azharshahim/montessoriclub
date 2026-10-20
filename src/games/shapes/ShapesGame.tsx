@@ -19,9 +19,17 @@ import {
   type ShapeId,
 } from '../../ui/illustrations/shapes';
 
-/** Toutes les pièces partagent la même teinte « bois » : l'attention porte sur la forme. */
-const WOOD = { fill: '#F0B878', deep: '#C58549', stroke: '#A96C36' };
-const SLOT = { fill: '#D9CDBF', deep: '#8C7B69' };
+/** Chaque forme a sa couleur vive : plus joyeux, et la couleur aide à mémoriser la forme. */
+const SHAPE_COLORS: Record<ShapeId, { fill: string; deep: string; stroke: string }> = {
+  circle: { fill: '#FF8A8A', deep: '#E53E3E', stroke: '#B92B2B' },
+  square: { fill: '#7CC4FF', deep: '#2F80ED', stroke: '#1F5FBF' },
+  triangle: { fill: '#FFE066', deep: '#F5B800', stroke: '#C48F00' },
+  rectangle: { fill: '#8FE388', deep: '#2FB344', stroke: '#1F8A31' },
+  star: { fill: '#FFB566', deep: '#FF7A00', stroke: '#C95E00' },
+  hexagon: { fill: '#C9A4FF', deep: '#8E4DEB', stroke: '#6B33C0' },
+  oval: { fill: '#6FE3D6', deep: '#14B8A6', stroke: '#0E8C7E' },
+  heart: { fill: '#FF9EC7', deep: '#EC4899', stroke: '#BE2F79' },
+};
 
 type Piece = { id: string; shape: ShapeId };
 type Board = { shapes: ShapeId[]; pieces: Piece[] };
@@ -111,14 +119,14 @@ export function ShapesGame({ level, onFinish, onMistake, onQuit }: GameProps) {
         id: `bin-${shape}`,
         matchKey: shape,
         label: t(SHAPE_LABEL_KEYS[shape] as TranslationKey),
-        color: '#8C6A4A',
+        color: SHAPE_COLORS[shape].deep,
         renderEmpty: (size: number) => (
-          <ShapeSVG shape={shape} size={size} fill="transparent" fillDeep="transparent" stroke={SLOT.deep} dashed strokeWidth={3} />
+          <ShapeSVG shape={shape} size={size} fill="transparent" fillDeep="transparent" stroke={SHAPE_COLORS[shape].deep} dashed strokeWidth={3.5} />
         ),
         placed: (placed[shape] ?? []).map((piece) => ({
           id: piece.id,
           render: (size: number) => (
-            <ShapeSVG shape={piece.shape} size={size} fill={WOOD.fill} fillDeep={WOOD.deep} stroke={WOOD.stroke} glossy />
+            <ShapeSVG shape={piece.shape} size={size} fill={SHAPE_COLORS[piece.shape].fill} fillDeep={SHAPE_COLORS[piece.shape].deep} stroke={SHAPE_COLORS[piece.shape].stroke} glossy />
           ),
         })),
       })),
@@ -132,7 +140,7 @@ export function ShapesGame({ level, onFinish, onMistake, onQuit }: GameProps) {
         matchKey: piece.shape,
         label: t(SHAPE_LABEL_KEYS[piece.shape] as TranslationKey),
         render: (size: number) => (
-          <ShapeSVG shape={piece.shape} size={size} fill={WOOD.fill} fillDeep={WOOD.deep} stroke={WOOD.stroke} glossy />
+          <ShapeSVG shape={piece.shape} size={size} fill={SHAPE_COLORS[piece.shape].fill} fillDeep={SHAPE_COLORS[piece.shape].deep} stroke={SHAPE_COLORS[piece.shape].stroke} glossy />
         ),
       })),
     [remaining, t]

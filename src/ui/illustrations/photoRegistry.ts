@@ -19,5 +19,6 @@ export const OBJECT_PHOTOS: Partial<Record<ObjectId, ImageSourcePropType>> = {
   grapes: require('../../../assets/photos/objects/grapes.webp'),
   icecream: require('../../../assets/photos/objects/icecream.webp'),
   leaf: require('../../../assets/photos/objects/leaf.webp'),
+  orange: require('../../../assets/photos/objects/orange.webp'),
   star: require('../../../assets/photos/objects/star.webp'),
 };
