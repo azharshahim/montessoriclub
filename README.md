@@ -38,7 +38,8 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 | Sons de qualité (générés, hors ligne) + icônes vectorielles | ✅ |
 | Documentation assets, publication, feuille de route | ✅ |
 | Modules **6-8 ans** : additions, soustractions, multiplications, syllabes, lecture, horloge, monnaie | ✅ |
-| Module 9-12 ans | 🗺️ planifié (voir `docs/ROADMAP.md`) |
+| Modules **9-12 ans** : fractions, géométrie, système solaire, le monde, grammaire, conjugaison | ✅ |
+| Code par blocs (9-12), sciences du vivant (6-8), cartes interactives | 🗺️ planifiés (voir `docs/ROADMAP.md`) |
 | Images réalistes des objets | 🧩 prêt à brancher (`docs/ASSETS.md`, section 7) : les fichiers WebP restent à générer |
 | Tranche 6-8 : paires et puzzles à partir du niveau 4 | ✅ |
 

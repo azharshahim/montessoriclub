@@ -20,6 +20,12 @@ import { SyllablesGame } from './reading/SyllablesGame';
 import { ReadingGame } from './reading/ReadingGame';
 import { ClockGame } from './clock/ClockGame';
 import { MoneyGame } from './money/MoneyGame';
+import { FractionsGame } from './fractions/FractionsGame';
+import { GeometryGame } from './geometry/GeometryGame';
+import { SolarGame } from './solar/SolarGame';
+import { WorldGame } from './world/WorldGame';
+import { GrammarGame } from './grammar/GrammarGame';
+import { ConjugationGame } from './conjugation/ConjugationGame';
 
 /**
  * Catalogue des activités livrées.
@@ -263,6 +269,72 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 5,
     rounds: 5,
     Component: MoneyGame,
+  },
+  {
+    id: 'fractions',
+    titleKey: 'activity.fractions.title',
+    instructionKey: 'activity.fractions.instruction',
+    emoji: '🍕',
+    accent: '#F59A4B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: FractionsGame,
+  },
+  {
+    id: 'geometry',
+    titleKey: 'activity.geometry.title',
+    instructionKey: 'activity.geometry.instruction',
+    emoji: '📐',
+    accent: '#4E8FE0',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: GeometryGame,
+  },
+  {
+    id: 'solar',
+    titleKey: 'activity.solar.title',
+    instructionKey: 'activity.solar.instruction',
+    emoji: '🪐',
+    accent: '#6C6FDB',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: SolarGame,
+  },
+  {
+    id: 'world',
+    titleKey: 'activity.world.title',
+    instructionKey: 'activity.world.instruction',
+    emoji: '🗺️',
+    accent: '#4FBF8B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: WorldGame,
+  },
+  {
+    id: 'grammar',
+    titleKey: 'activity.grammar.title',
+    instructionKey: 'activity.grammar.instruction',
+    emoji: '📝',
+    accent: '#EE6C5B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: GrammarGame,
+  },
+  {
+    id: 'conjugation',
+    titleKey: 'activity.conjugation.title',
+    instructionKey: 'activity.conjugation.instruction',
+    emoji: '✍️',
+    accent: '#9C7BE0',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: ConjugationGame,
   },
 ];
 

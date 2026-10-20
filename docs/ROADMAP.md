@@ -65,6 +65,13 @@ clavier numérique enfant, gestion des réponses écrites.
 
 ## v1.3 — Sciences, géographie et code 6-12 ans *(6 semaines)*
 
+> **Déjà livré dans la v1.2 (premier jet, choix multiples)** : fractions, géométrie (côtés, noms, périmètre, aire),
+> système solaire, le monde (continents et capitales, texte seulement), grammaire (nature des mots),
+> conjugaison (présent). **Reste à faire** : sciences du vivant, code par blocs, carte du monde interactive,
+> angles et solides, temps du passé et du futur, équivalences de fractions.
+> Limite : la conjugaison et la grammaire en arabe sont plus courtes qu'en français (5 verbes, 6 phrases).
+
+
 | Activité | Âge | Contenu |
 |---|---|---|
 | **Sciences du vivant** | 6-8 | cycle de vie (grenouille, papillon, plante), parties du corps |
