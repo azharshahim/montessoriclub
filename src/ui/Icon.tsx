@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import Svg, { Circle, Ellipse, Line, Path, Rect } from 'react-native-svg';
 
 /**
@@ -191,8 +192,16 @@ export function Icon({ name, size = 24, color = '#33302E', strokeWidth = 2.4, fi
     }
   };
 
+  // Sur le Web, `accessibilityElementsHidden` / `importantForAccessibility`
+  // sont transmis tels quels au DOM et déclenchent un avertissement React :
+  // on utilise `aria-hidden`, qui est l'attribut équivalent.
+  const hiddenProps =
+    Platform.OS === 'web'
+      ? ({ 'aria-hidden': true } as Record<string, unknown>)
+      : { accessibilityElementsHidden: true, importantForAccessibility: 'no' as const };
+
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24" accessibilityElementsHidden importantForAccessibility="no">
+    <Svg width={size} height={size} viewBox="0 0 24 24" {...hiddenProps}>
       {content()}
     </Svg>
   );
