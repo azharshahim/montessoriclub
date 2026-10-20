@@ -27,6 +27,9 @@ import { WorldGame } from './world/WorldGame';
 import { GrammarGame } from './grammar/GrammarGame';
 import { ConjugationGame } from './conjugation/ConjugationGame';
 import { CodeGame } from './code/CodeGame';
+import { LivingGame } from './living/LivingGame';
+import { EquivalentsGame } from './equivalents/EquivalentsGame';
+import { AnglesGame } from './angles/AnglesGame';
 
 /**
  * Catalogue des activités livrées.
@@ -347,6 +350,39 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 5,
     rounds: 5,
     Component: CodeGame,
+  },
+  {
+    id: 'living',
+    titleKey: 'activity.living.title',
+    instructionKey: 'activity.living.instruction',
+    emoji: '🌿',
+    accent: '#4FBF8B',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: LivingGame,
+  },
+  {
+    id: 'equivalents',
+    titleKey: 'activity.equivalents.title',
+    instructionKey: 'activity.equivalents.instruction',
+    emoji: '🟰',
+    accent: '#F59A4B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: EquivalentsGame,
+  },
+  {
+    id: 'angles',
+    titleKey: 'activity.angles.title',
+    instructionKey: 'activity.angles.instruction',
+    emoji: '📏',
+    accent: '#EE6C5B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: AnglesGame,
   },
 ];
 
