@@ -283,6 +283,8 @@ export const fr = {
   'a11y.touchItem': 'Toucher : {name}',
   'a11y.noteBar': 'Note {n}',
   'game.wellPlayed': 'Quel beau jeu !',
+  'nav.activities': 'Activités',
+  'nav.profile': 'Profil',
   'activity.fractions.title': 'Les fractions',
   'activity.fractions.instruction': 'Observe la figure : quelle fraction est coloriée ?',
   'fractions.question': 'Quelle fraction est coloriée ?',

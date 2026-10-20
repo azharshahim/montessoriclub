@@ -267,6 +267,8 @@ export const ar: Record<keyof typeof fr, string> = {
   'a11y.touchItem': 'المس: {name}',
   'a11y.noteBar': 'النغمة {n}',
   'game.wellPlayed': 'لعبة رائعة!',
+  'nav.activities': 'الأنشطة',
+  'nav.profile': 'الملف',
   'activity.fractions.title': 'الكسور',
   'activity.fractions.instruction': 'لاحظ الشكل: ما الكسر الملوّن؟',
   'fractions.question': 'ما الكسر الملوّن؟',

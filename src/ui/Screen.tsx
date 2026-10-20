@@ -6,6 +6,7 @@ import { useI18n } from '../i18n';
 import { useTheme } from '../theme';
 import { RoundButton } from './Button';
 import { ScreenBackground, type Scene } from './ScreenBackground';
+import { TabBar, type TabId } from './TabBar';
 
 interface HeaderConfig {
   title?: string;
@@ -23,6 +24,8 @@ interface ScreenProps {
   backgroundColor?: string;
   /** Décor du fond (ciel, prairie, coucher de soleil, calme). */
   scene?: Scene;
+  /** Affiche la barre d'onglets du bas, avec cet onglet actif. */
+  tab?: TabId;
   contentStyle?: StyleProp<ViewStyle>;
   /** Largeur maximale sur tablette / web pour garder une lecture confortable. */
   maxWidth?: number;
@@ -32,14 +35,14 @@ interface ScreenProps {
  * Conteneur d'écran commun : fond crème dégradé, safe-area, en-tête accessible,
  * largeur maîtrisée sur grand écran et mode portrait/paysage.
  */
-export function Screen({ children, header, centered, backgroundColor, scene = 'sky', contentStyle, maxWidth = 1080 }: ScreenProps) {
+export function Screen({ children, header, centered, backgroundColor, scene = 'sky', tab, contentStyle, maxWidth = 1080 }: ScreenProps) {
   const { colors, text } = useTheme();
   const { t, align } = useI18n();
 
   return (
     <View style={[styles.root, { backgroundColor: backgroundColor ?? colors.cream }]}>
       <ScreenBackground scene={scene} />
-      <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
+      <SafeAreaView style={styles.safe} edges={tab ? ['top', 'left', 'right'] : ['top', 'left', 'right']}>
         <View style={[styles.inner, { maxWidth }]}>
           {header ? (
             <View style={styles.header}>
@@ -66,6 +69,7 @@ export function Screen({ children, header, centered, backgroundColor, scene = 's
           ) : null}
           <View style={[styles.content, centered && styles.centered, contentStyle]}>{children}</View>
         </View>
+        {tab ? <TabBar active={tab} /> : null}
       </SafeAreaView>
     </View>
   );

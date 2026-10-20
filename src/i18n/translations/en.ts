@@ -268,6 +268,8 @@ export const en: Record<keyof typeof fr, string> = {
   'a11y.touchItem': 'Touch: {name}',
   'a11y.noteBar': 'Note {n}',
   'game.wellPlayed': 'What a lovely game!',
+  'nav.activities': 'Activities',
+  'nav.profile': 'Profile',
   'activity.fractions.title': 'Fractions',
   'activity.fractions.instruction': 'Look at the figure: which fraction is colored?',
   'fractions.question': 'Which fraction is colored?',

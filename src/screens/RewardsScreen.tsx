@@ -51,7 +51,7 @@ export function RewardsScreen({ navigation }: ScreenProps<'Rewards'>) {
   const columns = width > 720 ? 6 : 4;
 
   return (
-    <Screen scene="sunset" header={{ title: t('rewards.title'), onBack: () => navigation.goBack() }}>
+    <Screen scene="sunset" tab="rewards" header={{ title: t('rewards.title') }}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <LinearGradient
           colors={['#FFF1D6', '#FFE3C2']}

@@ -57,7 +57,7 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
   };
 
   return (
-    <Screen>
+    <Screen tab="home">
       <View style={styles.header}>
         <Avatar id={profile.avatar} size={52} />
         <View style={{ flex: 1 }}>
@@ -68,14 +68,6 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
             {t('home.subtitle')}
           </Text>
         </View>
-        <RoundButton
-          icon="user"
-          onPress={() => {
-            select(null);
-            navigation.navigate('Onboarding');
-          }}
-          accessibilityLabel={t('home.switchProfile')}
-        />
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -165,48 +157,6 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
           </View>
         </View>
 
-        <View style={styles.actions}>
-          <Pressable
-            onPress={() => navigation.navigate('Rewards')}
-            accessibilityRole="button"
-            accessibilityLabel={t('home.rewards')}
-            style={({ pressed }) => [
-              styles.action,
-              shadow.soft,
-              {
-                backgroundColor: '#FFFFFF',
-                borderColor: colors.sand,
-                borderRadius: radius.lg,
-                opacity: pressed ? 0.9 : 1,
-              },
-            ]}
-          >
-            <Icon name="trophy" size={26} color={colors.yellow} />
-            <Text style={[text.label, { color: colors.ink }]}>{t('home.rewards')}</Text>
-            <View style={styles.badge}>
-              <Text style={[text.caption, { color: colors.inkSoft }]}>{profile.stars}</Text>
-              <Icon name="star" size={13} color={colors.yellow} />
-            </View>
-          </Pressable>
-
-          <Pressable
-            onPress={() => navigation.navigate('ParentsGate')}
-            accessibilityRole="button"
-            accessibilityLabel={t('a11y.parentLock')}
-            style={({ pressed }) => [
-              styles.action,
-              {
-                backgroundColor: 'transparent',
-                borderColor: colors.sand,
-                borderRadius: radius.lg,
-                opacity: pressed ? 0.8 : 1,
-              },
-            ]}
-          >
-            <Icon name="lock" size={22} color={colors.inkFaint} />
-            <Text style={[text.label, { color: colors.inkFaint }]}>{t('home.parents')}</Text>
-          </Pressable>
-        </View>
       </ScrollView>
 
       <RewardOverlay
