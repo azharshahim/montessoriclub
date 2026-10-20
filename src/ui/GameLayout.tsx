@@ -96,6 +96,7 @@ export function GameLayout({
         centerTitle: false,
         right: <StarPill count={stars} />,
       }}
+      scene="meadow"
       contentStyle={{ gap: compact ? 6 : 10 }}
     >
       <View style={styles.progress}>

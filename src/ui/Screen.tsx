@@ -1,4 +1,3 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useI18n } from '../i18n';
 import { useTheme } from '../theme';
 import { RoundButton } from './Button';
+import { ScreenBackground, type Scene } from './ScreenBackground';
 
 interface HeaderConfig {
   title?: string;
@@ -21,6 +21,8 @@ interface ScreenProps {
   /** Contenu centré verticalement (utile pour les jeux). */
   centered?: boolean;
   backgroundColor?: string;
+  /** Décor du fond (ciel, prairie, coucher de soleil, calme). */
+  scene?: Scene;
   contentStyle?: StyleProp<ViewStyle>;
   /** Largeur maximale sur tablette / web pour garder une lecture confortable. */
   maxWidth?: number;
@@ -30,18 +32,13 @@ interface ScreenProps {
  * Conteneur d'écran commun : fond crème dégradé, safe-area, en-tête accessible,
  * largeur maîtrisée sur grand écran et mode portrait/paysage.
  */
-export function Screen({ children, header, centered, backgroundColor, contentStyle, maxWidth = 1080 }: ScreenProps) {
+export function Screen({ children, header, centered, backgroundColor, scene = 'sky', contentStyle, maxWidth = 1080 }: ScreenProps) {
   const { colors, text } = useTheme();
   const { t, align } = useI18n();
 
   return (
     <View style={[styles.root, { backgroundColor: backgroundColor ?? colors.cream }]}>
-      <LinearGradient
-        colors={[backgroundColor ?? colors.cream, colors.creamDeep]}
-        style={StyleSheet.absoluteFill}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-      />
+      <ScreenBackground scene={scene} />
       <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
         <View style={[styles.inner, { maxWidth }]}>
           {header ? (

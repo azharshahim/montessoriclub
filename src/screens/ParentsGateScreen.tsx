@@ -50,7 +50,7 @@ export function ParentsGateScreen({ navigation }: ScreenProps<'ParentsGate'>) {
   const locked = lockSeconds > 0;
 
   return (
-    <Screen header={{ title: t('parents.title'), onBack: () => navigation.goBack() }}>
+    <Screen scene="calm" header={{ title: t('parents.title'), onBack: () => navigation.goBack() }}>
       <View style={styles.center}>
         <View
           style={[

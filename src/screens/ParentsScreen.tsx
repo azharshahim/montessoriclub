@@ -60,13 +60,13 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
   }, [profile]);
 
   if (!profile || !stats) {
-    return <Screen header={{ title: t('parents.title'), onBack: () => navigation.goBack() }}><View /></Screen>;
+    return <Screen scene="calm" header={{ title: t('parents.title'), onBack: () => navigation.goBack() }}><View /></Screen>;
   }
 
   const games = gamesForAge(profile.ageBand);
 
   return (
-    <Screen header={{ title: t('parents.title'), onBack: () => navigation.goBack() }}>
+    <Screen scene="calm" header={{ title: t('parents.title'), onBack: () => navigation.goBack() }}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         {/* Sélecteur d'enfant suivi */}
         <Text style={[text.caption, { color: colors.inkFaint, marginBottom: 6 }]}>{t('parents.selectChild')}</Text>
