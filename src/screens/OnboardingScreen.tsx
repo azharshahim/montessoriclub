@@ -365,6 +365,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   chip: {
+    minHeight: 48,
+    justifyContent: 'center',
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderWidth: 1.5,

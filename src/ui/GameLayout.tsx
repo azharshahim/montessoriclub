@@ -110,8 +110,8 @@ export function GameLayout({
         <MascotGuide
           message={feedback ?? instruction}
           mood={mood}
-          size={compact ? 54 : 84}
-          hideBubble={false}
+          size={compact ? 46 : 84}
+          hideBubble={compact}
         />
       </View>
 
