@@ -224,7 +224,8 @@ const SHOTS = [
     height: 1000,
     profileId: 'p_demo_lina',
     settings: { themeMode: 'light', language: 'ar', colorBlind: true },
-    open: 'Les couleurs',
+    // Titre arabe de « Les couleurs » : les libellés suivent la langue choisie.
+    open: 'الألوان',
   },
   {
     file: '07-espace-parents.png',
