@@ -238,6 +238,58 @@ async function main() {
     press(mila);
     await sleep(700);
   }
+  // 2bis. Onglet Récompenses : accessible depuis l'accueil et cohérent.
+  const rewardsTab = tabByLabel('Récompenses');
+  if (!rewardsTab) fail('onglet Récompenses introuvable');
+  else {
+    press(rewardsTab);
+    await sleep(600);
+    if (!bodyText().includes('Mes récompenses')) fail('écran des récompenses non affiché');
+    if (!bodyText().includes('Étoiles')) fail('total d’étoiles absent des récompenses');
+    const backToActivities = tabByLabel('Activités');
+    if (!backToActivities) fail('retour aux activités absent des récompenses');
+    else {
+      press(backToActivities);
+      await sleep(500);
+    }
+  }
+
+  // 2ter. Modification d'un profil via le crayon : elle ne doit pas ouvrir
+  // l'accueil à la place (deux zones tactiles ne doivent pas s'imbriquer).
+  await openProfileTab();
+  const editButtons = all('[role="button"]').filter(
+    (element) => element.getAttribute('aria-label') === 'Modifier'
+  );
+  if (editButtons.length < 2) {
+    fail(`boutons « Modifier » insuffisants (${editButtons.length})`);
+  } else {
+    press(editButtons[1]);
+    await sleep(450);
+    if (!bodyText().includes('Modifier')) fail('formulaire de modification non ouvert');
+    type('Noé');
+    await sleep(120);
+    pressText('Enregistrer');
+    await sleep(700);
+    if (!bodyText().includes('Bonjour Noé')) {
+      fail('le profil modifié n’est pas devenu le profil actif');
+    }
+    const storedEdit = JSON.parse(window.localStorage.getItem('mc-profiles-v1') ?? 'null');
+    if (!storedEdit?.state?.profiles?.some((item) => item.name === 'Noé')) {
+      fail('nom du profil modifié non enregistré');
+    }
+  }
+
+  // Retour au profil 6-8 pour la manche d'addition.
+  await openProfileTab();
+  const milaCard = all('[role="button"]').find((element) =>
+    (element.getAttribute('aria-label') ?? '').includes('Mila')
+  );
+  if (!milaCard) fail('profil Mila introuvable après modification');
+  else {
+    press(milaCard);
+    await sleep(650);
+  }
+
   const additionCard = cards().find((card) => /additions?/i.test(card.getAttribute('aria-label') ?? ''));
   if (!additionCard) {
     fail('activité Additions introuvable pour le profil 6-8');
@@ -344,6 +396,49 @@ async function main() {
         pressText('Continuer');
         await sleep(600);
         if (!bodyText().includes('Espace parents')) fail('code parental refusé à tort');
+
+        // Limite de temps : le choix du parent est enregistré.
+        pressText('15 min');
+        await sleep(350);
+        const withLimit = JSON.parse(window.localStorage.getItem('mc-profiles-v1') ?? 'null');
+        const currentId = withLimit?.state?.selectedId;
+        const currentChild = withLimit?.state?.profiles?.find((item) => item.id === currentId);
+        if (currentChild?.dailyLimitMinutes !== 15) {
+          fail(`limite de temps non enregistrée (${currentChild?.dailyLimitMinutes})`);
+        }
+
+        // Changement de langue : toute l'interface doit suivre, puis revenir.
+        pressText('Réglages');
+        await sleep(350);
+        pressText('English');
+        await sleep(550);
+        if (!bodyText().includes('Settings') || !bodyText().includes('Language')) {
+          fail('passage en anglais inopérant');
+        }
+        pressText('Français');
+        await sleep(550);
+        if (!bodyText().includes('Réglages')) fail('retour au français inopérant');
+
+        // Réinitialisation : confirmation explicite puis effacement réel.
+        pressText('Mila');
+        await sleep(350);
+        pressText('Progression');
+        await sleep(350);
+        pressText('Réinitialiser la progression');
+        await sleep(350);
+        if (!bodyText().includes('Effacer toute la progression')) {
+          fail('confirmation de réinitialisation absente');
+        }
+        pressText('Supprimer');
+        await sleep(500);
+        if (!bodyText().includes('Progression réinitialisée')) {
+          fail('message de réinitialisation absent');
+        }
+        const afterReset = JSON.parse(window.localStorage.getItem('mc-profiles-v1') ?? 'null');
+        const milaAfter = afterReset?.state?.profiles?.find((item) => item.name === 'Mila');
+        if (milaAfter && Object.keys(milaAfter.progress ?? {}).length > 0) {
+          fail('progression non effacée après réinitialisation');
+        }
       }
     }
   }
@@ -377,5 +472,8 @@ if (errors.length) {
   for (const error of errors.slice(0, 30)) console.error(` - ${error}`);
   process.exit(1);
 }
-console.log('\n✅ Test de fumée Web : profils, 36 activités, addition, porte parentale — aucune erreur.');
+console.log(
+  '\n✅ Test de fumée Web : profils, 36 activités, addition, récompenses, édition de profil, ' +
+    'porte parentale, réglages, langue et réinitialisation — aucune erreur.'
+);
 process.exit(0);
