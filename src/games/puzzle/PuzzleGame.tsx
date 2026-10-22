@@ -43,6 +43,10 @@ const GRID_BY_LEVEL: Grid[] = [
 /** Empêche le défilement de la page pendant un glisser (react-native-web). */
 const NO_SCROLL_STYLE = { touchAction: 'none' } as unknown as ViewStyle;
 
+/** Couleurs bonbon : chaque pièce a son cadre, le plateau prend la teinte du puzzle. */
+const CANDY = ['#FF6B6B', '#FFA94D', '#FFD43B', '#69DB7C', '#4DABF7', '#9775FA', '#F783AC', '#38D9A9'];
+const BOARD_TINTS = ['#FFE3E3', '#FFF0D9', '#FFF9DB', '#E3F9E5', '#E0F2FF', '#EDE5FF', '#FFE0EE', '#D9FBF1'];
+
 const PUZZLE_OBJECTS: ObjectId[] = ['bear', 'butterfly', 'fish', 'icecream', 'apple', 'balloon', 'flower', 'cookie'];
 
 export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
@@ -54,6 +58,9 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
 
   const grid = GRID_BY_LEVEL[Math.min(Math.max(level, 1), 5) - 1];
   const [objectId, setObjectId] = useState<ObjectId>(() => sample(PUZZLE_OBJECTS, 1)[0]);
+  const themeIndex = Math.max(0, PUZZLE_OBJECTS.indexOf(objectId)) % CANDY.length;
+  const themeColor = CANDY[themeIndex];
+  const themeTint = BOARD_TINTS[themeIndex];
   const [placed, setPlaced] = useState<Record<number, boolean>>({});
   const [tray, setTray] = useState<Piece[]>(() => makeTray(grid));
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -217,7 +224,9 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
                 width: boardSize,
                 height: boardSize,
                 borderRadius: radius.lg,
-                borderColor: colors.sand,
+                borderColor: themeColor,
+                borderWidth: 5,
+                backgroundColor: themeTint,
               },
             ]}
           >
@@ -239,11 +248,14 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
                     width: pieceW,
                     height: pieceH,
                     overflow: 'hidden',
+                    backgroundColor: (col + row) % 2 === 0 ? `${themeColor}26` : `${themeColor}12`,
+                    borderWidth: !isPlaced ? 1 : 0,
+                    borderColor: `${themeColor}55`,
                   }}
                 >
                   {/* Fantôme du puzzle : aide visuelle Montessori */}
                   {!isPlaced ? (
-                    <View style={{ opacity: 0.16 }}>
+                    <View style={{ opacity: 0.28 }}>
                       <PuzzlePieceArt objectId={objectId} index={index} grid={grid} pieceW={pieceW} pieceH={pieceH} boardSize={boardSize} />
                     </View>
                   ) : (
@@ -260,7 +272,7 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
           </View>
 
           {/* Réserve de pièces */}
-          <View style={[styles.tray, { maxWidth: trayMaxWidth, gap: trayGap }]}>
+          <View style={[styles.tray, { maxWidth: trayMaxWidth, gap: trayGap, backgroundColor: `${themeColor}1F`, borderRadius: radius.lg, padding: 6 }]}>
             {tray.map((piece) => (
               <DraggablePuzzlePiece
                 key={piece.id}
@@ -273,6 +285,7 @@ export function PuzzleGame({ level, onFinish, onMistake, onQuit }: GameProps) {
                 onDrop={dropPiece}
                 borderRadius={radius.sm}
                 shadowStyle={shadow.soft}
+                frameColor={CANDY[(piece.index + themeIndex) % CANDY.length]}
               />
             ))}
           </View>
@@ -329,6 +342,7 @@ function DraggablePuzzlePiece({
   onDrop,
   borderRadius,
   shadowStyle,
+  frameColor,
 }: {
   piece: Piece;
   objectId: ObjectId;
@@ -339,6 +353,7 @@ function DraggablePuzzlePiece({
   onDrop: (piece: Piece, point: { x: number; y: number }) => boolean;
   borderRadius: number;
   shadowStyle: object;
+  frameColor: string;
 }) {
   const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const viewRef = useRef<React.ComponentRef<typeof View> | null>(null);
@@ -387,8 +402,8 @@ function DraggablePuzzlePiece({
           height: pieceH,
           borderRadius,
           backgroundColor: '#FFFFFF',
-          borderWidth: 2,
-          borderColor: '#F3E3D2',
+          borderWidth: 3,
+          borderColor: frameColor,
           overflow: 'hidden',
           transform: [{ translateX: pan.x }, { translateY: pan.y }],
           zIndex: 10,

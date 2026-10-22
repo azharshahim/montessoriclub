@@ -35,6 +35,9 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
+      - name: Brancher les images réalistes (assets/photos/objects)
+        run: npm run photos
+
       - name: Vérification TypeScript
         run: npx tsc --noEmit
 

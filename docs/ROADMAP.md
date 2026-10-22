@@ -39,7 +39,14 @@ paysage 1180×820), en FR, EN et AR, sans erreur JavaScript.
 
 ---
 
-## v1.2 — Lecture et mathématiques 6-8 ans *(5 semaines)*
+## v1.2 — Éveil 0-2 ans, lecture et mathématiques 6-8 ans ✅ (livrée)
+
+**0-2 ans** : animaux (cri énoncé), couleurs, formes à emboîter, xylophone pentatonique.
+**Graphismes** : système d'images réalistes avec repli SVG (`npm run photos`) ; les images restent à générer (`docs/ASSETS.md`, section 7).
+**Décors** : fonds illustrés (ciel, prairie, coucher de soleil) via `src/ui/ScreenBackground.tsx`.
+**Limites connues** : en arabe, « Les syllabes » devient « la première lettre » (couper un mot arabe déforme l'écriture) ; la monnaie est en euros uniquement ; les activités 6-8 ans sont à choix multiple (pas encore de manipulation au doigt).
+
+*Prévu à l'origine :*
 
 | Activité | Contenu |
 |---|---|
@@ -58,6 +65,13 @@ clavier numérique enfant, gestion des réponses écrites.
 ---
 
 ## v1.3 — Sciences, géographie et code 6-12 ans *(6 semaines)*
+
+> **Déjà livré dans la v1.2 (premier jet, choix multiples)** : fractions, géométrie (côtés, noms, périmètre, aire),
+> système solaire, le monde (continents et capitales, texte seulement), grammaire (nature des mots),
+> conjugaison (présent). Carte du monde interactive livrée (contours simplifiés).
+> angles et solides, temps du passé et du futur, équivalences de fractions.
+> Limite : la conjugaison et la grammaire en arabe sont plus courtes qu'en français (5 verbes, 6 phrases).
+
 
 | Activité | Âge | Contenu |
 |---|---|---|

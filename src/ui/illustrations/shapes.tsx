@@ -93,8 +93,9 @@ export function ShapeSVG({
         strokeLinecap="round"
       />
       {glossy && !dashed ? (
-        <G opacity={0.28}>
-          <Ellipse cx="36" cy="32" rx="14" ry="9" fill="#FFFFFF" transform="rotate(-28 36 32)" />
+        <G>
+          <Ellipse cx="36" cy="32" rx="15" ry="9" fill="#FFFFFF" opacity={0.42} transform="rotate(-28 36 32)" />
+          <Circle cx="58" cy="26" r="3" fill="#FFFFFF" opacity={0.5} />
         </G>
       ) : null}
     </Svg>

@@ -28,7 +28,7 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 |---|---|
 | Architecture complète + arborescence | ✅ |
 | Socle : navigation, thème, i18n FR/EN/AR + RTL, profils, persistance | ✅ |
-| Modules **0-2 ans** : éveil sensoriel (bulles) | ✅ |
+| Modules **0-2 ans** : bulles, animaux, couleurs, formes à emboîter, xylophone | ✅ |
 | Modules **3-5 ans** : couleurs, formes, chiffres 1-10, tracé des chiffres | ✅ |
 | Espace parents protégé (progression, temps d'écran, réglages) | ✅ |
 | Récompenses : étoiles, badges, autocollants | ✅ |
@@ -37,8 +37,11 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 | Mode daltonisme, animations réduites, grandes cibles tactiles | ✅ |
 | Sons de qualité (générés, hors ligne) + icônes vectorielles | ✅ |
 | Documentation assets, publication, feuille de route | ✅ |
-| Modules 6-8 ans et 9-12 ans | 🗺️ planifiés (voir `docs/ROADMAP.md`) |
-| Tranche 6-8 : paires et puzzles à partir du niveau 4, en attendant la lecture et les additions | ✅ |
+| Modules **6-8 ans** : additions, soustractions, multiplications, syllabes, lecture, horloge, monnaie | ✅ |
+| Modules **9-12 ans** : fractions, géométrie, système solaire, le monde, grammaire, conjugaison | ✅ |
+| Code par blocs (9-12), sciences du vivant (6-8), cartes interactives | 🗺️ planifiés (voir `docs/ROADMAP.md`) |
+| Images réalistes des objets | ✅ 15 sur 16 (il manque `orange.webp`, voir `docs/ASSETS.md`, section 7) ; repli SVG pour l'image manquante |
+| Tranche 6-8 : paires et puzzles à partir du niveau 4 | ✅ |
 
 La tranche 3-5 ans est **entièrement jouable de bout en bout** : depuis la création du profil
 jusqu'à la collection de récompenses, sans réseau.
