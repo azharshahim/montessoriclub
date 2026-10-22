@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useI18n } from '../i18n';
 import { useTheme } from '../theme';
 import { RoundButton } from './Button';
+import { OfflineBanner } from './OfflineBanner';
 import { ScreenBackground, type Scene } from './ScreenBackground';
 import { TabBar, type TabId } from './TabBar';
 
@@ -44,6 +45,7 @@ export function Screen({ children, header, centered, backgroundColor, scene = 's
       <ScreenBackground scene={scene} />
       <SafeAreaView style={styles.safe} edges={tab ? ['top', 'left', 'right'] : ['top', 'left', 'right']}>
         <View style={[styles.inner, { maxWidth }]}>
+          <OfflineBanner />
           {header ? (
             <View style={styles.header}>
               <View style={styles.headerSide}>

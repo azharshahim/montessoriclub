@@ -8,6 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import { initAudio } from './src/audio/engine';
 import { I18nProvider, useI18n } from './src/i18n';
 import { RootNavigator } from './src/navigation/RootNavigator';
+import { registerServiceWorker } from './src/pwa';
 import { useProfiles } from './src/store/profiles';
 import { palette } from './src/theme/palette';
 
@@ -75,6 +76,7 @@ function AppContent() {
 
   useEffect(() => {
     void initAudio();
+    void registerServiceWorker();
   }, []);
 
   useSessionClock();

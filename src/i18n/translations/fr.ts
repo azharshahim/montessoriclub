@@ -378,6 +378,14 @@ export const fr = {
   'parents.noChild': 'Aucun profil enfant pour le moment. Crée un profil pour commencer.',
 
   // Langues
+  'pwa.offline': 'Hors ligne — tes activités restent disponibles.',
+
+  'parents.theme': 'Apparence',
+  'parents.themeHint': '« Automatique » suit le réglage clair/sombre de l’appareil.',
+  'theme.system': 'Automatique',
+  'theme.light': 'Clair',
+  'theme.dark': 'Sombre',
+
   'language.fr': 'Français',
   'language.en': 'English',
   'language.ar': 'العربية',

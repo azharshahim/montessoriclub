@@ -1,6 +1,6 @@
 {
   "name": "montessoriclub",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": true,
   "main": "index.js",
   "description": "Montessori Club — application éducative Montessori 0-12 ans (Expo / React Native / Web)",

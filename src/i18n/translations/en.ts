@@ -362,6 +362,14 @@ export const en: Record<keyof typeof fr, string> = {
   'game.unavailable': 'This activity is not available. Let’s go back to the activities!',
   'parents.noChild': 'No child profile yet. Create one to get started.',
 
+  'pwa.offline': 'Offline — your activities are still available.',
+
+  'parents.theme': 'Appearance',
+  'parents.themeHint': '“Automatic” follows the device light/dark setting.',
+  'theme.system': 'Automatic',
+  'theme.light': 'Light',
+  'theme.dark': 'Dark',
+
   'language.fr': 'Français',
   'language.en': 'English',
   'language.ar': 'العربية',

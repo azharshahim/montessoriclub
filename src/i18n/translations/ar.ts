@@ -361,6 +361,14 @@ export const ar: Record<keyof typeof fr, string> = {
   'game.unavailable': 'هذا النشاط غير متاح. لنعد إلى الأنشطة!',
   'parents.noChild': 'لا يوجد ملف طفل بعد. أنشئ ملفاً للبدء.',
 
+  'pwa.offline': 'دون اتصال — أنشطتك ما زالت متاحة.',
+
+  'parents.theme': 'المظهر',
+  'parents.themeHint': '«تلقائي» يتبع إعداد الفاتح/الداكن في الجهاز.',
+  'theme.system': 'تلقائي',
+  'theme.light': 'فاتح',
+  'theme.dark': 'داكن',
+
   'language.fr': 'Français',
   'language.en': 'English',
   'language.ar': 'العربية',
