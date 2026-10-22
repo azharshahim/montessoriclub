@@ -292,7 +292,11 @@ async function capture(browser, shot) {
     for (const [key, value] of Object.entries(values)) localStorage.setItem(key, value);
   }, seeds({ profileId: shot.profileId, settings: shot.settings }));
   await page.reload({ waitUntil: 'networkidle2' });
-  await page.waitForFunction(() => document.body.innerText.includes('Bonjour'), { timeout: 30_000 });
+  // Signal indépendant de la langue : l'accueil affiche la barre d'onglets.
+  await page.waitForFunction(
+    () => document.querySelectorAll('[role="tab"]').length >= 3 && document.getElementById('boot-splash') === null,
+    { timeout: 30_000 }
+  );
   await sleep(1200);
 
   if (shot.tab) await clickLabel(page, shot.tab);
