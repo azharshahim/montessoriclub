@@ -8,6 +8,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useTheme } from '../theme';
 import { Icon } from './Icon';
 
 const STAR_COLORS = ['#F7C948', '#EE6C5B', '#4FBF8B', '#4E8FE0', '#9C7BE0', '#EE8FB1'];
@@ -66,7 +67,8 @@ function Particle({ config, fireKey }: { config: ParticleConfig; fireKey: number
 
 /** Gerbe de particules déclenchée à chaque incrément de `fireKey`. */
 export function StarBurst({ fireKey, count = PARTICLE_COUNT }: { fireKey: number; count?: number }) {
-  if (fireKey === 0) return null;
+  const { reducedMotion } = useTheme();
+  if (fireKey === 0 || reducedMotion) return null;
   return (
     <View pointerEvents="none" style={StyleSheet.absoluteFill}>
       <View style={styles.center}>

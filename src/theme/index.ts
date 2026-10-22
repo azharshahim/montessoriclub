@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
+import { useColorScheme } from 'react-native';
 
-import { palette, type ObjectColor, objectColors } from './palette';
+import { darkPalette, palette, type ObjectColor, objectColors } from './palette';
 import { fontFamily, text, touchTarget } from './typography';
 import { useSettings } from '../store/settings';
 import type { AgeBand } from '../store/profiles';
@@ -42,8 +43,13 @@ export const shadow = {
 
 export type ColorSet = { base: string; light: string; deep: string; label: string };
 
+export type ColorMode = 'light' | 'dark';
+
 export interface AppTheme {
   colors: typeof palette;
+  /** Mode réellement appliqué (après résolution de « suivre le système »). */
+  mode: ColorMode;
+  isDark: boolean;
   objectColors: Record<ObjectColor, ColorSet>;
   text: typeof text;
   spacing: typeof spacing;
@@ -65,15 +71,20 @@ export interface AppTheme {
 export function useTheme(ageBand?: AgeBand | null): AppTheme {
   const colorBlind = useSettings((s) => s.colorBlind);
   const reducedMotion = useSettings((s) => s.reducedMotion);
+  const themeMode = useSettings((s) => s.themeMode);
+  const systemScheme = useColorScheme();
+  const mode: ColorMode =
+    themeMode === 'system' ? (systemScheme === 'dark' ? 'dark' : 'light') : themeMode;
 
   return useMemo<AppTheme>(() => {
     const boost = colorBlind;
+    const base = mode === 'dark' ? darkPalette : palette;
 
     const colors = {
-      ...palette,
+      ...base,
       // En mode daltonisme, on renforce le contraste du texte secondaire.
-      inkSoft: boost ? '#4F4741' : palette.inkSoft,
-      inkFaint: boost ? '#6E645C' : palette.inkFaint,
+      inkSoft: boost ? (mode === 'dark' ? '#E4DACC' : '#4F4741') : base.inkSoft,
+      inkFaint: boost ? (mode === 'dark' ? '#C2B4A6' : '#6E645C') : base.inkFaint,
     } as typeof palette;
 
     const adjustedObjects: Record<ObjectColor, ColorSet> = { ...objectColors };
@@ -86,6 +97,8 @@ export function useTheme(ageBand?: AgeBand | null): AppTheme {
 
     return {
       colors,
+      mode,
+      isDark: mode === 'dark',
       objectColors: adjustedObjects,
       text,
       spacing,
@@ -97,5 +110,5 @@ export function useTheme(ageBand?: AgeBand | null): AppTheme {
       touchMin: touchTarget(ageBand ?? '3-5'),
       colorOf: (key: ObjectColor) => adjustedObjects[key],
     };
-  }, [ageBand, colorBlind, reducedMotion]);
+  }, [ageBand, colorBlind, mode, reducedMotion]);
 }

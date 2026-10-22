@@ -11,7 +11,7 @@
  * Metro exige des chemins `require` statiques : c'est pourquoi le registre
  * est généré plutôt que calculé à l'exécution.
  */
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, parse } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -22,9 +22,22 @@ const EXTENSIONS = new Set(['.webp', '.png', '.jpg', '.jpeg']);
 
 if (!existsSync(photosDir)) mkdirSync(photosDir, { recursive: true });
 
-const files = readdirSync(photosDir)
+// Identifiants d'objets valides, lus dans src/ui/illustrations/objects.tsx (type ObjectId).
+const objectsSource = readFileSync(join(root, 'src', 'ui', 'illustrations', 'objects.tsx'), 'utf8');
+const unionMatch = objectsSource.match(/export type ObjectId =([^;]+);/);
+const validIds = new Set(unionMatch ? [...unionMatch[1].matchAll(/'([a-z]+)'/g)].map((m) => m[1]) : []);
+
+const candidates = readdirSync(photosDir)
   .filter((name) => EXTENSIONS.has(parse(name).ext.toLowerCase()))
   .sort();
+
+// Un fichier dont le nom n'est pas un objet connu est ignoré (et signalé) :
+// il ne doit jamais faire échouer la compilation ni le déploiement.
+const files = candidates.filter((name) => {
+  const ok = validIds.has(parse(name).name);
+  if (!ok) console.warn(`  ignoré : ${name} (nom inconnu, attendu : ${[...validIds].join(', ')})`);
+  return ok;
+});
 
 const lines = files.map((name) => {
   const { name: id } = parse(name);

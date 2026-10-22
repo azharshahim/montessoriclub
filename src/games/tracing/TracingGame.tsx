@@ -10,7 +10,7 @@ import { useI18n, type TranslationKey } from '../../i18n';
 import type { GameProps } from '../types';
 import { useGameSession } from '../useGameSession';
 import { useTheme } from '../../theme';
-import { GameLayout } from '../../ui/GameLayout';
+import { GameLayout, useBoardArea } from '../../ui/GameLayout';
 import { ProgressBar } from '../../ui/ProgressBar';
 import { RewardOverlay } from '../../ui/RewardOverlay';
 
@@ -68,6 +68,7 @@ export function TracingGame({ level, onFinish, onQuit }: GameProps) {
   const { t, language } = useI18n();
   const { colors, radius, shadow, text, reducedMotion } = useTheme();
   const { width, height } = useWindowDimensions();
+  const area = useBoardArea();
   const session = useGameSession({ rounds: SESSION_ROUNDS, onFinish });
 
   const sequence = useMemo(() => shuffle(DIGITS_BY_LEVEL[Math.min(Math.max(level, 1), 5)]), [level]);
@@ -105,7 +106,12 @@ export function TracingGame({ level, onFinish, onQuit }: GameProps) {
   const containerRef = useRef<React.ComponentRef<typeof View> | null>(null);
   const pulse = useRef(new Animated.Value(1)).current;
 
-  const side = Math.min(width - 72, height * 0.52, 330);
+  // Le plateau se dimensionne sur la place réellement disponible sous l'en-tête :
+  // en paysage, la hauteur de la fenêtre ne dit rien de la place restante.
+  const side = Math.max(
+    150,
+    Math.min((area?.width ?? width) - 24, (area?.height ?? height * 0.6) - 56, 330)
+  );
 
   const resetRound = useCallback(() => {
     passedRef.current = 0;
@@ -252,7 +258,7 @@ export function TracingGame({ level, onFinish, onQuit }: GameProps) {
               {
                 width: side,
                 height: side,
-                backgroundColor: '#FFFFFF',
+                backgroundColor: colors.surface,
                 borderRadius: radius.xl,
                 borderColor: colors.sand,
               },

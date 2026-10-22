@@ -3,12 +3,12 @@
     "name": "Montessori Club",
     "slug": "montessoriclub",
     "scheme": "montessoriclub",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "orientation": "default",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -43,13 +43,16 @@
     },
     "plugins": [
       "expo-localization",
-      "expo-audio",
       [
         "expo-splash-screen",
         {
           "backgroundColor": "#FFF9F0",
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 180
+          "imageWidth": 180,
+          "dark": {
+            "backgroundColor": "#171513",
+            "image": "./assets/images/splash-icon.png"
+          }
         }
       ]
     ]

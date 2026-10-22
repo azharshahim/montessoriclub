@@ -1,4 +1,3 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,6 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useI18n } from '../i18n';
 import { useTheme } from '../theme';
 import { RoundButton } from './Button';
+import { OfflineBanner } from './OfflineBanner';
+import { ScreenBackground, type Scene } from './ScreenBackground';
+import { TabBar, type TabId } from './TabBar';
 
 interface HeaderConfig {
   title?: string;
@@ -21,6 +23,10 @@ interface ScreenProps {
   /** Contenu centré verticalement (utile pour les jeux). */
   centered?: boolean;
   backgroundColor?: string;
+  /** Décor du fond (ciel, prairie, coucher de soleil, calme). */
+  scene?: Scene;
+  /** Affiche la barre d'onglets du bas, avec cet onglet actif. */
+  tab?: TabId;
   contentStyle?: StyleProp<ViewStyle>;
   /** Largeur maximale sur tablette / web pour garder une lecture confortable. */
   maxWidth?: number;
@@ -30,20 +36,16 @@ interface ScreenProps {
  * Conteneur d'écran commun : fond crème dégradé, safe-area, en-tête accessible,
  * largeur maîtrisée sur grand écran et mode portrait/paysage.
  */
-export function Screen({ children, header, centered, backgroundColor, contentStyle, maxWidth = 1080 }: ScreenProps) {
+export function Screen({ children, header, centered, backgroundColor, scene = 'sky', tab, contentStyle, maxWidth = 1080 }: ScreenProps) {
   const { colors, text } = useTheme();
   const { t, align } = useI18n();
 
   return (
     <View style={[styles.root, { backgroundColor: backgroundColor ?? colors.cream }]}>
-      <LinearGradient
-        colors={[backgroundColor ?? colors.cream, colors.creamDeep]}
-        style={StyleSheet.absoluteFill}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-      />
-      <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
+      <ScreenBackground scene={scene} />
+      <SafeAreaView style={styles.safe} edges={tab ? ['top', 'left', 'right'] : ['top', 'left', 'right', 'bottom']}>
         <View style={[styles.inner, { maxWidth }]}>
+          <OfflineBanner />
           {header ? (
             <View style={styles.header}>
               <View style={styles.headerSide}>
@@ -57,7 +59,7 @@ export function Screen({ children, header, centered, backgroundColor, contentSty
                     text.h2,
                     { color: colors.ink, flex: 1, textAlign: header.centerTitle ? 'center' : align },
                   ]}
-                  numberOfLines={1}
+                  numberOfLines={2}
                 >
                   {header.title}
                 </Text>
@@ -69,6 +71,7 @@ export function Screen({ children, header, centered, backgroundColor, contentSty
           ) : null}
           <View style={[styles.content, centered && styles.centered, contentStyle]}>{children}</View>
         </View>
+        {tab ? <TabBar active={tab} /> : null}
       </SafeAreaView>
     </View>
   );

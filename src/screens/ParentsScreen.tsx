@@ -6,10 +6,11 @@ import { gamesForAge } from '../games';
 import { LANGUAGES, useI18n, type Language, type TranslationKey } from '../i18n';
 import type { ScreenProps } from '../navigation/types';
 import { dayKey, earnedBadges, useProfiles, type Profile } from '../store/profiles';
-import { useSettings } from '../store/settings';
+import { useSettings, type ThemeMode } from '../store/settings';
 import { useTheme } from '../theme';
 import { Button } from '../ui/Button';
 import { Icon, type IconName } from '../ui/Icon';
+import { ParentalCodeCard } from '../ui/ParentalCodeCard';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Screen } from '../ui/Screen';
 
@@ -60,13 +61,21 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
   }, [profile]);
 
   if (!profile || !stats) {
-    return <Screen header={{ title: t('parents.title'), onBack: () => navigation.goBack() }}><View /></Screen>;
+    return (
+      <Screen scene="calm" tab="parents" header={{ title: t('parents.title') }}>
+        <View style={styles.emptyState}>
+          <Icon name="user" size={40} color={colors.inkFaint} />
+          <Text style={[text.body, { color: colors.inkSoft, textAlign: 'center' }]}>{t('parents.noChild')}</Text>
+          <Button label={t('onboarding.addChild')} icon="plus" onPress={() => navigation.navigate('Onboarding')} size="lg" />
+        </View>
+      </Screen>
+    );
   }
 
   const games = gamesForAge(profile.ageBand);
 
   return (
-    <Screen header={{ title: t('parents.title'), onBack: () => navigation.goBack() }}>
+    <Screen scene="calm" tab="parents" header={{ title: t('parents.title') }}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         {/* Sélecteur d'enfant suivi */}
         <Text style={[text.caption, { color: colors.inkFaint, marginBottom: 6 }]}>{t('parents.selectChild')}</Text>
@@ -82,7 +91,7 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
                 style={[
                   styles.childChip,
                   {
-                    backgroundColor: active ? colors.coral : '#FFFFFF',
+                    backgroundColor: active ? colors.coral : colors.surface,
                     borderColor: active ? colors.coral : colors.sand,
                     borderRadius: radius.pill,
                   },
@@ -93,6 +102,13 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
             );
           })}
         </View>
+        <Button
+          label={t('parents.manageProfiles')}
+          icon="user"
+          variant="ghost"
+          size="sm"
+          onPress={() => navigation.navigate('Onboarding')}
+        />
 
         {/* Onglets */}
         <View style={[styles.tabs, { backgroundColor: colors.sand, borderRadius: radius.pill }]}>
@@ -106,7 +122,7 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
                 accessibilityState={{ selected: active }}
                 style={[
                   styles.tab,
-                  { backgroundColor: active ? '#FFFFFF' : 'transparent', borderRadius: radius.pill },
+                  { backgroundColor: active ? colors.surface : 'transparent', borderRadius: radius.pill },
                 ]}
               >
                 <Icon name={item === 'progress' ? 'chart' : 'sliders'} size={16} color={active ? colors.ink : colors.inkSoft} />
@@ -126,7 +142,7 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
               <Stat icon="chart" label={t('parents.successRate')} value={`${stats.rate}%`} color={colors.blue} />
             </View>
 
-            <View style={[styles.card, shadow.soft, { backgroundColor: '#FFFFFF', borderRadius: radius.lg, borderColor: colors.sand }]}>
+            <View style={[styles.card, shadow.soft, { backgroundColor: colors.surface, borderRadius: radius.lg, borderColor: colors.sand }]}>
               <View style={styles.cardTitle}>
                 <Icon name="clock" size={18} color={colors.teal} />
                 <Text style={[text.h3, { color: colors.ink }]}>{t('parents.dashboard')}</Text>
@@ -142,7 +158,7 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
               return (
                 <View
                   key={game.id}
-                  style={[styles.card, shadow.soft, { backgroundColor: '#FFFFFF', borderRadius: radius.lg, borderColor: colors.sand }]}
+                  style={[styles.card, shadow.soft, { backgroundColor: colors.surface, borderRadius: radius.lg, borderColor: colors.sand }]}
                 >
                   <View style={styles.gameRow}>
                     <View style={[styles.gameEmoji, { backgroundColor: `${game.accent}22` }]}>
@@ -174,7 +190,7 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
                     style={[
                       styles.chip,
                       {
-                        backgroundColor: active ? colors.teal : '#FFFFFF',
+                        backgroundColor: active ? colors.teal : colors.surface,
                         borderColor: active ? colors.teal : colors.sand,
                         borderRadius: radius.pill,
                       },
@@ -216,7 +232,7 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
                     style={[
                       styles.chip,
                       {
-                        backgroundColor: active ? colors.indigo : '#FFFFFF',
+                        backgroundColor: active ? colors.indigo : colors.surface,
                         borderColor: active ? colors.indigo : colors.sand,
                         borderRadius: radius.pill,
                       },
@@ -230,7 +246,43 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
               })}
             </View>
 
-            <View style={[styles.card, shadow.soft, { backgroundColor: '#FFFFFF', borderRadius: radius.lg, borderColor: colors.sand, marginTop: spacing.md }]}>
+            <Text style={[text.h3, { color: colors.ink, marginTop: spacing.lg }]}>{t('parents.theme')}</Text>
+            <View style={styles.chips}>
+              {(['system', 'light', 'dark'] as ThemeMode[]).map((item) => {
+                const active = settings.themeMode === item;
+                return (
+                  <Pressable
+                    key={item}
+                    onPress={() => settings.setThemeMode(item)}
+                    accessibilityRole="radio"
+                    accessibilityState={{ selected: active }}
+                    style={[
+                      styles.chip,
+                      {
+                        backgroundColor: active ? colors.teal : colors.surface,
+                        borderColor: active ? colors.teal : colors.sand,
+                        borderRadius: radius.pill,
+                      },
+                    ]}
+                  >
+                    <Text style={[text.label, { color: active ? '#FFFFFF' : colors.inkSoft }]}>
+                      {t(`theme.${item}` as TranslationKey)}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+            <Text style={[text.caption, { color: colors.inkFaint, marginTop: 6 }]}>{t('parents.themeHint')}</Text>
+
+            <View style={[styles.card, shadow.soft, { backgroundColor: colors.surface, borderRadius: radius.lg, borderColor: colors.sand, marginTop: spacing.md }]}>
+              <View style={styles.cardTitle}>
+                <Icon name="shield" size={20} color={colors.green} />
+                <Text style={[text.h3, { color: colors.ink }]}>{t('parents.security')}</Text>
+              </View>
+              <ParentalCodeCard />
+            </View>
+
+            <View style={[styles.card, shadow.soft, { backgroundColor: colors.surface, borderRadius: radius.lg, borderColor: colors.sand, marginTop: spacing.md }]}>
               <ToggleRow
                 icon="sound"
                 label={t('parents.sound')}
@@ -306,7 +358,7 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
 function Stat({ icon, label, value, color }: { icon: IconName; label: string; value: string; color: string }) {
   const { colors, radius, shadow, text } = useTheme();
   return (
-    <View style={[styles.stat, shadow.soft, { backgroundColor: '#FFFFFF', borderRadius: radius.lg, borderColor: colors.sand }]}>
+    <View style={[styles.stat, shadow.soft, { backgroundColor: colors.surface, borderRadius: radius.lg, borderColor: colors.sand }]}>
       <Icon name={icon} size={20} color={color} />
       <Text style={[text.h2, { color: colors.ink }]}>{value}</Text>
       <Text style={[text.caption, { color: colors.inkFaint, textAlign: 'center' }]}>{label}</Text>
@@ -352,6 +404,8 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   childChip: {
+    minHeight: 48,
+    justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 9,
     borderWidth: 1.5,
@@ -410,6 +464,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   chip: {
+    minHeight: 48,
+    justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderWidth: 1.5,
@@ -448,5 +504,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     gap: 10,
+  },
+  emptyState: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+    padding: 24,
   },
 });

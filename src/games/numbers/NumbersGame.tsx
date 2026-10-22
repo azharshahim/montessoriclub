@@ -9,7 +9,7 @@ import { useI18n, type TranslationKey } from '../../i18n';
 import type { GameProps } from '../types';
 import { useGameSession } from '../useGameSession';
 import { useTheme } from '../../theme';
-import { GameLayout } from '../../ui/GameLayout';
+import { GameLayout, useBoardArea } from '../../ui/GameLayout';
 import { RewardOverlay } from '../../ui/RewardOverlay';
 import { ObjectIllustration, type ObjectId } from '../../ui/illustrations/objects';
 
@@ -31,6 +31,7 @@ export function NumbersGame({ level, onFinish, onMistake, onQuit }: GameProps) {
   const { t, language } = useI18n();
   const { colors, radius, shadow, text } = useTheme();
   const { width, height } = useWindowDimensions();
+  const area = useBoardArea();
   const session = useGameSession({ rounds: 5, onFinish });
 
   const maxNumber = MAX_BY_LEVEL[Math.min(Math.max(level, 1), 5) - 1];
@@ -99,8 +100,12 @@ export function NumbersGame({ level, onFinish, onMistake, onQuit }: GameProps) {
 
   // Tailles adaptatives : 10 objets doivent tenir sur un téléphone.
   const columns = round.quantity <= 3 ? 3 : round.quantity <= 6 ? 3 : 5;
-  const availableWidth = Math.min(width, 900) - 64;
-  const itemSize = Math.max(38, Math.min(86, Math.floor(availableWidth / columns) - 14, height * 0.12));
+  const availableWidth = Math.min(area?.width ?? width, 900) - 40;
+  const availableHeight = area?.height ?? height * 0.6;
+  const itemSize = Math.max(
+    34,
+    Math.min(86, Math.floor(availableWidth / columns) - 14, Math.floor(availableHeight * 0.2))
+  );
 
   const translateX = anim.interpolate({ inputRange: [-1, 1], outputRange: [-12, 12] });
 
@@ -121,7 +126,7 @@ export function NumbersGame({ level, onFinish, onMistake, onQuit }: GameProps) {
           <Animated.View
             style={[
               styles.objects,
-              { transform: [{ translateX }], maxWidth: Math.min(width, 860), gap: Math.max(4, itemSize * 0.12) },
+              { transform: [{ translateX }], maxWidth: Math.min(area?.width ?? width, 860), gap: Math.max(4, itemSize * 0.12) },
             ]}
             accessibilityLabel={`${question}`}
           >
@@ -135,7 +140,7 @@ export function NumbersGame({ level, onFinish, onMistake, onQuit }: GameProps) {
             ))}
           </Animated.View>
 
-          <View style={[styles.options, { maxWidth: Math.min(width, 720) }]}>
+          <View style={[styles.options, { maxWidth: Math.min(area?.width ?? width, 720) }]}>
             {round.options.map((option) => {
               const isWrong = wrongOptions.includes(option);
               return (
@@ -150,7 +155,7 @@ export function NumbersGame({ level, onFinish, onMistake, onQuit }: GameProps) {
                     styles.option,
                     shadow.soft,
                     {
-                      backgroundColor: isWrong ? colors.sand : '#FFFFFF',
+                      backgroundColor: isWrong ? colors.sand : colors.surface,
                       borderColor: isWrong ? colors.sand : colors.sand,
                       borderRadius: radius.lg,
                       opacity: isWrong ? 0.45 : 1,

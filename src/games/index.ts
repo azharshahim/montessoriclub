@@ -13,6 +13,26 @@ import { ShapeFitGame } from './shapefit/ShapeFitGame';
 import { ShapesGame } from './shapes/ShapesGame';
 import { SortingGame } from './sorting/SortingGame';
 import { TracingGame } from './tracing/TracingGame';
+import { AdditionGame } from './addition/AdditionGame';
+import { SubtractionGame } from './subtraction/SubtractionGame';
+import { TimesGame } from './times/TimesGame';
+import { SyllablesGame } from './reading/SyllablesGame';
+import { ReadingGame } from './reading/ReadingGame';
+import { ClockGame } from './clock/ClockGame';
+import { MoneyGame } from './money/MoneyGame';
+import { FractionsGame } from './fractions/FractionsGame';
+import { GeometryGame } from './geometry/GeometryGame';
+import { SolarGame } from './solar/SolarGame';
+import { WorldGame } from './world/WorldGame';
+import { GrammarGame } from './grammar/GrammarGame';
+import { ConjugationGame } from './conjugation/ConjugationGame';
+import { CodeGame } from './code/CodeGame';
+import { LivingGame } from './living/LivingGame';
+import { EquivalentsGame } from './equivalents/EquivalentsGame';
+import { AnglesGame } from './angles/AnglesGame';
+import { TensesGame } from './tenses/TensesGame';
+import { SolidsGame } from './solids/SolidsGame';
+import { WorldMapGame } from './worldmap/WorldMapGame';
 
 /**
  * Catalogue des activités livrées.
@@ -179,6 +199,226 @@ export const GAME_MODULES: GameModule[] = [
     maxLevel: 1,
     rounds: 3,
     Component: DressingGame,
+  },
+  {
+    id: 'addition',
+    titleKey: 'activity.addition.title',
+    instructionKey: 'activity.addition.instruction',
+    emoji: '➕',
+    accent: '#E8554A',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: AdditionGame,
+  },
+  {
+    id: 'subtraction',
+    titleKey: 'activity.subtraction.title',
+    instructionKey: 'activity.subtraction.instruction',
+    emoji: '➖',
+    accent: '#4FBF8B',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: SubtractionGame,
+  },
+  {
+    id: 'times',
+    titleKey: 'activity.times.title',
+    instructionKey: 'activity.times.instruction',
+    emoji: '✖️',
+    accent: '#F59A4B',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: TimesGame,
+  },
+  {
+    id: 'syllables',
+    titleKey: 'activity.syllables.title',
+    instructionKey: 'activity.syllables.instruction',
+    emoji: '🔤',
+    accent: '#6C6FDB',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: SyllablesGame,
+  },
+  {
+    id: 'reading',
+    titleKey: 'activity.reading.title',
+    instructionKey: 'activity.reading.instruction',
+    emoji: '📖',
+    accent: '#3FB1B5',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: ReadingGame,
+  },
+  {
+    id: 'clock',
+    titleKey: 'activity.clock.title',
+    instructionKey: 'activity.clock.instruction',
+    emoji: '🕒',
+    accent: '#4E8FE0',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: ClockGame,
+  },
+  {
+    id: 'money',
+    titleKey: 'activity.money.title',
+    instructionKey: 'activity.money.instruction',
+    emoji: '💶',
+    accent: '#4FBF8B',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: MoneyGame,
+  },
+  {
+    id: 'fractions',
+    titleKey: 'activity.fractions.title',
+    instructionKey: 'activity.fractions.instruction',
+    emoji: '🍕',
+    accent: '#F59A4B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: FractionsGame,
+  },
+  {
+    id: 'geometry',
+    titleKey: 'activity.geometry.title',
+    instructionKey: 'activity.geometry.instruction',
+    emoji: '📐',
+    accent: '#4E8FE0',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: GeometryGame,
+  },
+  {
+    id: 'solar',
+    titleKey: 'activity.solar.title',
+    instructionKey: 'activity.solar.instruction',
+    emoji: '🪐',
+    accent: '#6C6FDB',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: SolarGame,
+  },
+  {
+    id: 'world',
+    titleKey: 'activity.world.title',
+    instructionKey: 'activity.world.instruction',
+    emoji: '🗺️',
+    accent: '#4FBF8B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: WorldGame,
+  },
+  {
+    id: 'grammar',
+    titleKey: 'activity.grammar.title',
+    instructionKey: 'activity.grammar.instruction',
+    emoji: '📝',
+    accent: '#EE6C5B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: GrammarGame,
+  },
+  {
+    id: 'conjugation',
+    titleKey: 'activity.conjugation.title',
+    instructionKey: 'activity.conjugation.instruction',
+    emoji: '✍️',
+    accent: '#9C7BE0',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: ConjugationGame,
+  },
+  {
+    id: 'code',
+    titleKey: 'activity.code.title',
+    instructionKey: 'activity.code.instruction',
+    emoji: '🤖',
+    accent: '#4E8FE0',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: CodeGame,
+  },
+  {
+    id: 'living',
+    titleKey: 'activity.living.title',
+    instructionKey: 'activity.living.instruction',
+    emoji: '🌿',
+    accent: '#4FBF8B',
+    ageBands: ['6-8'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: LivingGame,
+  },
+  {
+    id: 'equivalents',
+    titleKey: 'activity.equivalents.title',
+    instructionKey: 'activity.equivalents.instruction',
+    emoji: '🟰',
+    accent: '#F59A4B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: EquivalentsGame,
+  },
+  {
+    id: 'angles',
+    titleKey: 'activity.angles.title',
+    instructionKey: 'activity.angles.instruction',
+    emoji: '📏',
+    accent: '#EE6C5B',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: AnglesGame,
+  },
+  {
+    id: 'tenses',
+    titleKey: 'activity.tenses.title',
+    instructionKey: 'activity.tenses.instruction',
+    emoji: '⏳',
+    accent: '#9C7BE0',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: TensesGame,
+  },
+  {
+    id: 'solids',
+    titleKey: 'activity.solids.title',
+    instructionKey: 'activity.solids.instruction',
+    emoji: '🧊',
+    accent: '#3FB1B5',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: SolidsGame,
+  },
+  {
+    id: 'worldmap',
+    titleKey: 'activity.worldmap.title',
+    instructionKey: 'activity.worldmap.instruction',
+    emoji: '🌍',
+    accent: '#3FB1B5',
+    ageBands: ['9-12'],
+    maxLevel: 5,
+    rounds: 5,
+    Component: WorldMapGame,
   },
 ];
 

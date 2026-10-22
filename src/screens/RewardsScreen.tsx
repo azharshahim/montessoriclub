@@ -6,6 +6,7 @@ import { useI18n } from '../i18n';
 import type { ScreenProps } from '../navigation/types';
 import { BADGES, earnedBadges, totalSessions, useActiveProfile } from '../store/profiles';
 import { useTheme } from '../theme';
+import { Button } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 import { Mascot } from '../ui/Mascot';
 import { Screen } from '../ui/Screen';
@@ -39,11 +40,27 @@ const BADGE_KEYS: Record<string, string> = {
 
 export function RewardsScreen({ navigation }: ScreenProps<'Rewards'>) {
   const { t } = useI18n();
-  const { colors, radius, shadow, text, spacing } = useTheme();
+  const { colors, radius, shadow, text, spacing, isDark } = useTheme();
   const { width } = useWindowDimensions();
   const profile = useActiveProfile();
 
-  if (!profile) return null;
+  // Aucun profil : jamais d'écran vide, on propose d'en créer un.
+  if (!profile) {
+    return (
+      <Screen scene="sunset" tab="rewards" header={{ title: t('rewards.title') }} centered>
+        <View style={{ alignItems: 'center', gap: 14 }}>
+          <Icon name="star" size={40} color={colors.inkFaint} />
+          <Text style={[text.body, { color: colors.inkSoft, textAlign: 'center' }]}>{t('parents.noChild')}</Text>
+          <Button
+            label={t('onboarding.addChild')}
+            icon="plus"
+            size="lg"
+            onPress={() => navigation.navigate('Onboarding')}
+          />
+        </View>
+      </Screen>
+    );
+  }
 
   const earned = earnedBadges(profile.stars).map((badge) => badge.id);
   const sessions = totalSessions(profile);
@@ -51,13 +68,13 @@ export function RewardsScreen({ navigation }: ScreenProps<'Rewards'>) {
   const columns = width > 720 ? 6 : 4;
 
   return (
-    <Screen header={{ title: t('rewards.title'), onBack: () => navigation.goBack() }}>
+    <Screen scene="sunset" tab="rewards" header={{ title: t('rewards.title') }}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <LinearGradient
-          colors={['#FFF1D6', '#FFE3C2']}
+          colors={isDark ? ['#3A2B23', '#2A2220'] : ['#FFF1D6', '#FFE3C2']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={[styles.hero, { borderRadius: radius.xl, borderColor: '#F3D3A7' }]}
+          style={[styles.hero, { borderRadius: radius.xl, borderColor: colors.sand }]}
         >
           <Mascot size={92} mood="happy" />
           <View style={{ alignItems: 'center' }}>
@@ -83,7 +100,7 @@ export function RewardsScreen({ navigation }: ScreenProps<'Rewards'>) {
                   styles.badgeCard,
                   shadow.soft,
                   {
-                    backgroundColor: unlocked ? '#FFFFFF' : colors.creamDeep,
+                    backgroundColor: unlocked ? colors.surface : colors.creamDeep,
                     borderColor: colors.sand,
                     borderRadius: radius.lg,
                     opacity: unlocked ? 1 : 0.6,
@@ -117,7 +134,7 @@ export function RewardsScreen({ navigation }: ScreenProps<'Rewards'>) {
                     width: size,
                     height: size,
                     borderRadius: size / 2,
-                    backgroundColor: unlocked ? '#FFFFFF' : colors.creamDeep,
+                    backgroundColor: unlocked ? colors.surface : colors.creamDeep,
                     borderColor: unlocked ? colors.sand : 'transparent',
                     opacity: unlocked ? 1 : 0.45,
                   },

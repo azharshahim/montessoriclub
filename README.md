@@ -28,20 +28,36 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 |---|---|
 | Architecture complète + arborescence | ✅ |
 | Socle : navigation, thème, i18n FR/EN/AR + RTL, profils, persistance | ✅ |
-| Modules **0-2 ans** : éveil sensoriel (bulles) | ✅ |
-| Modules **3-5 ans** : couleurs, formes, chiffres 1-10, tracé des chiffres | ✅ |
-| Espace parents protégé (progression, temps d'écran, réglages) | ✅ |
+| **36 activités** réparties sur les 4 tranches d'âge | ✅ |
+| Modules **0-2 ans** (5) : bulles, animaux, couleurs, formes à emboîter, xylophone | ✅ |
+| Modules **3-5 ans** (9) : couleurs, formes, chiffres 1-10, tracé, trier, paires, puzzles, verser, fermetures | ✅ |
+| Modules **6-8 ans** (10) : paires et puzzles, additions, soustractions, multiplications, syllabes, lecture, horloge, monnaie, sciences du vivant | ✅ |
+| Modules **9-12 ans** (12) : fractions, géométrie, système solaire, monde, grammaire, conjugaison, code par blocs, équivalents, angles, temps, solides, carte du monde | ✅ |
+| Espace parents protégé (progression, temps d'écran, profils, réglages) | ✅ |
+| **Code parental à 4 chiffres**, verrouillage 30 s après 3 erreurs | ✅ |
 | Récompenses : étoiles, badges, autocollants | ✅ |
 | Mascotte guide 3D douce, voix off (synthèse), sous-titres | ✅ |
 | Difficulté adaptative, auto-correction, sans chrono | ✅ |
-| Mode daltonisme, animations réduites, grandes cibles tactiles | ✅ |
-| Sons de qualité (générés, hors ligne) + icônes vectorielles | ✅ |
-| Documentation assets, publication, feuille de route | ✅ |
-| Modules 6-8 ans et 9-12 ans | 🗺️ planifiés (voir `docs/ROADMAP.md`) |
-| Tranche 6-8 : paires et puzzles à partir du niveau 4, en attendant la lecture et les additions | ✅ |
+| **Mode sombre** (automatique ou choisi), daltonisme, animations réduites, cibles ≥ 48 px | ✅ |
+| **PWA** : manifeste, service worker versionné, installation, hors ligne | ✅ |
+| Images réalistes des objets | ✅ 16 sur 16 (`assets/photos/objects/`) |
+| Tests automatisés : typage, service worker, parcours complet clair + sombre | ✅ |
 
-La tranche 3-5 ans est **entièrement jouable de bout en bout** : depuis la création du profil
-jusqu'à la collection de récompenses, sans réseau.
+Les quatre tranches sont **jouables de bout en bout** : depuis la création du profil
+jusqu'à la collection de récompenses, sans réseau ni compte.
+
+### Nouveautés de la version 1.2
+
+- **36 activités** contre 14 en v1.1 : les tranches 6-8 et 9-12 sont désormais complètes,
+  avec les mêmes règles Montessori (une compétence par activité, erreur sans punition).
+- **Mode sombre** lisible, réglable depuis l'espace parents (Automatique / Clair / Sombre).
+- **Code parental à 4 chiffres** : défini, modifié ou supprimé par l'adulte. Sans code,
+  la porte reste protégée par une multiplication à deux chiffres.
+- **Installation et hors ligne** : service worker versionné, icônes maskables, écran de
+  démarrage, cache des assets et repli sur `index.html` en navigation.
+- **Banc d'essai automatisé** : le parcours complet (profils, 36 activités, manche
+  d'addition, porte parentale, réglages, langue, réinitialisation) est rejoué en clair et
+  en sombre avant chaque publication.
 
 ---
 
@@ -94,6 +110,16 @@ npm run typecheck
 
 # Export Web statique (dossier dist/)
 npm run build:web
+
+# Contrôles complets : typage + traductions + export + service worker + parcours Web
+npm run check
+
+# Parcours uniquement, thème clair puis sombre
+npm run test:web
+DARK=1 npm run test:web
+
+# Parcours sur un téléphone : portrait (390 × 844) puis paysage (844 × 390)
+npm run test:layout
 
 # Régénérer les sons (WAV, sans dépendance)
 npm run sounds
@@ -167,6 +193,29 @@ récompense en étoiles, bilan toujours positif.
 | **Verser** | transvaser sans renverser | appui maintenu, zone cible qui se resserre |
 | **Les fermetures** | réussir un geste de motricité fine | bouton → fermeture éclair → lacet |
 
+### 6 – 8 ans
+
+| Activité | Objectif unique |
+|---|---|
+| **Additions / soustractions / multiplications** | Calculer avec des quantités visibles, sans chrono |
+| **Syllabes** | Recomposer un mot à partir de ses syllabes |
+| **Lecture** | Associer un mot écrit à son image |
+| **Horloge** | Lire l'heure (heures pleines, puis demies et quarts) |
+| **Monnaie** | Composer une somme avec les pièces et billets |
+| **Sciences du vivant** | Classer animaux et plantes, relier un être vivant à son milieu |
+| **Paires / puzzles** | Reprendre les gestes de 3-5 avec plus de cartes et de pièces |
+
+### 9 – 12 ans
+
+| Activité | Objectif unique |
+|---|---|
+| **Fractions / équivalents** | Comparer des fractions et trouver des équivalences |
+| **Géométrie / angles / solides** | Reconnaître les figures, mesurer les angles, nommer les solides |
+| **Système solaire** | Ordonner les planètes et associer une planète à sa particularité |
+| **Le monde / carte du monde** | Situer les continents, océans et pays sur une carte interactive |
+| **Grammaire / conjugaison / temps** | Identifier la nature d'un mot, conjuguer, choisir le bon temps |
+| **Code par blocs** | Construire une courte séquence d'instructions et l'exécuter |
+
 Chaque activité se joue **sans chronomètre** : l'enfant peut recommencer autant de fois qu'il le
 souhaite, un débordement ou un geste manqué n'enlève aucun point et ne bloque jamais la suite.
 Les gestes acceptent aussi un simple toucher répété (accessibilité moteur et lecteurs d'écran).
@@ -189,11 +238,17 @@ Les gestes acceptent aussi un simple toucher répété (accessibilité moteur et
 
 - **Aucune publicité, aucun achat intégré**, aucun lien sortant dans l'espace enfant.
 - **Aucune collecte** : ni compte, ni e-mail, ni analytics, ni identifiant publicitaire.
-- **Espace parents protégé** par une multiplication à deux chiffres, verrouillé 30 s après 3 échecs.
+- **Espace parents protégé** par un code à 4 chiffres choisi par l'adulte (ou une
+  multiplication à deux chiffres si aucun code n'est défini), verrouillé 30 s après 3 échecs.
+  Le code est stocké localement en clair : c'est une protection contre les fausses manœuvres,
+  pas un secret cryptographique — l'écran le précise.
 - **RGPD-K / COPPA** : données stockées localement uniquement ; suppression d'un profil = effacement complet.
 - **Accessibilité** : cibles ≥ 72 px (3-5 ans), contrastes AA, mode daltonisme
   (motifs + couleurs renforcées), option « réduire les animations », sous-titres de la mascotte.
 - **Multilingue** : français par défaut, anglais, arabe (RTL appliqué au document Web).
+  Toutes les chaînes passent par `src/i18n` ; la parité des clés est vérifiée par TypeScript.
+- **Hors ligne** : tous les assets et les activités sont embarqués ; le service worker sert
+  l'application depuis le cache et ne remplace jamais une requête non-GET.
 
 Détail des formulaires stores et de la checklist de publication : **`docs/PUBLICATION.md`**.
 
@@ -207,6 +262,7 @@ Détail des formulaires stores et de la checklist de publication : **`docs/PUBLI
 | `docs/ASSETS.md` | Liste des assets + **prompts de génération**, charte graphique, script de voix |
 | `docs/PUBLICATION.md` | Lancement local, EAS, App Store, Google Play, Web, conformité |
 | `docs/ROADMAP.md` | Feuille de route détaillée des versions suivantes |
+| `.github/workflows/ci.yml` | Contrôles automatiques sur chaque branche et pull request |
 
 ---
 
@@ -234,9 +290,12 @@ Polices : polices arrondies système (aucun téléchargement). Sons : synthèse 
 
 | Contrôle | Résultat |
 |---|---|
-| `tsc --noEmit` (TypeScript 6 strict) | ✅ 0 erreur |
-| `expo-doctor` | ✅ 20/20 |
-| `expo export --platform web` | ✅ 1 103 modules, 19 assets |
-| Parcours testé au navigateur (Playwright) | ✅ profil → activité → récompense → parents |
-| Glisser-déposer, tracé au doigt, clavier chiffres | ✅ validés |
+| `npx tsc --noEmit` (TypeScript strict) | ✅ 0 erreur |
+| `npm run build:web` (`expo export`) | ✅ export complet + `dist/` |
+| `npm run test:i18n` | ✅ 359 clés cohérentes en fr/en/ar, variables d'interpolation incluses |
+| `npm run test:sw` | ✅ manifeste, icônes, précache, purge, navigation et assets hors ligne |
+| `npm run test:web` (thème clair) | ✅ profils, 36 activités, addition, récompenses, édition de profil, porte parentale, réglages, langue, réinitialisation |
+| `DARK=1 npm run test:web` (thème sombre) | ✅ mêmes parcours, fond sombre vérifié |
+| `npm run test:layout` (portrait + paysage) | ✅ 390 × 844 et 844 × 390, branches compactes exercées |
 | FR / EN / AR + RTL, mode daltonisme | ✅ validés |
+| Glisser-déposer, tracé au doigt, appui maintenu | ✅ validés par le parcours automatisé et les tests manuels |

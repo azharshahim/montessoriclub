@@ -8,7 +8,6 @@ import type { ScreenProps } from '../navigation/types';
 import { dayKey, useActiveProfile, useProfiles } from '../store/profiles';
 import { useTheme } from '../theme';
 import { Avatar } from '../ui/Avatar';
-import { RoundButton } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 import { MascotGuide } from '../ui/MascotGuide';
 import { RewardOverlay } from '../ui/RewardOverlay';
@@ -20,7 +19,7 @@ import { Screen } from '../ui/Screen';
  * La grille s'adapte à la tranche d'âge du profil actif.
  */
 export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
-  const { t, language } = useI18n();
+  const { t } = useI18n();
   const { colors, radius, shadow, text, spacing } = useTheme();
   const { width } = useWindowDimensions();
   const profile = useActiveProfile();
@@ -57,7 +56,7 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
   };
 
   return (
-    <Screen>
+    <Screen tab="home">
       <View style={styles.header}>
         <Avatar id={profile.avatar} size={52} />
         <View style={{ flex: 1 }}>
@@ -68,14 +67,6 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
             {t('home.subtitle')}
           </Text>
         </View>
-        <RoundButton
-          icon="user"
-          onPress={() => {
-            select(null);
-            navigation.navigate('Onboarding');
-          }}
-          accessibilityLabel={t('home.switchProfile')}
-        />
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -90,7 +81,7 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
             style={[
               styles.emptyBand,
               shadow.soft,
-              { backgroundColor: '#FFFFFF', borderRadius: radius.lg, borderColor: colors.sand },
+              { backgroundColor: colors.surface, borderRadius: radius.lg, borderColor: colors.sand },
             ]}
           >
             <Text style={styles.emptyEmoji}>🌱</Text>
@@ -117,7 +108,7 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
                   {
                     width: cardWidth,
                     borderRadius: radius.lg,
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: colors.surface,
                     borderColor: colors.sand,
                     transform: [{ scale: pressed ? 0.97 : 1 }],
                   },
@@ -146,67 +137,8 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
             );
           })}
 
-          {/* Carte « bientôt » : montre la suite du programme aux familles */}
-          <View
-            style={[
-              styles.card,
-              styles.soon,
-              {
-                width: cardWidth,
-                borderRadius: radius.lg,
-                borderColor: colors.inkFaint,
-              },
-            ]}
-          >
-            <View style={[styles.emojiBubble, { backgroundColor: colors.creamDeep }]}>
-              <Icon name="clock" size={30} color={colors.inkFaint} />
-            </View>
-            <Text style={[text.label, { color: colors.inkSoft, textAlign: 'center' }]}>{t('home.comingSoon')}</Text>
-          </View>
         </View>
 
-        <View style={styles.actions}>
-          <Pressable
-            onPress={() => navigation.navigate('Rewards')}
-            accessibilityRole="button"
-            accessibilityLabel={t('home.rewards')}
-            style={({ pressed }) => [
-              styles.action,
-              shadow.soft,
-              {
-                backgroundColor: '#FFFFFF',
-                borderColor: colors.sand,
-                borderRadius: radius.lg,
-                opacity: pressed ? 0.9 : 1,
-              },
-            ]}
-          >
-            <Icon name="trophy" size={26} color={colors.yellow} />
-            <Text style={[text.label, { color: colors.ink }]}>{t('home.rewards')}</Text>
-            <View style={styles.badge}>
-              <Text style={[text.caption, { color: colors.inkSoft }]}>{profile.stars}</Text>
-              <Icon name="star" size={13} color={colors.yellow} />
-            </View>
-          </Pressable>
-
-          <Pressable
-            onPress={() => navigation.navigate('ParentsGate')}
-            accessibilityRole="button"
-            accessibilityLabel={t('a11y.parentLock')}
-            style={({ pressed }) => [
-              styles.action,
-              {
-                backgroundColor: 'transparent',
-                borderColor: colors.sand,
-                borderRadius: radius.lg,
-                opacity: pressed ? 0.8 : 1,
-              },
-            ]}
-          >
-            <Icon name="lock" size={22} color={colors.inkFaint} />
-            <Text style={[text.label, { color: colors.inkFaint }]}>{t('home.parents')}</Text>
-          </Pressable>
-        </View>
       </ScrollView>
 
       <RewardOverlay
@@ -217,9 +149,6 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
         onPrimary={() => setRestOpen(false)}
         emojiFallback
       />
-
-      {/* Sécurité : la langue active est mémorisée dans les réglages parents */}
-      <View style={{ height: 0 }} accessibilityLabel={language} />
     </Screen>
   );
 }
