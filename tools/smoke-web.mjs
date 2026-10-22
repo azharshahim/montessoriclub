@@ -36,6 +36,14 @@ const dom = new JSDOM(html, {
     // Environnement navigateur minimal mais suffisant pour RN Web.
     Object.defineProperty(window.navigator, 'language', { configurable: true, value: 'fr-FR' });
     Object.defineProperty(window.navigator, 'languages', { configurable: true, value: ['fr-FR', 'fr'] });
+    // Format « largeur x hauteur » : permet de rejouer le parcours sur un
+    // téléphone en portrait puis en paysage (branches compactes).
+    const [viewportWidth, viewportHeight] = (process.env.VIEWPORT ?? '1024x768')
+      .split('x')
+      .map(Number);
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: viewportWidth });
+    Object.defineProperty(window, 'innerHeight', { configurable: true, value: viewportHeight });
+    window.devicePixelRatio = 2;
     const prefersDark = process.env.DARK === '1';
     window.matchMedia = (query) => ({
       matches: prefersDark && query.includes('dark'),
@@ -473,7 +481,8 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  '\n✅ Test de fumée Web : profils, 36 activités, addition, récompenses, édition de profil, ' +
-    'porte parentale, réglages, langue et réinitialisation — aucune erreur.'
+  `\n✅ Test de fumée Web (${process.env.VIEWPORT ?? '1024x768'}) : profils, 36 activités, ` +
+    'addition, récompenses, édition de profil, porte parentale, réglages, langue et ' +
+    'réinitialisation — aucune erreur.'
 );
 process.exit(0);

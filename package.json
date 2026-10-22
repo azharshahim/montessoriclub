@@ -16,8 +16,9 @@
     "sounds": "python3 tools/generate_sounds.py",
     "photos": "node tools/build_photo_registry.mjs",
     "test:web": "node tools/smoke-web.mjs",
-    "check": "tsc --noEmit && npm run test:sw && npm run test:web",
-    "test:sw": "node tools/test-sw.mjs"
+    "check": "tsc --noEmit && npm run build:web && npm run test:sw && npm run test:web",
+    "test:sw": "node tools/test-sw.mjs",
+    "test:layout": "node tools/test-layout.mjs"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",

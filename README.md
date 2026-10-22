@@ -118,6 +118,9 @@ npm run check
 npm run test:web
 DARK=1 npm run test:web
 
+# Parcours sur un téléphone : portrait (390 × 844) puis paysage (844 × 390)
+npm run test:layout
+
 # Régénérer les sons (WAV, sans dépendance)
 npm run sounds
 ```
@@ -292,5 +295,6 @@ Polices : polices arrondies système (aucun téléchargement). Sons : synthèse 
 | `npm run test:sw` | ✅ manifeste, icônes, précache, purge, navigation et assets hors ligne |
 | `npm run test:web` (thème clair) | ✅ profils, 36 activités, addition, récompenses, édition de profil, porte parentale, réglages, langue, réinitialisation |
 | `DARK=1 npm run test:web` (thème sombre) | ✅ mêmes parcours, fond sombre vérifié |
+| `npm run test:layout` (portrait + paysage) | ✅ 390 × 844 et 844 × 390, branches compactes exercées |
 | FR / EN / AR + RTL, mode daltonisme | ✅ validés |
 | Glisser-déposer, tracé au doigt, appui maintenu | ✅ validés par le parcours automatisé et les tests manuels |
