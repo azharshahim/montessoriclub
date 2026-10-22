@@ -120,15 +120,12 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
 
               <View style={[styles.grid, { gap: spacing.md }]}>
                 {profiles.map((profile) => (
-                  <Pressable
+                  // La carte et le crayon sont deux boutons frères : imbriquer
+                  // les zones tactiles ferait ouvrir l'accueil au lieu d'éditer
+                  // le profil sur le Web (l'événement remonte au parent).
+                  <View
                     key={profile.id}
-                    onPress={() => pickProfile(profile.id)}
-                    accessibilityRole="button"
-                    accessibilityLabel={t('a11y.profile', {
-                      name: profile.name,
-                      age: t(ageBandKey[profile.ageBand]),
-                    })}
-                    style={({ pressed }) => [
+                    style={[
                       styles.profileCard,
                       shadow.soft,
                       {
@@ -136,15 +133,27 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                         borderRadius: radius.lg,
                         borderColor: colors.sand,
                         width: `${100 / columns - 3}%`,
-                        transform: [{ scale: pressed ? 0.97 : 1 }],
                       },
                     ]}
                   >
-                    <Avatar id={profile.avatar} size={78} ring />
-                    <Text style={[text.h3, { color: colors.ink }]} numberOfLines={1}>
-                      {profile.name}
-                    </Text>
-                    <Text style={[text.caption, { color: colors.inkFaint }]}>{t(ageBandKey[profile.ageBand])}</Text>
+                    <Pressable
+                      onPress={() => pickProfile(profile.id)}
+                      accessibilityRole="button"
+                      accessibilityLabel={t('a11y.profile', {
+                        name: profile.name,
+                        age: t(ageBandKey[profile.ageBand]),
+                      })}
+                      style={({ pressed }) => [
+                        styles.profilePick,
+                        { transform: [{ scale: pressed ? 0.97 : 1 }] },
+                      ]}
+                    >
+                      <Avatar id={profile.avatar} size={78} ring />
+                      <Text style={[text.h3, { color: colors.ink }]} numberOfLines={1}>
+                        {profile.name}
+                      </Text>
+                      <Text style={[text.caption, { color: colors.inkFaint }]}>{t(ageBandKey[profile.ageBand])}</Text>
+                    </Pressable>
                     <Pressable
                       onPress={() => openEdit(profile.id)}
                       hitSlop={10}
@@ -154,7 +163,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                     >
                       <Icon name="edit" size={15} color={colors.inkSoft} />
                     </Pressable>
-                  </Pressable>
+                  </View>
                 ))}
 
                 <Pressable
@@ -327,12 +336,19 @@ const styles = StyleSheet.create({
     minHeight: 168,
     justifyContent: 'center',
   },
+  profilePick: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 4,
+  },
   editChip: {
     position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 30,
-    height: 30,
+    top: 6,
+    right: 6,
+    width: 44,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
   },
