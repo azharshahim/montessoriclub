@@ -14,7 +14,9 @@
     "build:android": "eas build --platform android --profile production",
     "build:ios": "eas build --platform ios --profile production",
     "sounds": "python3 tools/generate_sounds.py",
-    "photos": "node tools/build_photo_registry.mjs"
+    "photos": "node tools/build_photo_registry.mjs",
+    "test:web": "node tools/smoke-web.mjs",
+    "check": "tsc --noEmit && npm run test:web"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
@@ -44,6 +46,7 @@
   },
   "devDependencies": {
     "@types/react": "~19.3.0",
+    "jsdom": "^30.1.3",
     "typescript": "~6.0.3"
   }
 }
