@@ -43,7 +43,7 @@ export function Screen({ children, header, centered, backgroundColor, scene = 's
   return (
     <View style={[styles.root, { backgroundColor: backgroundColor ?? colors.cream }]}>
       <ScreenBackground scene={scene} />
-      <SafeAreaView style={styles.safe} edges={tab ? ['top', 'left', 'right'] : ['top', 'left', 'right']}>
+      <SafeAreaView style={styles.safe} edges={tab ? ['top', 'left', 'right'] : ['top', 'left', 'right', 'bottom']}>
         <View style={[styles.inner, { maxWidth }]}>
           <OfflineBanner />
           {header ? (
@@ -59,7 +59,7 @@ export function Screen({ children, header, centered, backgroundColor, scene = 's
                     text.h2,
                     { color: colors.ink, flex: 1, textAlign: header.centerTitle ? 'center' : align },
                   ]}
-                  numberOfLines={1}
+                  numberOfLines={2}
                 >
                   {header.title}
                 </Text>
