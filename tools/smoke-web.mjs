@@ -5,144 +5,32 @@
  *
  * Usage : npm run build:web && npm run test:web
  * Dépendance de développement : jsdom (DOM suffisant pour React Native Web).
+ * Le démarrage de l'application est partagé avec `tools/play-activities.mjs`.
  */
-import { JSDOM, VirtualConsole } from 'jsdom';
-import fs from 'node:fs';
-import path from 'node:path';
 import process from 'node:process';
 
-const ROOT = path.resolve('dist');
-const INDEX = path.join(ROOT, 'index.html');
-if (!fs.existsSync(INDEX)) {
-  console.error('dist/index.html introuvable : lance « npm run build:web » d’abord.');
-  process.exit(1);
-}
+import { startApp } from './lib/web-app.mjs';
 
-const errors = [];
-const warnings = [];
-const vc = new VirtualConsole();
-vc.on('jsdomError', (error) => errors.push(`jsdom: ${error.message ?? error}`));
-vc.on('error', (...args) => errors.push(`console.error: ${args.map(String).join(' ')}`));
-vc.on('warn', (...args) => warnings.push(`console.warn: ${args.map(String).join(' ')}`));
-
-const html = fs.readFileSync(INDEX, 'utf8').replace(/<script[^>]*src="[^"]*"[^>]*><\/script>/g, '');
-
-const dom = new JSDOM(html, {
-  url: 'http://localhost/',
-  runScripts: 'dangerously',
-  pretendToBeVisual: true,
-  virtualConsole: vc,
-  beforeParse(window) {
-    // Environnement navigateur minimal mais suffisant pour RN Web.
-    Object.defineProperty(window.navigator, 'language', { configurable: true, value: 'fr-FR' });
-    Object.defineProperty(window.navigator, 'languages', { configurable: true, value: ['fr-FR', 'fr'] });
-    // Format « largeur x hauteur » : permet de rejouer le parcours sur un
-    // téléphone en portrait puis en paysage (branches compactes).
-    const [viewportWidth, viewportHeight] = (process.env.VIEWPORT ?? '1024x768')
-      .split('x')
-      .map(Number);
-    Object.defineProperty(window, 'innerWidth', { configurable: true, value: viewportWidth });
-    Object.defineProperty(window, 'innerHeight', { configurable: true, value: viewportHeight });
-    window.devicePixelRatio = 2;
-    const prefersDark = process.env.DARK === '1';
-    window.matchMedia = (query) => ({
-      matches: prefersDark && query.includes('dark'),
-      media: query,
-      onchange: null,
-      addListener() {},
-      removeListener() {},
-      addEventListener() {},
-      removeEventListener() {},
-      dispatchEvent() {
-        return false;
-      },
-    });
-    window.ResizeObserver = class {
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-    };
-    window.IntersectionObserver = class {
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-    };
-    window.scrollTo = () => {};
-    window.HTMLMediaElement.prototype.play = () => Promise.resolve();
-    window.HTMLMediaElement.prototype.pause = () => {};
-    window.HTMLElement.prototype.scrollIntoView = () => {};
-    window.speechSynthesis = {
-      speak() {},
-      cancel() {},
-      pause() {},
-      resume() {},
-      getVoices: () => [],
-      addEventListener() {},
-      removeEventListener() {},
-    };
-    window.SpeechSynthesisUtterance = class {
-      constructor(text) {
-        this.text = text;
-      }
-    };
-    Object.defineProperty(window.navigator, 'serviceWorker', {
-      configurable: true,
-      value: { register: async () => ({ addEventListener() {} }), ready: Promise.resolve({}) },
-    });
-    window.addEventListener('unhandledrejection', (event) => {
-      errors.push(`promesse rejetée : ${event.reason?.message ?? event.reason}`);
-    });
-  },
-});
-
-const { window } = dom;
-const { document } = window;
-const bundleDir = path.join(ROOT, '_expo/static/js/web');
-const bundleName = fs.readdirSync(bundleDir).find((file) => file.endsWith('.js'));
-window.eval(fs.readFileSync(path.join(bundleDir, bundleName), 'utf8'));
-
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const bodyText = () => document.body.textContent.replace(/\s+/g, ' ').trim();
-const all = (selector) => [...document.querySelectorAll(selector)];
-const reactProps = (element) => element?.[Object.keys(element).find((key) => key.startsWith('__reactProps'))];
+const {
+  window,
+  document,
+  errors,
+  warnings,
+  sleep,
+  all,
+  bodyText,
+  reactProps,
+  press,
+  buttonByLabel,
+  pressLabel,
+  pressText,
+  type,
+  cards,
+  tabByLabel,
+} = startApp();
 
 function fail(message) {
   errors.push(`assertion: ${message}`);
-}
-
-function press(element) {
-  if (!element) throw new Error('élément introuvable');
-  element.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-}
-
-function buttonByLabel(label) {
-  return all('[role="button"]').find((element) => element.getAttribute('aria-label') === label);
-}
-
-function pressLabel(label) {
-  const element = buttonByLabel(label);
-  if (!element) throw new Error(`bouton « ${label} » introuvable`);
-  press(element);
-}
-
-function pressText(text) {
-  const candidates = all('[role="button"],[role="radio"],button,div,span');
-  const exact = candidates.filter((element) => (element.textContent ?? '').trim() === text);
-  const element = exact[exact.length - 1];
-  if (!element) throw new Error(`texte « ${text} » introuvable`);
-  press(element);
-}
-
-function type(value, index = 0) {
-  const input = document.querySelectorAll('input')[index];
-  if (!input) throw new Error('champ texte introuvable');
-  const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-  setter.call(input, value);
-  reactProps(input).onChange({ nativeEvent: {}, target: input, currentTarget: input });
-}
-
-function cards() {
-  return all('[role="button"]').filter((element) => /Niveau \d+|Level \d+/.test(element.textContent ?? ''));
 }
 
 async function createProfile(name, ageLabel) {
@@ -161,10 +49,6 @@ async function createProfile(name, ageLabel) {
   pressText('Enregistrer');
   await sleep(700);
   if (!bodyText().includes(name)) fail(`profil ${name} non affiché après enregistrement`);
-}
-
-function tabByLabel(label) {
-  return all('[role="tab"]').find((element) => element.getAttribute('aria-label') === label) ?? buttonByLabel(label);
 }
 
 async function openProfileTab() {
