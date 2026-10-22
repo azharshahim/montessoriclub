@@ -52,3 +52,6 @@ jobs:
 
       - name: Formats portrait et paysage
         run: npm run test:layout
+
+      - name: Activités jouées de bout en bout
+        run: npm run test:activities

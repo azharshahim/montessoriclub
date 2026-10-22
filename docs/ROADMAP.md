@@ -39,11 +39,14 @@ paysage 1180×820), en FR, EN et AR, sans erreur JavaScript.
 
 ---
 
-## v1.2 — Éveil 0-2 ans, lecture et mathématiques 6-8 ans ✅ (livrée)
+## v1.2 — Éveil 0-2 ans, lecture et mathématiques 6-8 ans ✅ (livrée le 2026-10-22)
 
 **0-2 ans** : animaux (cri énoncé), couleurs, formes à emboîter, xylophone pentatonique.
 **Graphismes** : système d'images réalistes avec repli SVG (`npm run photos`) ; les images restent à générer (`docs/ASSETS.md`, section 7).
 **Décors** : fonds illustrés (ciel, prairie, coucher de soleil) via `src/ui/ScreenBackground.tsx`.
+**Qualité** : les 36 activités sont jouées de bout en bout par `npm run test:activities`
+(session complète, manche après manche) ; les captures de `docs/screenshots` sont régénérées
+par `npm run screenshots` dans un vrai Chrome.
 **Limites connues** : en arabe, « Les syllabes » devient « la première lettre » (couper un mot arabe déforme l'écriture) ; la monnaie est en euros uniquement ; les activités 6-8 ans sont à choix multiple (pas encore de manipulation au doigt).
 
 *Prévu à l'origine :*

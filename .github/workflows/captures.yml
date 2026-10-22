@@ -1,0 +1,76 @@
+name: Captures (docs/screenshots)
+
+# Régénère les captures du dossier docs/screenshots à partir de l'application
+# exportée, dans un vrai Chrome (portrait / paysage, clair / sombre), puis les
+# commite sur la branche courante.
+#
+# Déclenchement manuel : onglet Actions → « Captures (docs/screenshots) » → Run workflow.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/screenshots.mjs'
+      - '.github/workflows/captures.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: captures-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  captures:
+    name: Chrome + captures
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Export Web (chemin GitHub Pages)
+        env:
+          EXPO_BASE_URL: /${{ github.event.repository.name }}
+        run: npm run build:web
+
+      - name: Générer les captures
+        env:
+          EXPO_BASE_URL: /${{ github.event.repository.name }}
+          CHROME_PATH: /usr/bin/google-chrome
+        # Les journaux d'exécution ne sont pas toujours consultables hors CI :
+        # l'erreur est aussi remontée en annotation, lisible par l'API.
+        run: |
+          set -o pipefail
+          if ! npm run screenshots 2>&1 | tee /tmp/captures.log; then
+            tail -n 25 /tmp/captures.log | while IFS= read -r line; do
+              echo "::warning title=Captures::${line}"
+            done
+            echo "::error title=Captures::$(grep -m1 'Captures :' /tmp/captures.log || tail -n 1 /tmp/captures.log)"
+
+            exit 1
+          fi
+
+      - name: Publier les captures sur la branche
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/screenshots
+          if git diff --cached --quiet; then
+            echo "Aucune capture à mettre à jour."
+          else
+            git commit -m "docs(captures): régénérer les captures de la 1.2 (portrait/paysage, clair/sombre)"
+            git push
+          fi
+
+      - name: Conserver les captures en artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: captures-1.2
+          path: docs/screenshots/*.png
