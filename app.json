@@ -43,6 +43,7 @@
     },
     "plugins": [
       "expo-localization",
+      "expo-audio",
       [
         "expo-splash-screen",
         {

@@ -28,7 +28,7 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 |---|---|
 | Architecture complète + arborescence | ✅ |
 | Socle : navigation, thème, i18n FR/EN/AR + RTL, profils, persistance | ✅ |
-| **36 activités** réparties sur les 4 tranches d'âge | ✅ |
+| **36 activités** réparties sur les 4 tranches d'âge (34 modules, « paires » et « puzzles » servant à la fois 3-5 et 6-8) | ✅ |
 | Modules **0-2 ans** (5) : bulles, animaux, couleurs, formes à emboîter, xylophone | ✅ |
 | Modules **3-5 ans** (9) : couleurs, formes, chiffres 1-10, tracé, trier, paires, puzzles, verser, fermetures | ✅ |
 | Modules **6-8 ans** (10) : paires et puzzles, additions, soustractions, multiplications, syllabes, lecture, horloge, monnaie, sciences du vivant | ✅ |
@@ -40,7 +40,10 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 | Difficulté adaptative, auto-correction, sans chrono | ✅ |
 | **Mode sombre** (automatique ou choisi), daltonisme, animations réduites, cibles ≥ 48 px | ✅ |
 | **PWA** : manifeste, service worker versionné, installation, hors ligne | ✅ |
+| Sons de qualité (générés, hors ligne) + icônes vectorielles | ✅ |
+| Documentation assets, publication, feuille de route | ✅ |
 | Images réalistes des objets | ✅ 16 sur 16 (`assets/photos/objects/`) |
+| Tranche 6-8 : paires et puzzles à partir du niveau 4 | ✅ |
 | Tests automatisés : typage, service worker, parcours complet clair + sombre | ✅ |
 
 Les quatre tranches sont **jouables de bout en bout** : depuis la création du profil
