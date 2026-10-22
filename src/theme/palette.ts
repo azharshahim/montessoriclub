@@ -9,6 +9,12 @@ export const palette = {
   creamDeep: '#FDEFDF',
   sand: '#F3E3D2',
   white: '#FFFFFF',
+  /** Surface des cartes (blanc en clair, ardoise en sombre). */
+  surface: '#FFFFFF',
+  /** Surface translucide utilisée par les compteurs flottants. */
+  surfaceTranslucent: 'rgba(255,255,255,0.84)',
+  /** Texte/icône posé sur un aplat de couleur. */
+  onAccent: '#FFFFFF',
 
   // Encres
   ink: '#33302E',

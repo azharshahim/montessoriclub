@@ -190,8 +190,8 @@ export const en: Record<keyof typeof fr, string> = {
   'mascot.tap': 'Tap me to listen',
   'mascot.welcomeParents': 'Hello! This space is for adults.',
 
-  'home.emptyBandTitle': '9-12 activities are coming soon',
-  'home.emptyBandText': 'The bigger modules (fractions, grammar, world maps, block coding) are in preparation. In the meantime, a 6-8 profile offers puzzles and pairs at an appropriate level.',
+  'home.emptyBandTitle': 'Activities for this age group are coming soon',
+  'home.emptyBandText': 'New activities are being prepared. In the meantime, pick another activity!',
   'home.comingSoon': 'New activities are coming soon!',
   'home.restTitle': 'Time to rest',
   'home.restText': 'Great job today! Let’s continue tomorrow.',
@@ -358,6 +358,9 @@ export const en: Record<keyof typeof fr, string> = {
   'math.addQuestion': 'What is {a} + {b}?',
   'math.subQuestion': 'What is {a} − {b}?',
   'math.timesQuestion': 'What is {a} × {b}?',
+
+  'game.unavailable': 'This activity is not available. Let’s go back to the activities!',
+  'parents.noChild': 'No child profile yet. Create one to get started.',
 
   'language.fr': 'Français',
   'language.en': 'English',

@@ -8,7 +8,6 @@ import { useI18n } from '../../i18n';
 import type { GameProps } from '../types';
 import { useTheme } from '../../theme';
 import { GameLayout } from '../../ui/GameLayout';
-import { RewardOverlay } from '../../ui/RewardOverlay';
 
 const BUBBLE_COLORS = ['#F7C948', '#EE6C5B', '#4FBF8B', '#4E8FE0', '#9C7BE0', '#3FB1B5'];
 const BUBBLE_COUNT = 6;
@@ -49,8 +48,17 @@ export function SensoryGame({ onFinish, onQuit }: GameProps) {
   );
   const [pops, setPops] = useState(0);
   const [burst, setBurst] = useState(0);
-  const [finished, setFinished] = useState(false);
   const finishedRef = useRef(false);
+  const onFinishRef = useRef(onFinish);
+  onFinishRef.current = onFinish;
+  const finishTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (finishTimer.current) clearTimeout(finishTimer.current);
+    },
+    []
+  );
 
   const popBubble = useCallback(
     (id: number) => {
@@ -62,9 +70,9 @@ export function SensoryGame({ onFinish, onQuit }: GameProps) {
         const next = previous + 1;
         if (next >= POPS_TO_FINISH && !finishedRef.current) {
           finishedRef.current = true;
-          setTimeout(() => {
+          finishTimer.current = setTimeout(() => {
             playSfx('celebrate');
-            setFinished(true);
+            onFinishRef.current({ mistakes: 0, rounds: POPS_TO_FINISH });
           }, 500);
         }
         return next;
@@ -95,7 +103,7 @@ export function SensoryGame({ onFinish, onQuit }: GameProps) {
             />
           ))}
 
-          <View style={[styles.counter, { backgroundColor: '#FFFFFFCC', borderRadius: radius.pill, borderColor: colors.sand, ...shadow.soft }]}>
+          <View style={[styles.counter, { backgroundColor: colors.surfaceTranslucent, borderRadius: radius.pill, borderColor: colors.sand, ...shadow.soft }]}>
             {Array.from({ length: POPS_TO_FINISH }).map((_, i) => (
               <View
                 key={i}
@@ -109,22 +117,6 @@ export function SensoryGame({ onFinish, onQuit }: GameProps) {
         </View>
       </GameLayout>
 
-      <RewardOverlay
-        visible={finished}
-        title={t('game.wellDone', { name: '★' })}
-        subtitle={t('game.bubblesHint')}
-        stars={5}
-        primaryLabel={t('game.playAgain')}
-        onPrimary={() => {
-          setFinished(false);
-          setPops(0);
-          finishedRef.current = false;
-          setBubbles(Array.from({ length: BUBBLE_COUNT }, (_, i) => makeBubble(i)));
-        }}
-        secondaryLabel={t('game.backHome')}
-        onSecondary={() => onFinish({ mistakes: 0, rounds: POPS_TO_FINISH })}
-        fireKey={burst}
-      />
     </>
   );
 }

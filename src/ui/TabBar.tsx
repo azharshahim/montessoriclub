@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useI18n } from '../i18n';
 import type { RootStackParamList } from '../navigation/types';
-import { useProfiles } from '../store/profiles';
 import { useTheme } from '../theme';
 import { Icon, type IconName } from './Icon';
 
@@ -28,7 +27,6 @@ export function TabBar({ active }: { active: TabId }) {
   const { colors, radius, shadow, text } = useTheme();
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
-  const select = useProfiles((s) => s.select);
 
   const tabs: TabDef[] = [
     { id: 'home', icon: 'home', labelKey: 'nav.activities', color: colors.coral, route: 'Home' },
@@ -39,7 +37,6 @@ export function TabBar({ active }: { active: TabId }) {
 
   const go = (tab: TabDef) => {
     if (tab.id === active) return;
-    if (tab.id === 'profile') select(null);
     navigation.reset({ index: 0, routes: [{ name: tab.route as never }] });
   };
 

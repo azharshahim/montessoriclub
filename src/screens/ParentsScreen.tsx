@@ -60,7 +60,15 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
   }, [profile]);
 
   if (!profile || !stats) {
-    return <Screen scene="calm" tab="parents" header={{ title: t('parents.title') }}><View /></Screen>;
+    return (
+      <Screen scene="calm" tab="parents" header={{ title: t('parents.title') }}>
+        <View style={styles.emptyState}>
+          <Icon name="user" size={40} color={colors.inkFaint} />
+          <Text style={[text.body, { color: colors.inkSoft, textAlign: 'center' }]}>{t('parents.noChild')}</Text>
+          <Button label={t('onboarding.addChild')} icon="plus" onPress={() => navigation.navigate('Onboarding')} size="lg" />
+        </View>
+      </Screen>
+    );
   }
 
   const games = gamesForAge(profile.ageBand);
@@ -448,5 +456,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     gap: 10,
+  },
+  emptyState: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+    padding: 24,
   },
 });

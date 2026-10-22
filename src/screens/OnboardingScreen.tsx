@@ -41,6 +41,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
   const updateProfile = useProfiles((s) => s.updateProfile);
   const deleteProfile = useProfiles((s) => s.deleteProfile);
   const select = useProfiles((s) => s.select);
+  const selectedId = useProfiles((s) => s.selectedId);
 
   const [mode, setMode] = useState<'list' | 'form'>(profiles.length === 0 ? 'form' : 'list');
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -92,7 +93,16 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
     <Screen
       header={{
         title: mode === 'form' ? (editingId ? t('onboarding.edit') : t('profile.new')) : t('app.name'),
-        onBack: mode === 'form' && profiles.length > 0 ? () => setMode('list') : undefined,
+        // Aucune impasse : depuis la liste, on retrouve l'accueil du profil
+        // déjà choisi ; depuis le formulaire, on revient à la liste.
+        onBack:
+          mode === 'form'
+            ? profiles.length > 0
+              ? () => setMode('list')
+              : undefined
+            : selectedId
+              ? () => navigation.replace('Home')
+              : undefined,
         centerTitle: true,
       }}
     >

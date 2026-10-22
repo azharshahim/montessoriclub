@@ -189,8 +189,8 @@ export const ar: Record<keyof typeof fr, string> = {
   'mascot.tap': 'اضغط عليّ لتسمعني',
   'mascot.welcomeParents': 'مرحباً! هذه المساحة للكبار.',
 
-  'home.emptyBandTitle': 'أنشطة ٩-١٢ سنة قادمة قريباً',
-  'home.emptyBandText': 'الوحدات الكبرى (الكسور، القواعد، خرائط العالم، البرمجة بالبلوكات) قيد الإعداد. في الأثناء، يوفّر ملف ٦-٨ سنوات الألغاز والأزواج بمستوى مناسب.',
+  'home.emptyBandTitle': 'أنشطة هذه الفئة العمرية قادمة قريباً',
+  'home.emptyBandText': 'يجري إعداد أنشطة جديدة. في الأثناء، اختر نشاطاً آخر!',
   'home.comingSoon': 'أنشطة جديدة قادمة قريباً!',
   'home.restTitle': 'حان وقت الراحة',
   'home.restText': 'أحسنت اليوم! نكمل غداً بكل سرور.',
@@ -357,6 +357,9 @@ export const ar: Record<keyof typeof fr, string> = {
   'math.addQuestion': 'كم يساوي {a} + {b}؟',
   'math.subQuestion': 'كم يساوي {a} − {b}؟',
   'math.timesQuestion': 'كم يساوي {a} × {b}؟',
+
+  'game.unavailable': 'هذا النشاط غير متاح. لنعد إلى الأنشطة!',
+  'parents.noChild': 'لا يوجد ملف طفل بعد. أنشئ ملفاً للبدء.',
 
   'language.fr': 'Français',
   'language.en': 'English',

@@ -204,8 +204,8 @@ export const fr = {
   'mascot.tap': 'Touche-moi pour m’écouter',
   'mascot.welcomeParents': 'Bonjour ! Cet espace est réservé aux adultes.',
 
-  'home.emptyBandTitle': 'Les activités 9-12 ans arrivent bientôt',
-  'home.emptyBandText': 'Les grands modules (fractions, grammaire, cartes du monde, code par blocs) sont en préparation. En attendant, un profil 6-8 ans propose les puzzles et les paires, avec une difficulté adaptée.',
+  'home.emptyBandTitle': 'Les activités de cette tranche arrivent bientôt',
+  'home.emptyBandText': 'De nouvelles activités sont en préparation. En attendant, choisis une autre activité !',
   'home.comingSoon': 'De nouvelles activités arrivent bientôt !',
   'home.restTitle': 'C’est l’heure de se reposer',
   'home.restText': 'Bravo pour aujourd’hui ! On continue demain avec plaisir.',
@@ -373,6 +373,9 @@ export const fr = {
   'math.addQuestion': 'Combien font {a} + {b} ?',
   'math.subQuestion': 'Combien font {a} − {b} ?',
   'math.timesQuestion': 'Combien font {a} × {b} ?',
+
+  'game.unavailable': 'Cette activité n’est pas disponible. Reviens aux activités !',
+  'parents.noChild': 'Aucun profil enfant pour le moment. Crée un profil pour commencer.',
 
   // Langues
   'language.fr': 'Français',
