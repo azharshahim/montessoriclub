@@ -1,0 +1,48 @@
+name: Contrôles
+
+# Vérifie chaque branche poussée et chaque pull request :
+# typage strict, build Web, service worker et parcours complet (clair + sombre).
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: TypeScript · PWA · parcours
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Images réalistes (facultatif)
+        run: npm run photos
+
+      - name: Typage strict
+        run: npx tsc --noEmit
+
+      - name: Export Web
+        run: npm run build:web
+
+      - name: Service worker et hors ligne
+        run: npm run test:sw
+
+      - name: Parcours complet (thème clair)
+        run: npm run test:web
+
+      - name: Parcours complet (thème sombre)
+        run: npm run test:web
+        env:
+          DARK: '1'
