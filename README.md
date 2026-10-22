@@ -111,7 +111,7 @@ npm run typecheck
 # Export Web statique (dossier dist/)
 npm run build:web
 
-# Contrôles complets : typage + service worker + parcours Web
+# Contrôles complets : typage + traductions + export + service worker + parcours Web
 npm run check
 
 # Parcours uniquement, thème clair puis sombre
@@ -292,6 +292,7 @@ Polices : polices arrondies système (aucun téléchargement). Sons : synthèse 
 |---|---|
 | `npx tsc --noEmit` (TypeScript strict) | ✅ 0 erreur |
 | `npm run build:web` (`expo export`) | ✅ export complet + `dist/` |
+| `npm run test:i18n` | ✅ 359 clés cohérentes en fr/en/ar, variables d'interpolation incluses |
 | `npm run test:sw` | ✅ manifeste, icônes, précache, purge, navigation et assets hors ligne |
 | `npm run test:web` (thème clair) | ✅ profils, 36 activités, addition, récompenses, édition de profil, porte parentale, réglages, langue, réinitialisation |
 | `DARK=1 npm run test:web` (thème sombre) | ✅ mêmes parcours, fond sombre vérifié |

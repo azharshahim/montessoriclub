@@ -47,6 +47,9 @@ jobs:
           EXPO_BASE_URL: /${{ github.event.repository.name }}
         run: npx expo export --platform web --output-dir dist
 
+      - name: Traductions fr / en / ar
+        run: npm run test:i18n
+
       - name: Service worker et hors ligne
         run: npm run test:sw
 

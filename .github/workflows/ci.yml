@@ -33,6 +33,9 @@ jobs:
       - name: Typage strict
         run: npx tsc --noEmit
 
+      - name: Traductions fr / en / ar
+        run: npm run test:i18n
+
       - name: Export Web
         run: npm run build:web
 
