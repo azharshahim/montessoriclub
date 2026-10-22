@@ -154,7 +154,7 @@ export function QuizGame({ title, rounds, makeRound, level, onFinish, onMistake,
                     styles.option,
                     shadow.soft,
                     {
-                      backgroundColor: isWrong ? colors.sand : '#FFFFFF',
+                      backgroundColor: isWrong ? colors.sand : colors.surface,
                       borderColor: colors.sand,
                       borderRadius: radius.lg,
                       opacity: isWrong ? 0.45 : 1,

@@ -62,7 +62,7 @@ function CountryCard({ name }: { name: string }) {
   const { colors, radius, shadow } = useTheme();
   return (
     <View
-      style={[styles.card, shadow.soft, { borderRadius: radius.lg, borderColor: colors.sand }]}
+      style={[styles.card, shadow.soft, { borderRadius: radius.lg, borderColor: colors.sand, backgroundColor: colors.surface }]}
       accessible={false}
     >
       <Text style={styles.globe}>🌍</Text>
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingHorizontal: 28,
     paddingVertical: 14,
-    backgroundColor: '#FFFFFF',
     borderWidth: 2,
   },
   globe: { fontSize: 56 },

@@ -56,7 +56,7 @@ export function ParentsGateScreen({ navigation }: ScreenProps<'ParentsGate'>) {
           style={[
             styles.card,
             shadow.soft,
-            { backgroundColor: '#FFFFFF', borderRadius: radius.xl, borderColor: colors.sand },
+            { backgroundColor: colors.surface, borderRadius: radius.xl, borderColor: colors.sand },
           ]}
         >
           <View style={[styles.lockCircle, { backgroundColor: colors.creamDeep }]}>
@@ -90,7 +90,7 @@ export function ParentsGateScreen({ navigation }: ScreenProps<'ParentsGate'>) {
                 borderColor: error ? colors.error : colors.sand,
                 borderRadius: radius.md,
                 color: colors.ink,
-                backgroundColor: locked ? colors.creamDeep : '#FFFFFF',
+                backgroundColor: locked ? colors.creamDeep : colors.surface,
               },
             ]}
           />

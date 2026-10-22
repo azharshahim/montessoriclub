@@ -73,7 +73,7 @@ function SentenceView({ words, target }: { words: string[]; target: number }) {
             key={`${word}-${index}`}
             style={[
               styles.word,
-              active && { backgroundColor: '#FFE0D9', borderRadius: radius.sm, borderColor: colors.coral, borderWidth: 2 },
+              active && { backgroundColor: `${colors.coral}33`, borderRadius: radius.sm, borderColor: colors.coral, borderWidth: 2 },
             ]}
           >
             <Text style={[styles.wordText, { color: active ? colors.coralDeep : colors.ink }]}>{word}</Text>

@@ -109,7 +109,7 @@ function AnimalBoard({ onTouch }: { onTouch: () => void }) {
                   width: card,
                   height: card,
                   borderRadius: radius.xl,
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: colors.surface,
                   borderColor: animal.tint,
                 },
               ]}

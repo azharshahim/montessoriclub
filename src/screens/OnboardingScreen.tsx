@@ -132,7 +132,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                       styles.profileCard,
                       shadow.soft,
                       {
-                        backgroundColor: '#FFFFFF',
+                        backgroundColor: colors.surface,
                         borderRadius: radius.lg,
                         borderColor: colors.sand,
                         width: `${100 / columns - 3}%`,
@@ -198,7 +198,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                     borderColor: colors.sand,
                     borderRadius: radius.md,
                     color: colors.ink,
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: colors.surface,
                   },
                 ]}
               />
@@ -216,7 +216,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                       style={[
                         styles.chip,
                         {
-                          backgroundColor: active ? colors.coral : '#FFFFFF',
+                          backgroundColor: active ? colors.coral : colors.surface,
                           borderColor: active ? colors.coral : colors.sand,
                           borderRadius: radius.pill,
                         },
@@ -267,7 +267,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                       fullWidth
                     />
                     {confirmDelete ? (
-                      <View style={[styles.confirm, { borderColor: colors.sand, borderRadius: radius.md }]}>
+                      <View style={[styles.confirm, { borderColor: colors.sand, borderRadius: radius.md, backgroundColor: colors.surface }]}>
                         <Text style={[text.body, { color: colors.ink, textAlign: 'center' }]}>
                           {t('profile.deleteConfirm', { name: name || '—' })}
                         </Text>
@@ -383,7 +383,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     padding: 14,
     gap: 10,
-    backgroundColor: '#FFFFFF',
   },
   confirmRow: {
     flexDirection: 'row',

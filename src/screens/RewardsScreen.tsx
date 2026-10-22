@@ -39,7 +39,7 @@ const BADGE_KEYS: Record<string, string> = {
 
 export function RewardsScreen({ navigation }: ScreenProps<'Rewards'>) {
   const { t } = useI18n();
-  const { colors, radius, shadow, text, spacing } = useTheme();
+  const { colors, radius, shadow, text, spacing, isDark } = useTheme();
   const { width } = useWindowDimensions();
   const profile = useActiveProfile();
 
@@ -54,10 +54,10 @@ export function RewardsScreen({ navigation }: ScreenProps<'Rewards'>) {
     <Screen scene="sunset" tab="rewards" header={{ title: t('rewards.title') }}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <LinearGradient
-          colors={['#FFF1D6', '#FFE3C2']}
+          colors={isDark ? ['#3A2B23', '#2A2220'] : ['#FFF1D6', '#FFE3C2']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={[styles.hero, { borderRadius: radius.xl, borderColor: '#F3D3A7' }]}
+          style={[styles.hero, { borderRadius: radius.xl, borderColor: colors.sand }]}
         >
           <Mascot size={92} mood="happy" />
           <View style={{ alignItems: 'center' }}>
@@ -83,7 +83,7 @@ export function RewardsScreen({ navigation }: ScreenProps<'Rewards'>) {
                   styles.badgeCard,
                   shadow.soft,
                   {
-                    backgroundColor: unlocked ? '#FFFFFF' : colors.creamDeep,
+                    backgroundColor: unlocked ? colors.surface : colors.creamDeep,
                     borderColor: colors.sand,
                     borderRadius: radius.lg,
                     opacity: unlocked ? 1 : 0.6,
@@ -117,7 +117,7 @@ export function RewardsScreen({ navigation }: ScreenProps<'Rewards'>) {
                     width: size,
                     height: size,
                     borderRadius: size / 2,
-                    backgroundColor: unlocked ? '#FFFFFF' : colors.creamDeep,
+                    backgroundColor: unlocked ? colors.surface : colors.creamDeep,
                     borderColor: unlocked ? colors.sand : 'transparent',
                     opacity: unlocked ? 1 : 0.45,
                   },

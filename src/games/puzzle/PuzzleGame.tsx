@@ -355,6 +355,7 @@ function DraggablePuzzlePiece({
   shadowStyle: object;
   frameColor: string;
 }) {
+  const { colors } = useTheme();
   const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const viewRef = useRef<React.ComponentRef<typeof View> | null>(null);
   const startRect = useRef<LayoutRectangle | null>(null);
@@ -401,7 +402,7 @@ function DraggablePuzzlePiece({
           width: pieceW,
           height: pieceH,
           borderRadius,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.surface,
           borderWidth: 3,
           borderColor: frameColor,
           overflow: 'hidden',
@@ -428,7 +429,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   board: {
-    backgroundColor: '#FFFFFF',
     borderWidth: 2,
     overflow: 'hidden',
   },

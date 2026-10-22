@@ -331,7 +331,7 @@ function DraggableItem({
           width: size,
           height: size,
           borderRadius: radius.md,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.surface,
           borderColor: selected ? colors.coral : colors.sand,
           borderWidth: selected ? 3 : 1.5,
           transform: [{ translateX: pan.x }, { translateY: pan.y }, { scale }, { rotate }],

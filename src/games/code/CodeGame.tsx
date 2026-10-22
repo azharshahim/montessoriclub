@@ -294,7 +294,7 @@ export function CodeGame({ level, onFinish, onMistake, onQuit }: GameProps) {
               onPress={() => !running && setProgram((p) => p.slice(0, -1))}
               accessibilityRole="button"
               accessibilityLabel={t('code.undo')}
-              style={[styles.small, { backgroundColor: '#FFFFFF', borderColor: colors.sand }]}
+              style={[styles.small, { backgroundColor: colors.surface, borderColor: colors.sand }]}
             >
               <Text style={[text.label, { color: colors.ink }]}>↶ {t('code.undo')}</Text>
             </Pressable>
@@ -302,7 +302,7 @@ export function CodeGame({ level, onFinish, onMistake, onQuit }: GameProps) {
               onPress={() => !running && setProgram([])}
               accessibilityRole="button"
               accessibilityLabel={t('code.clear')}
-              style={[styles.small, { backgroundColor: '#FFFFFF', borderColor: colors.sand }]}
+              style={[styles.small, { backgroundColor: colors.surface, borderColor: colors.sand }]}
             >
               <Text style={[text.label, { color: colors.ink }]}>✕ {t('code.clear')}</Text>
             </Pressable>

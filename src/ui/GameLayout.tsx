@@ -47,7 +47,7 @@ export function StarPill({ count }: { count: number }) {
       style={[
         styles.pill,
         shadow.soft,
-        { backgroundColor: '#FFFFFF', borderRadius: radius.pill, borderColor: colors.sand },
+        { backgroundColor: colors.surface, borderRadius: radius.pill, borderColor: colors.sand },
       ]}
       accessibilityLabel={`${count}`}
     >

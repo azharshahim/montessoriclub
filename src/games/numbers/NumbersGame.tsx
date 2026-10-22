@@ -150,7 +150,7 @@ export function NumbersGame({ level, onFinish, onMistake, onQuit }: GameProps) {
                     styles.option,
                     shadow.soft,
                     {
-                      backgroundColor: isWrong ? colors.sand : '#FFFFFF',
+                      backgroundColor: isWrong ? colors.sand : colors.surface,
                       borderColor: isWrong ? colors.sand : colors.sand,
                       borderRadius: radius.lg,
                       opacity: isWrong ? 0.45 : 1,

@@ -6,6 +6,8 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { Language } from '../i18n';
 
+export type ThemeMode = 'system' | 'light' | 'dark';
+
 /** Détection de la langue du système, repli sur le français. */
 export function detectLanguage(): Language {
   try {
@@ -20,6 +22,8 @@ export function detectLanguage(): Language {
 
 interface SettingsState {
   language: Language;
+  /** Apparence : suit le système par défaut, ou forcée par le parent. */
+  themeMode: ThemeMode;
   /** Sons et voix de la mascotte. */
   sound: boolean;
   /** Sous-titres systématiques sous la mascotte. */
@@ -30,6 +34,7 @@ interface SettingsState {
   reducedMotion: boolean;
   haptics: boolean;
   setLanguage: (language: Language) => void;
+  setThemeMode: (mode: ThemeMode) => void;
   toggle: (key: 'sound' | 'subtitles' | 'colorBlind' | 'reducedMotion' | 'haptics') => void;
   set: <K extends 'sound' | 'subtitles' | 'colorBlind' | 'reducedMotion' | 'haptics'>(key: K, value: boolean) => void;
 }
@@ -38,6 +43,7 @@ export const useSettings = create<SettingsState>()(
   persist(
     (set) => ({
       language: detectLanguage(),
+      themeMode: 'system',
       sound: true,
       subtitles: true,
       colorBlind: false,
@@ -57,6 +63,7 @@ export const useSettings = create<SettingsState>()(
           }
         }
       },
+      setThemeMode: (themeMode) => set({ themeMode }),
       toggle: (key) => set((state) => ({ [key]: !state[key] }) as Pick<SettingsState, typeof key>),
       set: (key, value) => set({ [key]: value } as Pick<SettingsState, typeof key>),
     }),

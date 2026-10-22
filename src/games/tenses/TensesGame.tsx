@@ -127,7 +127,7 @@ function Marker({ word, infinitive }: { word: string; infinitive: string }) {
   const { colors, radius } = useTheme();
   return (
     <View style={styles.col} accessible={false}>
-      <View style={[styles.pill, { backgroundColor: '#FFF3D6', borderColor: '#F7C948', borderRadius: radius.pill }]}>
+      <View style={[styles.pill, { backgroundColor: `${colors.yellow}33`, borderColor: colors.yellow, borderRadius: radius.pill }]}>
         <Text style={[styles.word, { color: colors.ink }]}>{word}</Text>
       </View>
       <Text style={[styles.hint, { color: colors.inkSoft }]}>{`(${infinitive})`}</Text>

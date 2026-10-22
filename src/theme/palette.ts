@@ -72,3 +72,44 @@ export const colorBlindPatterns: Record<ObjectColor, 'dot' | 'stripe' | 'star' |
   brown: 'cross',
   teal: 'wave',
 };
+
+
+/**
+ * Palette sombre, déclinée de la palette claire.
+ *
+ * Les accents (corail, vert, bleu…) restent identiques : ils sont toujours
+ * utilisés comme aplats avec du texte blanc, et conserver leurs valeurs
+ * garantit les contrastes déjà validés. Seuls les fonds, les surfaces et les
+ * encres changent, pour un mode sombre chaud — jamais noir pur, jamais gris froid.
+ */
+export const darkPalette = {
+  cream: '#171513',
+  creamDeep: '#211E1B',
+  sand: '#3B3530',
+  white: '#FFFDF8',
+
+  surface: '#262320',
+  surfaceTranslucent: 'rgba(38, 35, 32, 0.88)',
+  onAccent: '#FFFFFF',
+
+  ink: '#F7F1E8',
+  inkSoft: '#D6CABD',
+  inkFaint: '#A99B8E',
+
+  coral: '#E8665A',
+  coralDeep: '#F08376',
+  orange: '#F09A55',
+  yellow: '#F5C84B',
+  green: '#57C795',
+  teal: '#45B8BC',
+  blue: '#619BE5',
+  indigo: '#8184E0',
+  purple: '#A98BE0',
+  pink: '#E88EAF',
+  brown: '#B08265',
+
+  success: '#5FD3A0',
+  error: '#FF8174',
+
+  shadow: 'rgba(0, 0, 0, 0.55)',
+} as const;

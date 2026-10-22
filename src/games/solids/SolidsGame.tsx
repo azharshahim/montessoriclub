@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { pick, shuffle } from '../../engine/adaptive';
 import { useI18n } from '../../i18n';
+import { useTheme } from '../../theme';
 import { QuizGame, type QuizChoice, type QuizRound } from '../QuizGame';
 import { numberChoices } from '../math/mathHelpers';
 import type { GameProps } from '../types';
@@ -82,10 +83,11 @@ export function SolidsGame(props: GameProps) {
 }
 
 function Show({ emoji, caption }: { emoji: string; caption: string }) {
+  const { colors } = useTheme();
   return (
     <View style={styles.wrap} accessible={false}>
       <Text style={styles.emoji}>{emoji}</Text>
-      <Text style={styles.caption}>{caption}</Text>
+      <Text style={[styles.caption, { color: colors.ink }]}>{caption}</Text>
     </View>
   );
 }
@@ -93,5 +95,5 @@ function Show({ emoji, caption }: { emoji: string; caption: string }) {
 const styles = StyleSheet.create({
   wrap: { alignItems: 'center', gap: 2 },
   emoji: { fontSize: 84 },
-  caption: { fontSize: 22, fontWeight: '800', color: '#33302E', textAlign: 'center' },
+  caption: { fontSize: 22, fontWeight: '800', textAlign: 'center' },
 });

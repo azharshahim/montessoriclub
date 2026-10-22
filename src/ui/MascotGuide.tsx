@@ -49,7 +49,7 @@ export function MascotGuide({ message, mood = 'idle', size = 108, hideBubble }: 
       style={[
         styles.bubble,
         {
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.surface,
           borderRadius: radius.lg,
           borderColor: colors.sand,
           ...shadow.soft,

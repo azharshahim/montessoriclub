@@ -252,7 +252,7 @@ export function TracingGame({ level, onFinish, onQuit }: GameProps) {
               {
                 width: side,
                 height: side,
-                backgroundColor: '#FFFFFF',
+                backgroundColor: colors.surface,
                 borderRadius: radius.xl,
                 borderColor: colors.sand,
               },

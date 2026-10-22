@@ -31,7 +31,7 @@ export function WordPrompt({ word, showSyllables = false, hiddenIndex }: WordPro
                     borderRadius: radius.md,
                     borderColor: hidden ? colors.coral : colors.sand,
                     borderStyle: hidden ? 'dashed' : 'solid',
-                    backgroundColor: hidden ? '#FFF3EF' : '#FFFFFF',
+                    backgroundColor: hidden ? 'transparent' : colors.surface,
                   },
                 ]}
               >

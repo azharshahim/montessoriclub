@@ -187,6 +187,7 @@ function MemoryCard({
   backColor: string;
 }) {
   const { t } = useI18n();
+  const { colors } = useTheme();
   const progress = useRef(new Animated.Value(faceUp ? 1 : 0)).current;
   const [showFace, setShowFace] = useState(faceUp);
 
@@ -223,7 +224,7 @@ function MemoryCard({
           shadowStyle,
           {
             borderRadius,
-            backgroundColor: showFace ? '#FFFFFF' : backColor,
+            backgroundColor: showFace ? colors.surface : backColor,
             borderColor: showFace ? '#F3E3D2' : 'transparent',
             transform: [{ scaleX }],
           },

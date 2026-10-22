@@ -56,7 +56,7 @@ function Blank({ pronoun, infinitive }: { pronoun: string; infinitive: string })
   return (
     <View style={styles.row} accessible={false}>
       <Text style={[styles.text, { color: colors.ink }]}>{pronoun}</Text>
-      <View style={[styles.blank, { borderColor: colors.coral, borderRadius: radius.sm, backgroundColor: '#FFF3EF' }]}>
+      <View style={[styles.blank, { borderColor: colors.coral, borderRadius: radius.sm, backgroundColor: colors.creamDeep }]}>
         <Text style={[styles.text, { color: colors.coral }]}>?</Text>
       </View>
       <Text style={[styles.hint, { color: colors.inkSoft }]}>{`(${infinitive})`}</Text>

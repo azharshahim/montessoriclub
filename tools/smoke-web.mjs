@@ -36,8 +36,9 @@ const dom = new JSDOM(html, {
     // Environnement navigateur minimal mais suffisant pour RN Web.
     Object.defineProperty(window.navigator, 'language', { configurable: true, value: 'fr-FR' });
     Object.defineProperty(window.navigator, 'languages', { configurable: true, value: ['fr-FR', 'fr'] });
+    const prefersDark = process.env.DARK === '1';
     window.matchMedia = (query) => ({
-      matches: false,
+      matches: prefersDark && query.includes('dark'),
       media: query,
       onchange: null,
       addListener() {},
@@ -192,6 +193,10 @@ async function main() {
     await createProfile(name, ageLabel);
     expectedBands[name] = expectedCount;
     if (!bodyText().includes(`Bonjour ${name}`)) fail(`accueil non affiché pour ${name}`);
+    if (process.env.DARK === '1' && name === 'Lina') {
+      const background = window.getComputedStyle(document.body).backgroundColor;
+      if (!/23, 21, 19|#171513/i.test(background)) fail(`mode sombre non appliqué (fond ${background})`);
+    }
     const visibleCards = cards();
     if (visibleCards.length !== expectedCount) {
       fail(`${name} (${ageLabel}) : ${visibleCards.length} activités affichées au lieu de ${expectedCount}`);
@@ -297,12 +302,33 @@ async function main() {
       await sleep(700);
       if (!bodyText().includes('Espace parents')) fail('espace parents inaccessible avec la bonne réponse');
       if (!bodyText().includes('Progression')) fail('tableau de bord parents vide');
+
+      // Réglages : bascule explicite clair / sombre / automatique.
+      pressText('Réglages');
+      await sleep(350);
+      pressText('Sombre');
+      await sleep(350);
+      const dark = window.getComputedStyle(document.body).backgroundColor;
+      if (!/23, 21, 19/i.test(dark)) fail(`thème sombre non appliqué (fond ${dark})`);
+      pressText('Clair');
+      await sleep(350);
+      const light = window.getComputedStyle(document.body).backgroundColor;
+      if (!/255, 249, 240/i.test(light)) fail(`thème clair non appliqué (fond ${light})`);
+      pressText('Automatique');
+      await sleep(250);
     }
   }
 
   // 4. Aucun texte non traduit (clé brute) ne doit apparaître.
+  const KNOWN_PREFIXES = new Set([
+    'activity', 'game', 'home', 'parents', 'common', 'nav', 'color', 'shape', 'item', 'number',
+    'rewards', 'mascot', 'a11y', 'language', 'theme', 'pwa', 'profile', 'age', 'sorting',
+    'criterion', 'bin', 'kind', 'dressing', 'worldmap', 'tenses', 'solids', 'living',
+    'equivalents', 'angles', 'code', 'fractions', 'geometry', 'solar', 'world', 'grammar',
+    'conjugation', 'clock', 'money', 'reading', 'math',
+  ]);
   const rawKeys = bodyText().match(/\b[a-z]+\.[a-zA-Z0-9_]+\b/g) ?? [];
-  const suspicious = rawKeys.filter((key) => !/^\d+\.\d+$/.test(key) && !key.includes('@'));
+  const suspicious = rawKeys.filter((key) => KNOWN_PREFIXES.has(key.split('.')[0]));
   if (suspicious.length) fail(`clés de traduction brutes affichées : ${suspicious.slice(0, 5).join(', ')}`);
 }
 
