@@ -47,6 +47,39 @@ check(indexHtml.includes('manifest.webmanifest'), 'le document ne référence pa
 check(indexHtml.includes('apple-touch-icon'), 'lien apple-touch-icon absent');
 check(indexHtml.includes('id="boot-splash"'), 'écran de démarrage absent du document');
 
+// --- Version du cache et chemin de base (GitHub Pages) --------------------
+// La version du service worker doit suivre celle de l'application : sans cela,
+// les navigateurs déjà installés garderaient l'ancienne coque en cache.
+const appVersion = JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8')).version;
+check(!!swVersion, 'CACHE_VERSION introuvable dans dist/sw.js');
+check(
+  swVersion === appVersion,
+  `CACHE_VERSION (${swVersion}) différent de la version de l'application (${appVersion})`
+);
+
+// Sous GitHub Pages, l'application est servie depuis /<dépôt>/ : le bundle doit
+// pointer vers ce sous-chemin, et les fichiers du manifeste rester relatifs pour
+// rester valides quel que soit le préfixe.
+const basePath = (process.env.EXPO_BASE_URL ?? '').replace(/\/+$/, '');
+const references = [...indexHtml.matchAll(/(?:src|href)="([^"]+)"/g)].map((match) => match[1]);
+const absolute = references.filter((reference) => /^\/(?!\/)/.test(reference));
+for (const reference of absolute) {
+  check(
+    basePath === '' || reference.startsWith(`${basePath}/`),
+    `chemin absolu hors du sous-chemin « ${basePath} » : ${reference}`
+  );
+}
+if (basePath) {
+  check(
+    references.some((reference) => reference.startsWith(`${basePath}/_expo/static/js/web/`)),
+    'le bundle JavaScript n’est pas servi depuis le sous-chemin GitHub Pages'
+  );
+}
+check(
+  references.filter((reference) => reference.startsWith('./')).length >= 3,
+  'les fichiers de la PWA (manifeste, icônes) ne sont pas référencés en relatif'
+);
+
 // --- Exécution du service worker dans un contexte simulé -------------------
 const ORIGIN = 'https://app.test';
 const SCOPE = `${ORIGIN}/montessoriclub/`;
@@ -210,4 +243,8 @@ if (failures.length) {
   for (const failure of failures) console.error(` - ${failure}`);
   process.exit(1);
 }
-console.log('✅ Service worker : manifeste, icônes, précache, purge, navigation et assets hors ligne.');
+console.log(
+  `✅ Service worker ${swVersion} : manifeste, icônes, précache, purge, navigation et assets hors ligne` +
+    (basePath ? `, chemins sous ${basePath}/` : ', chemins relatifs') +
+    '.'
+);
