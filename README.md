@@ -51,8 +51,9 @@ jusqu'à la collection de récompenses, sans réseau ni compte.
 
 ### Nouveautés de la version 1.2
 
-- **36 activités** contre 14 en v1.1 : les tranches 6-8 et 9-12 sont désormais complètes,
-  avec les mêmes règles Montessori (une compétence par activité, erreur sans punition).
+- **36 activités** (34 modules) contre 10 modules en v1.1 : les tranches 0-2, 6-8 et 9-12
+  sont désormais complètes, avec les mêmes règles Montessori (une compétence par activité,
+  erreur sans punition).
 - **Mode sombre** lisible, réglable depuis l'espace parents (Automatique / Clair / Sombre).
 - **Code parental à 4 chiffres** : défini, modifié ou supprimé par l'adulte. Sans code,
   la porte reste protégée par une multiplication à deux chiffres.
@@ -72,7 +73,7 @@ jusqu'à la collection de récompenses, sans réseau ni compte.
 | React / React DOM | `19.3.0` | UI |
 | React Native | `0.88.0` | Rendu natif |
 | React Native Web | `~0.21.4` | Rendu Web |
-| TypeScript | `~5.9` | Typage strict |
+| TypeScript | `~6.0` | Typage strict |
 | React Navigation (native-stack) | `7.x` | Navigation |
 | Zustand + AsyncStorage | `5.x` / `2.2.0` | État global persistant |
 | react-native-svg | `15.16.0` | **Toutes les illustrations** (aucun bitmap) |
@@ -124,8 +125,14 @@ DARK=1 npm run test:web
 # Parcours sur un téléphone : portrait (390 × 844) puis paysage (844 × 390)
 npm run test:layout
 
+# Jouer une session entière de chacune des 36 activités (≈ 6 min)
+npm run test:activities
+
 # Régénérer les sons (WAV, sans dépendance)
 npm run sounds
+
+# Régénérer les captures de docs/screenshots (nécessite Chrome : CHROME_PATH=…)
+npm run screenshots
 ```
 
 > La première ouverture sur le Web peut nécessiter un clic : les navigateurs
@@ -150,19 +157,31 @@ montessoriclub/
 │   ├── games/
 │   │   ├── types.ts            # contrat GameProps / GameModule
 │   │   ├── useGameSession.ts   # boucle manches / étoiles / fin de session
-│   │   ├── index.ts            # catalogue des activités
-│   │   ├── colors/             # module couleurs
-│   │   ├── shapes/             # module formes
-│   │   ├── numbers/            # module chiffres
-│   │   ├── tracing/            # module tracé au doigt
-│   │   └── sensory/            # module éveil sensoriel (0-2)
+│   │   ├── index.ts            # catalogue des 34 modules (36 activités)
+│   │   ├── QuizGame.tsx        # socle des activités à choix multiple
+│   │   ├── FreePlayShell.tsx   # coque des jeux libres 0-2 ans
+│   │   ├── colors/ shapes/ numbers/ tracing/   # 3-5 ans
+│   │   ├── sorting/ memory/ puzzle/ pouring/ dressing/  # vie pratique 3-5
+│   │   ├── addition/ subtraction/ times/ reading/ clock/ money/ living/  # 6-8
+│   │   ├── fractions/ geometry/ solar/ world/ grammar/ conjugation/      # 9-12
+│   │   ├── code/ equivalents/ angles/ tenses/ solids/ worldmap/          # 9-12
+│   │   └── sensory/ animals/ colortouch/ shapefit/ music/  # éveil 0-2
 │   ├── i18n/                   # FR / EN / AR, provider, RTL
 │   ├── navigation/             # pile de navigation, types de routes
 │   ├── screens/                # accueil, jeu, récompenses, parents…
 │   ├── store/                  # profils + réglages (Zustand persist)
 │   ├── theme/                  # palette, typographie, useTheme
 │   └── ui/                     # design system (boutons, mascotte, plateau…)
-├── tools/generate_sounds.py    # synthèse des 8 effets sonores
+├── tools/
+│   ├── lib/web-app.mjs         # démarrage jsdom + gestes simulés (banc partagé)
+│   ├── smoke-web.mjs           # parcours complet clair / sombre
+│   ├── play-activities.mjs     # les 36 activités jouées de bout en bout
+│   ├── test-sw.mjs             # service worker, précache, version de cache
+│   ├── test-layout.mjs         # portrait puis paysage
+│   ├── check-i18n.mjs          # parité fr / en / ar
+│   ├── screenshots.mjs         # captures docs/screenshots (Chrome requis)
+│   └── generate_sounds.py      # synthèse des 8 effets sonores
+├── CHANGELOG.md                # journal des versions
 └── docs/                       # architecture, assets, publication, roadmap
 ```
 
@@ -265,6 +284,7 @@ Détail des formulaires stores et de la checklist de publication : **`docs/PUBLI
 | `docs/ASSETS.md` | Liste des assets + **prompts de génération**, charte graphique, script de voix |
 | `docs/PUBLICATION.md` | Lancement local, EAS, App Store, Google Play, Web, conformité |
 | `docs/ROADMAP.md` | Feuille de route détaillée des versions suivantes |
+| `CHANGELOG.md` | Journal des versions (1.0, 1.1, 1.2) : ajouts par tranche d'âge, correctifs, limites |
 | `.github/workflows/ci.yml` | Contrôles automatiques sur chaque branche et pull request |
 
 ---
@@ -281,13 +301,20 @@ Polices : polices arrondies système (aucun téléchargement). Sons : synthèse 
 
 ## 10. Aperçu
 
-| Accueil | Formes (paysage) | Récompense |
+Captures de la version 1.2, produites par `npm run screenshots` (Chrome) et régénérées par
+le workflow « Captures » à chaque évolution de l'outil.
+
+| Accueil (portrait, clair) | Formes (paysage, clair) | Récompenses |
 |---|---|---|
-| ![](docs/screenshots/01-accueil.png) | ![](docs/screenshots/02-formes-paysage.png) | ![](docs/screenshots/03-recompense.png) |
+| ![](docs/screenshots/01-accueil.png) | ![](docs/screenshots/02-formes-paysage.png) | ![](docs/screenshots/03-recompenses.png) |
 
 | Couleurs | Tracé au doigt | Arabe + daltonisme |
 |---|---|---|
 | ![](docs/screenshots/04-couleurs.png) | ![](docs/screenshots/05-trace.png) | ![](docs/screenshots/06-arabe-daltonisme.png) |
+
+| Espace parents | Additions (paysage, sombre) | Accueil (sombre) |
+|---|---|---|
+| ![](docs/screenshots/07-espace-parents.png) | ![](docs/screenshots/08-paysage-sombre.png) | ![](docs/screenshots/09-accueil-sombre.png) |
 
 ## 11. État de validation
 
@@ -296,9 +323,10 @@ Polices : polices arrondies système (aucun téléchargement). Sons : synthèse 
 | `npx tsc --noEmit` (TypeScript strict) | ✅ 0 erreur |
 | `npm run build:web` (`expo export`) | ✅ export complet + `dist/` |
 | `npm run test:i18n` | ✅ 359 clés cohérentes en fr/en/ar, variables d'interpolation incluses |
-| `npm run test:sw` | ✅ manifeste, icônes, précache, purge, navigation et assets hors ligne |
+| `npm run test:sw` | ✅ service worker 1.2.0 : manifeste, icônes, précache, purge, navigation et assets hors ligne, chemins sous `/montessoriclub/` |
 | `npm run test:web` (thème clair) | ✅ profils, 36 activités, addition, récompenses, édition de profil, porte parentale, réglages, langue, réinitialisation |
 | `DARK=1 npm run test:web` (thème sombre) | ✅ mêmes parcours, fond sombre vérifié |
 | `npm run test:layout` (portrait + paysage) | ✅ 390 × 844 et 844 × 390, branches compactes exercées |
+| `npm run test:activities` (36 activités) | ✅ 36/36 jouées jusqu'au bilan, une session complète par activité |
 | FR / EN / AR + RTL, mode daltonisme | ✅ validés |
 | Glisser-déposer, tracé au doigt, appui maintenu | ✅ validés par le parcours automatisé et les tests manuels |
