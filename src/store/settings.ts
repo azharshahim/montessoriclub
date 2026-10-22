@@ -24,6 +24,8 @@ interface SettingsState {
   language: Language;
   /** Apparence : suit le système par défaut, ou forcée par le parent. */
   themeMode: ThemeMode;
+  /** Code à 4 chiffres protégeant l'espace parents (null = multiplication). */
+  parentalCode: string | null;
   /** Sons et voix de la mascotte. */
   sound: boolean;
   /** Sous-titres systématiques sous la mascotte. */
@@ -35,6 +37,7 @@ interface SettingsState {
   haptics: boolean;
   setLanguage: (language: Language) => void;
   setThemeMode: (mode: ThemeMode) => void;
+  setParentalCode: (code: string | null) => void;
   toggle: (key: 'sound' | 'subtitles' | 'colorBlind' | 'reducedMotion' | 'haptics') => void;
   set: <K extends 'sound' | 'subtitles' | 'colorBlind' | 'reducedMotion' | 'haptics'>(key: K, value: boolean) => void;
 }
@@ -44,6 +47,7 @@ export const useSettings = create<SettingsState>()(
     (set) => ({
       language: detectLanguage(),
       themeMode: 'system',
+      parentalCode: null,
       sound: true,
       subtitles: true,
       colorBlind: false,
@@ -64,6 +68,7 @@ export const useSettings = create<SettingsState>()(
         }
       },
       setThemeMode: (themeMode) => set({ themeMode }),
+      setParentalCode: (parentalCode) => set({ parentalCode }),
       toggle: (key) => set((state) => ({ [key]: !state[key] }) as Pick<SettingsState, typeof key>),
       set: (key, value) => set({ [key]: value } as Pick<SettingsState, typeof key>),
     }),

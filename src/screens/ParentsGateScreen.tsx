@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { randInt } from '../engine/adaptive';
 import { useI18n } from '../i18n';
 import type { ScreenProps } from '../navigation/types';
+import { useSettings } from '../store/settings';
 import { useTheme } from '../theme';
 import { Button } from '../ui/Button';
 import { Icon } from '../ui/Icon';
@@ -17,6 +18,8 @@ import { Screen } from '../ui/Screen';
 export function ParentsGateScreen({ navigation }: ScreenProps<'ParentsGate'>) {
   const { t } = useI18n();
   const { colors, radius, shadow, text, spacing } = useTheme();
+  const parentalCode = useSettings((s) => s.parentalCode);
+  const useCode = !!parentalCode;
 
   const [challenge, setChallenge] = useState(() => makeChallenge());
   const [value, setValue] = useState('');
@@ -32,7 +35,8 @@ export function ParentsGateScreen({ navigation }: ScreenProps<'ParentsGate'>) {
 
   const validate = useCallback(() => {
     if (lockSeconds > 0) return;
-    if (Number(value) === challenge.a * challenge.b) {
+    const valid = useCode ? value === parentalCode : Number(value) === challenge.a * challenge.b;
+    if (valid) {
       navigation.replace('Parents');
       return;
     }
@@ -45,7 +49,7 @@ export function ParentsGateScreen({ navigation }: ScreenProps<'ParentsGate'>) {
       setAttempts(0);
       setChallenge(makeChallenge());
     }
-  }, [attempts, challenge, lockSeconds, navigation, value]);
+  }, [attempts, challenge, lockSeconds, navigation, parentalCode, useCode, value]);
 
   const locked = lockSeconds > 0;
 
@@ -65,12 +69,20 @@ export function ParentsGateScreen({ navigation }: ScreenProps<'ParentsGate'>) {
           <Text style={[text.h2, { color: colors.ink, textAlign: 'center' }]}>{t('parents.locked')}</Text>
           <Text style={[text.body, { color: colors.inkSoft, textAlign: 'center' }]}>{t('parents.gateHint')}</Text>
 
-          <Text style={[text.display, { color: colors.ink, textAlign: 'center', marginVertical: 6 }]}>
-            {challenge.a} × {challenge.b}
-          </Text>
-          <Text style={[text.caption, { color: colors.inkFaint, textAlign: 'center' }]}>
-            {t('parents.gateQuestion', { a: challenge.a, b: challenge.b })}
-          </Text>
+          {useCode ? (
+            <Text style={[text.body, { color: colors.inkSoft, textAlign: 'center' }]}>
+              {t('parents.gateCode')}
+            </Text>
+          ) : (
+            <>
+              <Text style={[text.display, { color: colors.ink, textAlign: 'center', marginVertical: 6 }]}>
+                {challenge.a} × {challenge.b}
+              </Text>
+              <Text style={[text.caption, { color: colors.inkFaint, textAlign: 'center' }]}>
+                {t('parents.gateQuestion', { a: challenge.a, b: challenge.b })}
+              </Text>
+            </>
+          )}
 
           <TextInput
             value={value}
@@ -83,7 +95,8 @@ export function ParentsGateScreen({ navigation }: ScreenProps<'ParentsGate'>) {
             inputMode="numeric"
             maxLength={4}
             editable={!locked}
-            accessibilityLabel={t('parents.gateQuestion', { a: challenge.a, b: challenge.b })}
+            accessibilityLabel={useCode ? t('parents.gateCode') : t('parents.gateQuestion', { a: challenge.a, b: challenge.b })}
+            secureTextEntry={useCode}
             style={[
               styles.input,
               {
@@ -108,7 +121,7 @@ export function ParentsGateScreen({ navigation }: ScreenProps<'ParentsGate'>) {
             label={t('common.continue')}
             icon="chevron"
             onPress={validate}
-            disabled={locked || value.length === 0}
+            disabled={locked || (useCode ? value.length !== 4 : value.length === 0)}
             size="lg"
             fullWidth
             style={{ marginTop: spacing.sm }}

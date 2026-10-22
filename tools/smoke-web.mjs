@@ -125,8 +125,8 @@ function pressText(text) {
   press(element);
 }
 
-function type(value) {
-  const input = document.querySelector('input');
+function type(value, index = 0) {
+  const input = document.querySelectorAll('input')[index];
   if (!input) throw new Error('champ texte introuvable');
   const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
   setter.call(input, value);
@@ -316,6 +316,35 @@ async function main() {
       if (!/255, 249, 240/i.test(light)) fail(`thème clair non appliqué (fond ${light})`);
       pressText('Automatique');
       await sleep(250);
+
+      // Code parental : définition, puis vérification de la porte.
+      pressText('Définir un code');
+      await sleep(300);
+      type('1234', 0);
+      type('1234', 1);
+      await sleep(150);
+      pressText('Définir un code');
+      await sleep(400);
+      if (!bodyText().includes('Code enregistré')) fail('code parental non enregistré');
+      await sleep(300);
+
+      const homeTab = tabByLabel('Activités') ?? tabByLabel('Activities');
+      if (homeTab) {
+        press(homeTab);
+        await sleep(500);
+      }
+      const gateTab = tabByLabel('Parents');
+      if (!gateTab) fail('onglet Parents introuvable après le code');
+      else {
+        press(gateTab);
+        await sleep(500);
+        if (!bodyText().includes('code parental')) fail('la porte ne demande pas le code parental');
+        type('1234', 0);
+        await sleep(120);
+        pressText('Continuer');
+        await sleep(600);
+        if (!bodyText().includes('Espace parents')) fail('code parental refusé à tort');
+      }
     }
   }
 

@@ -10,6 +10,7 @@ import { useSettings, type ThemeMode } from '../store/settings';
 import { useTheme } from '../theme';
 import { Button } from '../ui/Button';
 import { Icon, type IconName } from '../ui/Icon';
+import { ParentalCodeCard } from '../ui/ParentalCodeCard';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Screen } from '../ui/Screen';
 
@@ -101,6 +102,13 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
             );
           })}
         </View>
+        <Button
+          label={t('parents.manageProfiles')}
+          icon="user"
+          variant="ghost"
+          size="sm"
+          onPress={() => navigation.navigate('Onboarding')}
+        />
 
         {/* Onglets */}
         <View style={[styles.tabs, { backgroundColor: colors.sand, borderRadius: radius.pill }]}>
@@ -267,6 +275,14 @@ export function ParentsScreen({ navigation }: ScreenProps<'Parents'>) {
             <Text style={[text.caption, { color: colors.inkFaint, marginTop: 6 }]}>{t('parents.themeHint')}</Text>
 
             <View style={[styles.card, shadow.soft, { backgroundColor: colors.surface, borderRadius: radius.lg, borderColor: colors.sand, marginTop: spacing.md }]}>
+              <View style={styles.cardTitle}>
+                <Icon name="shield" size={20} color={colors.green} />
+                <Text style={[text.h3, { color: colors.ink }]}>{t('parents.security')}</Text>
+              </View>
+              <ParentalCodeCard />
+            </View>
+
+            <View style={[styles.card, shadow.soft, { backgroundColor: colors.surface, borderRadius: radius.lg, borderColor: colors.sand, marginTop: spacing.md }]}>
               <ToggleRow
                 icon="sound"
                 label={t('parents.sound')}
@@ -388,6 +404,8 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   childChip: {
+    minHeight: 48,
+    justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 9,
     borderWidth: 1.5,
@@ -446,6 +464,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   chip: {
+    minHeight: 48,
+    justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderWidth: 1.5,
