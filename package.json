@@ -19,6 +19,7 @@
     "check": "tsc --noEmit && npm run test:i18n && npm run build:web && npm run test:sw && npm run test:web",
     "test:sw": "node tools/test-sw.mjs",
     "test:layout": "node tools/test-layout.mjs",
+    "test:activities": "node tools/play-activities.mjs",
     "test:i18n": "node tools/check-i18n.mjs"
   },
   "dependencies": {
