@@ -47,7 +47,7 @@ export function StarPill({ count }: { count: number }) {
       style={[
         styles.pill,
         shadow.soft,
-        { backgroundColor: '#FFFFFF', borderRadius: radius.pill, borderColor: colors.sand },
+        { backgroundColor: colors.surface, borderRadius: radius.pill, borderColor: colors.sand },
       ]}
       accessibilityLabel={`${count}`}
     >
@@ -106,14 +106,21 @@ export function GameLayout({
         </Text>
       </View>
 
-      <View style={styles.mascot}>
-        <MascotGuide
-          message={feedback ?? instruction}
-          mood={mood}
-          size={compact ? 54 : 84}
-          hideBubble={false}
-        />
-      </View>
+      {compact ? (
+        // Paysage sur téléphone : la bulle prendrait la place du plateau,
+        // mais la consigne doit rester lisible. On l'affiche en une ligne.
+        <Text
+          numberOfLines={2}
+          style={[styles.compactInstruction, { color: colors.inkSoft }]}
+          accessibilityLiveRegion="polite"
+        >
+          {feedback ?? instruction}
+        </Text>
+      ) : (
+        <View style={styles.mascot}>
+          <MascotGuide message={feedback ?? instruction} mood={mood} size={84} />
+        </View>
+      )}
 
       <View style={styles.board} onLayout={handleBoardLayout}>
         <BoardAreaContext.Provider value={area}>{children}</BoardAreaContext.Provider>
@@ -132,6 +139,12 @@ const styles = StyleSheet.create({
   },
   mascot: {
     alignItems: 'center',
+  },
+  compactInstruction: {
+    fontSize: 13,
+    fontWeight: '700',
+    textAlign: 'center',
+    paddingHorizontal: 8,
   },
   board: {
     flex: 1,

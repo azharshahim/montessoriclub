@@ -8,7 +8,9 @@ import { StatusBar } from 'expo-status-bar';
 import { initAudio } from './src/audio/engine';
 import { I18nProvider, useI18n } from './src/i18n';
 import { RootNavigator } from './src/navigation/RootNavigator';
+import { registerServiceWorker } from './src/pwa';
 import { useProfiles } from './src/store/profiles';
+import { useTheme } from './src/theme';
 import { palette } from './src/theme/palette';
 
 // L'écran de démarrage reste visible tant que les profils ne sont pas chargés.
@@ -54,6 +56,7 @@ function useSessionClock() {
 function AppContent() {
   const hydrated = useHydrated();
   const { dir, language } = useI18n();
+  const { colors, mode } = useTheme();
 
   useEffect(() => {
     if (hydrated) SplashScreen.hideAsync().catch(() => undefined);
@@ -64,26 +67,32 @@ function AppContent() {
     if (Platform.OS !== 'web' || typeof document === 'undefined') return;
     document.documentElement.dir = dir;
     document.documentElement.lang = language;
-    document.body.style.backgroundColor = palette.cream;
+    document.body.style.backgroundColor = colors.cream;
     document.body.style.margin = '0';
     // Les gestes de glisser-déposer ne doivent pas sélectionner le texte.
     document.body.style.userSelect = 'none';
     document.body.style.webkitUserSelect = 'none';
     // La navigation ne doit pas écraser le nom de l'application dans l'onglet.
     document.title = 'Montessori Club';
-  }, [dir, language]);
+  }, [colors.cream, dir, language]);
 
   useEffect(() => {
     void initAudio();
+    void registerServiceWorker();
   }, []);
 
   useSessionClock();
 
   if (!hydrated) {
-    return <View style={styles.splash} />;
+    return <View style={[styles.splash, { backgroundColor: colors.cream }]} />;
   }
 
-  return <RootNavigator />;
+  return (
+    <>
+      <StatusBar style={mode === 'dark' ? 'light' : 'dark'} />
+      <RootNavigator />
+    </>
+  );
 }
 
 export default function App() {
@@ -91,7 +100,6 @@ export default function App() {
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
         <I18nProvider>
-          <StatusBar style="dark" />
           <AppContent />
         </I18nProvider>
       </SafeAreaProvider>

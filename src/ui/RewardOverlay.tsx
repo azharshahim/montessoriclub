@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
 import { speak, stopSpeaking } from '../audio/speech';
 import { useI18n } from '../i18n';
@@ -43,6 +43,8 @@ export function RewardOverlay({
   speakOnOpen = true,
 }: RewardOverlayProps) {
   const { colors, radius, shadow, text, spacing, reducedMotion } = useTheme();
+  const { height } = useWindowDimensions();
+  const compact = height < 560;
   const { language } = useI18n();
   const scale = useRef(new Animated.Value(0.85)).current;
   const opacity = useRef(new Animated.Value(0)).current;
@@ -89,25 +91,29 @@ export function RewardOverlay({
           },
         ]}
       >
-        {emojiFallback ? null : <Mascot size={104} mood="happy" />}
-        <Text style={[text.h1, { color: colors.ink, textAlign: 'center' }]}>{title}</Text>
-        {subtitle ? (
-          <Text style={[text.body, { color: colors.inkSoft, textAlign: 'center' }]}>{subtitle}</Text>
-        ) : null}
-
-        {typeof stars === 'number' ? (
-          <View style={styles.starRow}>
-            {Array.from({ length: Math.min(5, Math.max(1, stars)) }).map((_, i) => (
-              <Icon key={i} name="star" size={30} color={colors.yellow} />
-            ))}
-          </View>
-        ) : null}
-
-        <View style={{ gap: spacing.sm, width: '100%', marginTop: spacing.sm }}>
-          <Button label={primaryLabel} onPress={onPrimary} size="lg" fullWidth icon="chevron" />
-          {secondaryLabel && onSecondary ? (
-            <Button label={secondaryLabel} variant="ghost" onPress={onSecondary} size="md" fullWidth />
+        {/* Sur un téléphone en paysage, la mascotte et les étoiles rétrécissent
+            pour que le bouton de sortie reste toujours visible. */}
+        <View style={[styles.content, { gap: compact ? 6 : 10 }]}>
+          {emojiFallback ? null : <Mascot size={compact ? 64 : 104} mood="happy" />}
+          <Text style={[text.h1, { color: colors.ink, textAlign: 'center' }]}>{title}</Text>
+          {subtitle ? (
+            <Text style={[text.body, { color: colors.inkSoft, textAlign: 'center' }]}>{subtitle}</Text>
           ) : null}
+
+          {typeof stars === 'number' ? (
+            <View style={styles.starRow}>
+              {Array.from({ length: Math.min(5, Math.max(1, stars)) }).map((_, i) => (
+                <Icon key={i} name="star" size={compact ? 24 : 30} color={colors.yellow} />
+              ))}
+            </View>
+          ) : null}
+
+          <View style={{ gap: spacing.sm, width: '100%', marginTop: spacing.sm }}>
+            <Button label={primaryLabel} onPress={onPrimary} size="lg" fullWidth icon="chevron" />
+            {secondaryLabel && onSecondary ? (
+              <Button label={secondaryLabel} variant="ghost" onPress={onSecondary} size="md" fullWidth />
+            ) : null}
+          </View>
         </View>
       </Animated.View>
       <StarBurst fireKey={fireKey} />
@@ -130,10 +136,15 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     maxWidth: 420,
+    maxHeight: '92%',
     alignItems: 'center',
     padding: 24,
     gap: 10,
     borderWidth: 2,
+  },
+  content: {
+    alignItems: 'center',
+    width: '100%',
   },
   starRow: {
     flexDirection: 'row',

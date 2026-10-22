@@ -39,13 +39,14 @@ export function TabBar({ active }: { active: TabId }) {
 
   const go = (tab: TabDef) => {
     if (tab.id === active) return;
+    // Revenir sur « Profil » repart de la sélection : aucun profil pré-sélectionné.
     if (tab.id === 'profile') select(null);
     navigation.reset({ index: 0, routes: [{ name: tab.route as never }] });
   };
 
   return (
     <View style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 8) }]}>
-      <View style={[styles.bar, shadow.lifted, { borderRadius: radius.xl }]}>
+      <View style={[styles.bar, shadow.lifted, { borderRadius: radius.xl, backgroundColor: colors.surface }]}>
         {tabs.map((tab) => {
           const on = tab.id === active;
           return (
@@ -80,7 +81,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     maxWidth: 560,
-    backgroundColor: '#FFFFFF',
     paddingVertical: 6,
     paddingHorizontal: 6,
   },

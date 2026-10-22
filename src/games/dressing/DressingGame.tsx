@@ -556,10 +556,10 @@ function LaceTask({
         {
           width: size,
           height: size,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.surface,
           borderRadius: 24,
           borderWidth: 2,
-          borderColor: '#F3E3D2',
+          borderColor: colors.sand,
         },
       ]}
       accessible

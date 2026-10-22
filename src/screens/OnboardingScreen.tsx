@@ -41,6 +41,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
   const updateProfile = useProfiles((s) => s.updateProfile);
   const deleteProfile = useProfiles((s) => s.deleteProfile);
   const select = useProfiles((s) => s.select);
+  const selectedId = useProfiles((s) => s.selectedId);
 
   const [mode, setMode] = useState<'list' | 'form'>(profiles.length === 0 ? 'form' : 'list');
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -92,7 +93,16 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
     <Screen
       header={{
         title: mode === 'form' ? (editingId ? t('onboarding.edit') : t('profile.new')) : t('app.name'),
-        onBack: mode === 'form' && profiles.length > 0 ? () => setMode('list') : undefined,
+        // Aucune impasse : depuis la liste, on retrouve l'accueil du profil
+        // déjà choisi ; depuis le formulaire, on revient à la liste.
+        onBack:
+          mode === 'form'
+            ? profiles.length > 0
+              ? () => setMode('list')
+              : undefined
+            : selectedId
+              ? () => navigation.replace('Home')
+              : undefined,
         centerTitle: true,
       }}
     >
@@ -110,31 +120,40 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
 
               <View style={[styles.grid, { gap: spacing.md }]}>
                 {profiles.map((profile) => (
-                  <Pressable
+                  // La carte et le crayon sont deux boutons frères : imbriquer
+                  // les zones tactiles ferait ouvrir l'accueil au lieu d'éditer
+                  // le profil sur le Web (l'événement remonte au parent).
+                  <View
                     key={profile.id}
-                    onPress={() => pickProfile(profile.id)}
-                    accessibilityRole="button"
-                    accessibilityLabel={t('a11y.profile', {
-                      name: profile.name,
-                      age: t(ageBandKey[profile.ageBand]),
-                    })}
-                    style={({ pressed }) => [
+                    style={[
                       styles.profileCard,
                       shadow.soft,
                       {
-                        backgroundColor: '#FFFFFF',
+                        backgroundColor: colors.surface,
                         borderRadius: radius.lg,
                         borderColor: colors.sand,
                         width: `${100 / columns - 3}%`,
-                        transform: [{ scale: pressed ? 0.97 : 1 }],
                       },
                     ]}
                   >
-                    <Avatar id={profile.avatar} size={78} ring />
-                    <Text style={[text.h3, { color: colors.ink }]} numberOfLines={1}>
-                      {profile.name}
-                    </Text>
-                    <Text style={[text.caption, { color: colors.inkFaint }]}>{t(ageBandKey[profile.ageBand])}</Text>
+                    <Pressable
+                      onPress={() => pickProfile(profile.id)}
+                      accessibilityRole="button"
+                      accessibilityLabel={t('a11y.profile', {
+                        name: profile.name,
+                        age: t(ageBandKey[profile.ageBand]),
+                      })}
+                      style={({ pressed }) => [
+                        styles.profilePick,
+                        { transform: [{ scale: pressed ? 0.97 : 1 }] },
+                      ]}
+                    >
+                      <Avatar id={profile.avatar} size={78} ring />
+                      <Text style={[text.h3, { color: colors.ink }]} numberOfLines={1}>
+                        {profile.name}
+                      </Text>
+                      <Text style={[text.caption, { color: colors.inkFaint }]}>{t(ageBandKey[profile.ageBand])}</Text>
+                    </Pressable>
                     <Pressable
                       onPress={() => openEdit(profile.id)}
                       hitSlop={10}
@@ -144,7 +163,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                     >
                       <Icon name="edit" size={15} color={colors.inkSoft} />
                     </Pressable>
-                  </Pressable>
+                  </View>
                 ))}
 
                 <Pressable
@@ -188,7 +207,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                     borderColor: colors.sand,
                     borderRadius: radius.md,
                     color: colors.ink,
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: colors.surface,
                   },
                 ]}
               />
@@ -206,7 +225,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                       style={[
                         styles.chip,
                         {
-                          backgroundColor: active ? colors.coral : '#FFFFFF',
+                          backgroundColor: active ? colors.coral : colors.surface,
                           borderColor: active ? colors.coral : colors.sand,
                           borderRadius: radius.pill,
                         },
@@ -257,7 +276,7 @@ export function OnboardingScreen({ navigation }: ScreenProps<'Onboarding'>) {
                       fullWidth
                     />
                     {confirmDelete ? (
-                      <View style={[styles.confirm, { borderColor: colors.sand, borderRadius: radius.md }]}>
+                      <View style={[styles.confirm, { borderColor: colors.sand, borderRadius: radius.md, backgroundColor: colors.surface }]}>
                         <Text style={[text.body, { color: colors.ink, textAlign: 'center' }]}>
                           {t('profile.deleteConfirm', { name: name || '—' })}
                         </Text>
@@ -317,12 +336,19 @@ const styles = StyleSheet.create({
     minHeight: 168,
     justifyContent: 'center',
   },
+  profilePick: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 4,
+  },
   editChip: {
     position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 30,
-    height: 30,
+    top: 6,
+    right: 6,
+    width: 44,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -355,6 +381,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   chip: {
+    minHeight: 48,
+    justifyContent: 'center',
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderWidth: 1.5,
@@ -373,7 +401,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     padding: 14,
     gap: 10,
-    backgroundColor: '#FFFFFF',
   },
   confirmRow: {
     flexDirection: 'row',

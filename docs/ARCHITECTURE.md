@@ -131,7 +131,16 @@ montessoriclub/
 │       ├── RootNavigator.tsx pile unique, thème de navigation
 │       └── types.ts          RootStackParamList
 │
-├── tools/generate_sounds.py  synthèse WAV (stdlib uniquement)
+├── tools/
+│   ├── lib/web-app.mjs       démarrage jsdom partagé + mise en page et gestes simulés
+│   ├── smoke-web.mjs         parcours complet (clair / sombre)
+│   ├── play-activities.mjs   une session entière par activité (36)
+│   ├── test-sw.mjs           service worker, précache, version de cache, chemin de base
+│   ├── test-layout.mjs       parcours en portrait puis en paysage
+│   ├── check-i18n.mjs        parité des traductions fr / en / ar
+│   ├── screenshots.mjs       captures docs/screenshots (Chrome requis)
+│   └── generate_sounds.py    synthèse WAV (stdlib uniquement)
+├── CHANGELOG.md              journal des versions
 └── docs/                     ce document, assets, publication, roadmap
 ```
 

@@ -28,23 +28,40 @@ Application éducative Montessori **0 – 12 ans**, multiplateforme (iOS · Andr
 |---|---|
 | Architecture complète + arborescence | ✅ |
 | Socle : navigation, thème, i18n FR/EN/AR + RTL, profils, persistance | ✅ |
-| Modules **0-2 ans** : bulles, animaux, couleurs, formes à emboîter, xylophone | ✅ |
-| Modules **3-5 ans** : couleurs, formes, chiffres 1-10, tracé des chiffres | ✅ |
-| Espace parents protégé (progression, temps d'écran, réglages) | ✅ |
+| **36 activités** réparties sur les 4 tranches d'âge (34 modules, « paires » et « puzzles » servant à la fois 3-5 et 6-8) | ✅ |
+| Modules **0-2 ans** (5) : bulles, animaux, couleurs, formes à emboîter, xylophone | ✅ |
+| Modules **3-5 ans** (9) : couleurs, formes, chiffres 1-10, tracé, trier, paires, puzzles, verser, fermetures | ✅ |
+| Modules **6-8 ans** (10) : paires et puzzles, additions, soustractions, multiplications, syllabes, lecture, horloge, monnaie, sciences du vivant | ✅ |
+| Modules **9-12 ans** (12) : fractions, géométrie, système solaire, monde, grammaire, conjugaison, code par blocs, équivalents, angles, temps, solides, carte du monde | ✅ |
+| Espace parents protégé (progression, temps d'écran, profils, réglages) | ✅ |
+| **Code parental à 4 chiffres**, verrouillage 30 s après 3 erreurs | ✅ |
 | Récompenses : étoiles, badges, autocollants | ✅ |
 | Mascotte guide 3D douce, voix off (synthèse), sous-titres | ✅ |
 | Difficulté adaptative, auto-correction, sans chrono | ✅ |
-| Mode daltonisme, animations réduites, grandes cibles tactiles | ✅ |
+| **Mode sombre** (automatique ou choisi), daltonisme, animations réduites, cibles ≥ 48 px | ✅ |
+| **PWA** : manifeste, service worker versionné, installation, hors ligne | ✅ |
 | Sons de qualité (générés, hors ligne) + icônes vectorielles | ✅ |
 | Documentation assets, publication, feuille de route | ✅ |
-| Modules **6-8 ans** : additions, soustractions, multiplications, syllabes, lecture, horloge, monnaie | ✅ |
-| Modules **9-12 ans** : fractions, géométrie, système solaire, le monde, grammaire, conjugaison | ✅ |
-| Code par blocs (9-12), sciences du vivant (6-8), cartes interactives | 🗺️ planifiés (voir `docs/ROADMAP.md`) |
-| Images réalistes des objets | ✅ 15 sur 16 (il manque `orange.webp`, voir `docs/ASSETS.md`, section 7) ; repli SVG pour l'image manquante |
+| Images réalistes des objets | ✅ 16 sur 16 (`assets/photos/objects/`) |
 | Tranche 6-8 : paires et puzzles à partir du niveau 4 | ✅ |
+| Tests automatisés : typage, service worker, parcours complet clair + sombre | ✅ |
 
-La tranche 3-5 ans est **entièrement jouable de bout en bout** : depuis la création du profil
-jusqu'à la collection de récompenses, sans réseau.
+Les quatre tranches sont **jouables de bout en bout** : depuis la création du profil
+jusqu'à la collection de récompenses, sans réseau ni compte.
+
+### Nouveautés de la version 1.2
+
+- **36 activités** (34 modules) contre 10 modules en v1.1 : les tranches 0-2, 6-8 et 9-12
+  sont désormais complètes, avec les mêmes règles Montessori (une compétence par activité,
+  erreur sans punition).
+- **Mode sombre** lisible, réglable depuis l'espace parents (Automatique / Clair / Sombre).
+- **Code parental à 4 chiffres** : défini, modifié ou supprimé par l'adulte. Sans code,
+  la porte reste protégée par une multiplication à deux chiffres.
+- **Installation et hors ligne** : service worker versionné, icônes maskables, écran de
+  démarrage, cache des assets et repli sur `index.html` en navigation.
+- **Banc d'essai automatisé** : le parcours complet (profils, 36 activités, manche
+  d'addition, porte parentale, réglages, langue, réinitialisation) est rejoué en clair et
+  en sombre avant chaque publication.
 
 ---
 
@@ -56,7 +73,7 @@ jusqu'à la collection de récompenses, sans réseau.
 | React / React DOM | `19.3.0` | UI |
 | React Native | `0.88.0` | Rendu natif |
 | React Native Web | `~0.21.4` | Rendu Web |
-| TypeScript | `~5.9` | Typage strict |
+| TypeScript | `~6.0` | Typage strict |
 | React Navigation (native-stack) | `7.x` | Navigation |
 | Zustand + AsyncStorage | `5.x` / `2.2.0` | État global persistant |
 | react-native-svg | `15.16.0` | **Toutes les illustrations** (aucun bitmap) |
@@ -98,8 +115,24 @@ npm run typecheck
 # Export Web statique (dossier dist/)
 npm run build:web
 
+# Contrôles complets : typage + traductions + export + service worker + parcours Web
+npm run check
+
+# Parcours uniquement, thème clair puis sombre
+npm run test:web
+DARK=1 npm run test:web
+
+# Parcours sur un téléphone : portrait (390 × 844) puis paysage (844 × 390)
+npm run test:layout
+
+# Jouer une session entière de chacune des 36 activités (≈ 6 min)
+npm run test:activities
+
 # Régénérer les sons (WAV, sans dépendance)
 npm run sounds
+
+# Régénérer les captures de docs/screenshots (nécessite Chrome : CHROME_PATH=…)
+npm run screenshots
 ```
 
 > La première ouverture sur le Web peut nécessiter un clic : les navigateurs
@@ -124,19 +157,31 @@ montessoriclub/
 │   ├── games/
 │   │   ├── types.ts            # contrat GameProps / GameModule
 │   │   ├── useGameSession.ts   # boucle manches / étoiles / fin de session
-│   │   ├── index.ts            # catalogue des activités
-│   │   ├── colors/             # module couleurs
-│   │   ├── shapes/             # module formes
-│   │   ├── numbers/            # module chiffres
-│   │   ├── tracing/            # module tracé au doigt
-│   │   └── sensory/            # module éveil sensoriel (0-2)
+│   │   ├── index.ts            # catalogue des 34 modules (36 activités)
+│   │   ├── QuizGame.tsx        # socle des activités à choix multiple
+│   │   ├── FreePlayShell.tsx   # coque des jeux libres 0-2 ans
+│   │   ├── colors/ shapes/ numbers/ tracing/   # 3-5 ans
+│   │   ├── sorting/ memory/ puzzle/ pouring/ dressing/  # vie pratique 3-5
+│   │   ├── addition/ subtraction/ times/ reading/ clock/ money/ living/  # 6-8
+│   │   ├── fractions/ geometry/ solar/ world/ grammar/ conjugation/      # 9-12
+│   │   ├── code/ equivalents/ angles/ tenses/ solids/ worldmap/          # 9-12
+│   │   └── sensory/ animals/ colortouch/ shapefit/ music/  # éveil 0-2
 │   ├── i18n/                   # FR / EN / AR, provider, RTL
 │   ├── navigation/             # pile de navigation, types de routes
 │   ├── screens/                # accueil, jeu, récompenses, parents…
 │   ├── store/                  # profils + réglages (Zustand persist)
 │   ├── theme/                  # palette, typographie, useTheme
 │   └── ui/                     # design system (boutons, mascotte, plateau…)
-├── tools/generate_sounds.py    # synthèse des 8 effets sonores
+├── tools/
+│   ├── lib/web-app.mjs         # démarrage jsdom + gestes simulés (banc partagé)
+│   ├── smoke-web.mjs           # parcours complet clair / sombre
+│   ├── play-activities.mjs     # les 36 activités jouées de bout en bout
+│   ├── test-sw.mjs             # service worker, précache, version de cache
+│   ├── test-layout.mjs         # portrait puis paysage
+│   ├── check-i18n.mjs          # parité fr / en / ar
+│   ├── screenshots.mjs         # captures docs/screenshots (Chrome requis)
+│   └── generate_sounds.py      # synthèse des 8 effets sonores
+├── CHANGELOG.md                # journal des versions
 └── docs/                       # architecture, assets, publication, roadmap
 ```
 
@@ -170,6 +215,29 @@ récompense en étoiles, bilan toujours positif.
 | **Verser** | transvaser sans renverser | appui maintenu, zone cible qui se resserre |
 | **Les fermetures** | réussir un geste de motricité fine | bouton → fermeture éclair → lacet |
 
+### 6 – 8 ans
+
+| Activité | Objectif unique |
+|---|---|
+| **Additions / soustractions / multiplications** | Calculer avec des quantités visibles, sans chrono |
+| **Syllabes** | Recomposer un mot à partir de ses syllabes |
+| **Lecture** | Associer un mot écrit à son image |
+| **Horloge** | Lire l'heure (heures pleines, puis demies et quarts) |
+| **Monnaie** | Composer une somme avec les pièces et billets |
+| **Sciences du vivant** | Classer animaux et plantes, relier un être vivant à son milieu |
+| **Paires / puzzles** | Reprendre les gestes de 3-5 avec plus de cartes et de pièces |
+
+### 9 – 12 ans
+
+| Activité | Objectif unique |
+|---|---|
+| **Fractions / équivalents** | Comparer des fractions et trouver des équivalences |
+| **Géométrie / angles / solides** | Reconnaître les figures, mesurer les angles, nommer les solides |
+| **Système solaire** | Ordonner les planètes et associer une planète à sa particularité |
+| **Le monde / carte du monde** | Situer les continents, océans et pays sur une carte interactive |
+| **Grammaire / conjugaison / temps** | Identifier la nature d'un mot, conjuguer, choisir le bon temps |
+| **Code par blocs** | Construire une courte séquence d'instructions et l'exécuter |
+
 Chaque activité se joue **sans chronomètre** : l'enfant peut recommencer autant de fois qu'il le
 souhaite, un débordement ou un geste manqué n'enlève aucun point et ne bloque jamais la suite.
 Les gestes acceptent aussi un simple toucher répété (accessibilité moteur et lecteurs d'écran).
@@ -192,11 +260,17 @@ Les gestes acceptent aussi un simple toucher répété (accessibilité moteur et
 
 - **Aucune publicité, aucun achat intégré**, aucun lien sortant dans l'espace enfant.
 - **Aucune collecte** : ni compte, ni e-mail, ni analytics, ni identifiant publicitaire.
-- **Espace parents protégé** par une multiplication à deux chiffres, verrouillé 30 s après 3 échecs.
+- **Espace parents protégé** par un code à 4 chiffres choisi par l'adulte (ou une
+  multiplication à deux chiffres si aucun code n'est défini), verrouillé 30 s après 3 échecs.
+  Le code est stocké localement en clair : c'est une protection contre les fausses manœuvres,
+  pas un secret cryptographique — l'écran le précise.
 - **RGPD-K / COPPA** : données stockées localement uniquement ; suppression d'un profil = effacement complet.
 - **Accessibilité** : cibles ≥ 72 px (3-5 ans), contrastes AA, mode daltonisme
   (motifs + couleurs renforcées), option « réduire les animations », sous-titres de la mascotte.
 - **Multilingue** : français par défaut, anglais, arabe (RTL appliqué au document Web).
+  Toutes les chaînes passent par `src/i18n` ; la parité des clés est vérifiée par TypeScript.
+- **Hors ligne** : tous les assets et les activités sont embarqués ; le service worker sert
+  l'application depuis le cache et ne remplace jamais une requête non-GET.
 
 Détail des formulaires stores et de la checklist de publication : **`docs/PUBLICATION.md`**.
 
@@ -210,6 +284,8 @@ Détail des formulaires stores et de la checklist de publication : **`docs/PUBLI
 | `docs/ASSETS.md` | Liste des assets + **prompts de génération**, charte graphique, script de voix |
 | `docs/PUBLICATION.md` | Lancement local, EAS, App Store, Google Play, Web, conformité |
 | `docs/ROADMAP.md` | Feuille de route détaillée des versions suivantes |
+| `CHANGELOG.md` | Journal des versions (1.0, 1.1, 1.2) : ajouts par tranche d'âge, correctifs, limites |
+| `.github/workflows/ci.yml` | Contrôles automatiques sur chaque branche et pull request |
 
 ---
 
@@ -225,21 +301,32 @@ Polices : polices arrondies système (aucun téléchargement). Sons : synthèse 
 
 ## 10. Aperçu
 
-| Accueil | Formes (paysage) | Récompense |
+Captures de la version 1.2, produites par `npm run screenshots` (Chrome) et régénérées par
+le workflow « Captures » à chaque évolution de l'outil.
+
+| Accueil (portrait, clair) | Formes (paysage, clair) | Récompenses |
 |---|---|---|
-| ![](docs/screenshots/01-accueil.png) | ![](docs/screenshots/02-formes-paysage.png) | ![](docs/screenshots/03-recompense.png) |
+| ![](docs/screenshots/01-accueil.png) | ![](docs/screenshots/02-formes-paysage.png) | ![](docs/screenshots/03-recompenses.png) |
 
 | Couleurs | Tracé au doigt | Arabe + daltonisme |
 |---|---|---|
 | ![](docs/screenshots/04-couleurs.png) | ![](docs/screenshots/05-trace.png) | ![](docs/screenshots/06-arabe-daltonisme.png) |
 
+| Espace parents | Additions (paysage, sombre) | Accueil (sombre) |
+|---|---|---|
+| ![](docs/screenshots/07-espace-parents.png) | ![](docs/screenshots/08-paysage-sombre.png) | ![](docs/screenshots/09-accueil-sombre.png) |
+
 ## 11. État de validation
 
 | Contrôle | Résultat |
 |---|---|
-| `tsc --noEmit` (TypeScript 6 strict) | ✅ 0 erreur |
-| `expo-doctor` | ✅ 20/20 |
-| `expo export --platform web` | ✅ 1 103 modules, 19 assets |
-| Parcours testé au navigateur (Playwright) | ✅ profil → activité → récompense → parents |
-| Glisser-déposer, tracé au doigt, clavier chiffres | ✅ validés |
+| `npx tsc --noEmit` (TypeScript strict) | ✅ 0 erreur |
+| `npm run build:web` (`expo export`) | ✅ export complet + `dist/` |
+| `npm run test:i18n` | ✅ 359 clés cohérentes en fr/en/ar, variables d'interpolation incluses |
+| `npm run test:sw` | ✅ service worker 1.2.0 : manifeste, icônes, précache, purge, navigation et assets hors ligne, chemins sous `/montessoriclub/` |
+| `npm run test:web` (thème clair) | ✅ profils, 36 activités, addition, récompenses, édition de profil, porte parentale, réglages, langue, réinitialisation |
+| `DARK=1 npm run test:web` (thème sombre) | ✅ mêmes parcours, fond sombre vérifié |
+| `npm run test:layout` (portrait + paysage) | ✅ 390 × 844 et 844 × 390, branches compactes exercées |
+| `npm run test:activities` (36 activités) | ✅ 36/36 jouées jusqu'au bilan, une session complète par activité |
 | FR / EN / AR + RTL, mode daltonisme | ✅ validés |
+| Glisser-déposer, tracé au doigt, appui maintenu | ✅ validés par le parcours automatisé et les tests manuels |

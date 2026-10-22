@@ -204,8 +204,8 @@ export const fr = {
   'mascot.tap': 'Touche-moi pour m’écouter',
   'mascot.welcomeParents': 'Bonjour ! Cet espace est réservé aux adultes.',
 
-  'home.emptyBandTitle': 'Les activités 9-12 ans arrivent bientôt',
-  'home.emptyBandText': 'Les grands modules (fractions, grammaire, cartes du monde, code par blocs) sont en préparation. En attendant, un profil 6-8 ans propose les puzzles et les paires, avec une difficulté adaptée.',
+  'home.emptyBandTitle': 'Les activités de cette tranche arrivent bientôt',
+  'home.emptyBandText': 'De nouvelles activités sont en préparation. En attendant, choisis une autre activité !',
   'home.comingSoon': 'De nouvelles activités arrivent bientôt !',
   'home.restTitle': 'C’est l’heure de se reposer',
   'home.restText': 'Bravo pour aujourd’hui ! On continue demain avec plaisir.',
@@ -374,7 +374,34 @@ export const fr = {
   'math.subQuestion': 'Combien font {a} − {b} ?',
   'math.timesQuestion': 'Combien font {a} × {b} ?',
 
+  'game.unavailable': 'Cette activité n’est pas disponible. Reviens aux activités !',
+  'parents.noChild': 'Aucun profil enfant pour le moment. Crée un profil pour commencer.',
+
   // Langues
+  'pwa.offline': 'Hors ligne — tes activités restent disponibles.',
+
+  'parents.theme': 'Apparence',
+  'parents.themeHint': '« Automatique » suit le réglage clair/sombre de l’appareil.',
+  'theme.system': 'Automatique',
+  'theme.light': 'Clair',
+  'theme.dark': 'Sombre',
+
+  'parents.security': 'Sécurité',
+  'parents.codeHint': 'Un code à 4 chiffres remplace la question de calcul. Il empêche un accès accidentel : ce n’est pas un mot de passe.',
+  'parents.codeCreate': 'Définir un code',
+  'parents.codeNew': 'Nouveau code',
+  'parents.codeCurrent': 'Code actuel',
+  'parents.codeConfirm': 'Confirmer',
+  'parents.codeChange': 'Modifier le code',
+  'parents.codeRemove': 'Supprimer le code',
+  'parents.codeSaved': 'Code enregistré.',
+  'parents.codeRemoved': 'Code supprimé.',
+  'parents.codeWrong': 'Code incorrect.',
+  'parents.codeInvalid': 'Le code doit contenir 4 chiffres.',
+  'parents.codeMismatch': 'Les deux codes ne correspondent pas.',
+  'parents.gateCode': 'Saisis les 4 chiffres du code parental.',
+  'parents.manageProfiles': 'Gérer les profils',
+
   'language.fr': 'Français',
   'language.en': 'English',
   'language.ar': 'العربية',

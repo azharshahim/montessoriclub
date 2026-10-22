@@ -47,6 +47,23 @@ jobs:
           EXPO_BASE_URL: /${{ github.event.repository.name }}
         run: npx expo export --platform web --output-dir dist
 
+      - name: Traductions fr / en / ar
+        run: npm run test:i18n
+
+      - name: Service worker et hors ligne
+        # Le chemin de base est vérifié dans le build publié (/<nom-du-depot>/).
+        env:
+          EXPO_BASE_URL: /${{ github.event.repository.name }}
+        run: npm run test:sw
+
+      - name: Parcours complet (thème clair)
+        run: npm run test:web
+
+      - name: Parcours complet (thème sombre)
+        run: npm run test:web
+        env:
+          DARK: '1'
+
       - name: Repli SPA et fichiers Pages
         run: |
           cp dist/index.html dist/404.html

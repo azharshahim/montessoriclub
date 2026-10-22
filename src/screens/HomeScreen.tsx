@@ -8,7 +8,6 @@ import type { ScreenProps } from '../navigation/types';
 import { dayKey, useActiveProfile, useProfiles } from '../store/profiles';
 import { useTheme } from '../theme';
 import { Avatar } from '../ui/Avatar';
-import { RoundButton } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 import { MascotGuide } from '../ui/MascotGuide';
 import { RewardOverlay } from '../ui/RewardOverlay';
@@ -20,7 +19,7 @@ import { Screen } from '../ui/Screen';
  * La grille s'adapte à la tranche d'âge du profil actif.
  */
 export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
-  const { t, language } = useI18n();
+  const { t } = useI18n();
   const { colors, radius, shadow, text, spacing } = useTheme();
   const { width } = useWindowDimensions();
   const profile = useActiveProfile();
@@ -82,7 +81,7 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
             style={[
               styles.emptyBand,
               shadow.soft,
-              { backgroundColor: '#FFFFFF', borderRadius: radius.lg, borderColor: colors.sand },
+              { backgroundColor: colors.surface, borderRadius: radius.lg, borderColor: colors.sand },
             ]}
           >
             <Text style={styles.emptyEmoji}>🌱</Text>
@@ -109,7 +108,7 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
                   {
                     width: cardWidth,
                     borderRadius: radius.lg,
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: colors.surface,
                     borderColor: colors.sand,
                     transform: [{ scale: pressed ? 0.97 : 1 }],
                   },
@@ -138,23 +137,6 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
             );
           })}
 
-          {/* Carte « bientôt » : montre la suite du programme aux familles */}
-          <View
-            style={[
-              styles.card,
-              styles.soon,
-              {
-                width: cardWidth,
-                borderRadius: radius.lg,
-                borderColor: colors.inkFaint,
-              },
-            ]}
-          >
-            <View style={[styles.emojiBubble, { backgroundColor: colors.creamDeep }]}>
-              <Icon name="clock" size={30} color={colors.inkFaint} />
-            </View>
-            <Text style={[text.label, { color: colors.inkSoft, textAlign: 'center' }]}>{t('home.comingSoon')}</Text>
-          </View>
         </View>
 
       </ScrollView>
@@ -167,9 +149,6 @@ export function HomeScreen({ navigation }: ScreenProps<'Home'>) {
         onPrimary={() => setRestOpen(false)}
         emojiFallback
       />
-
-      {/* Sécurité : la langue active est mémorisée dans les réglages parents */}
-      <View style={{ height: 0 }} accessibilityLabel={language} />
     </Screen>
   );
 }

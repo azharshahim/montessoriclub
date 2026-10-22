@@ -47,7 +47,8 @@ interface QuizGameProps extends GameProps {
 export function QuizGame({ title, rounds, makeRound, level, onFinish, onMistake, onQuit }: QuizGameProps) {
   const { t, language } = useI18n();
   const { colors, radius, shadow, text } = useTheme();
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const compact = height < 540;
   const session = useGameSession({ rounds, onFinish });
 
   const makeRoundRef = useRef(makeRound);
@@ -152,9 +153,10 @@ export function QuizGame({ title, rounds, makeRound, level, onFinish, onMistake,
                   accessibilityState={{ disabled: isWrong }}
                   style={({ pressed }) => [
                     styles.option,
+                    compact && styles.optionCompact,
                     shadow.soft,
                     {
-                      backgroundColor: isWrong ? colors.sand : '#FFFFFF',
+                      backgroundColor: isWrong ? colors.sand : colors.surface,
                       borderColor: colors.sand,
                       borderRadius: radius.lg,
                       opacity: isWrong ? 0.45 : 1,
@@ -211,5 +213,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
+  },
+  optionCompact: {
+    minHeight: 58,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
   },
 });
